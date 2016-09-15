@@ -226,14 +226,22 @@ public class CharacterPosePanel extends JPanel {
 			this.weaponXTextField.setText(Integer.toString(frame.weaponX));
 			this.weaponYTextField.setText(Integer.toString(frame.weaponY));
 			this.weaponAngleTextField.setText(Integer.toString(frame.weaponAngle));
+			String lastchar = posePanel.charactername;
+			String lastpose = posePanel.posename;
 			posePanel.charactername = this.currentCharacter.characterName;
 			posePanel.maxFrame = currentPose.property.frameCount;
 			posePanel.curFrame = this.frameIndex;
 			posePanel.posename = currentPose.poseName;
-			posePanel.loadImage(currentPose.poseFile);
+			if (lastchar != posePanel.charactername || lastpose != posePanel.posename){
+				posePanel.loadImage(currentPose.poseFile);
+			}
+			
+			posePanel.repaint();
+			
 		} else {
 			this.clearPosePanel();
 			this.clearProperties();
+			posePanel.repaint();
 		}
 	}
 	
@@ -249,9 +257,14 @@ public class CharacterPosePanel extends JPanel {
 	
 	private void onPoseListSectedChange() {
 		int num = listPose.getSelectedIndex();
-		String pose = poseIndexToName.get(num);
-		this.currentPose = currentCharacter.poses.get(pose);
-		this.frameIndex = 0;
+		if (num >= 0) {
+			String pose = poseIndexToName.get(num);
+			this.currentPose = currentCharacter.poses.get(pose);
+			this.frameIndex = 0;
+		} else {
+			this.currentPose = null;
+			this.frameIndex = -1;
+		}
 		this.refreshProperties();
 	}
 	

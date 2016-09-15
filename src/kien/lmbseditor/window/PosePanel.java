@@ -31,7 +31,6 @@ public class PosePanel extends JPanel {
 	public void loadImage(File imageFile) {
 		try {
 			pose = ImageIO.read(imageFile);
-			KienLogger.logger.info(pose.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
