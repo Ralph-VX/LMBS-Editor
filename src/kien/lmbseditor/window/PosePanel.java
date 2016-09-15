@@ -2,6 +2,7 @@ package kien.lmbseditor.window;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -40,9 +41,11 @@ public class PosePanel extends JPanel {
 	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
+		AffineTransform original = g2.getTransform();
 		g2.clearRect(0, 0, this.getWidth(), this.getHeight());
 		g2.setPaint(EditorProperty.getBackgroundTexturePaint());
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+		g2.setPaint(null);
 		if (this.pose != null) {
 			g2.translate(this.getWidth()/2, this.getHeight());
 			if (this.maxFrame != -1 && this.curFrame != -1){
@@ -54,8 +57,8 @@ public class PosePanel extends JPanel {
 				g2.translate(-pose.getWidth()/2, -pose.getHeight());
 				g2.drawImage(pose, 0, 0, this);
 			}
-			
 		}
+		g2.setTransform(original);
 	}
 
 	public void clear() {
