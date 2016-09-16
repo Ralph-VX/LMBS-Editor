@@ -1,7 +1,9 @@
 package kien.lmbseditor.window;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -20,6 +22,7 @@ public class PosePanel extends JPanel {
 	public String charactername;
 	public int curFrame;
 	public int maxFrame;
+	public Rectangle rect;
 	
 	public PosePanel() {
 		this.pose = null;
@@ -27,6 +30,7 @@ public class PosePanel extends JPanel {
 		this.charactername = "";
 		this.curFrame = -1;
 		this.maxFrame = -1;
+		this.rect = new Rectangle();
 	}
 	
 	public void loadImage(File imageFile) {
@@ -56,6 +60,13 @@ public class PosePanel extends JPanel {
 			} else {
 				g2.translate(-pose.getWidth()/2, -pose.getHeight());
 				g2.drawImage(pose, 0, 0, this);
+			}
+			if (this.rect != null) {
+				g2.setTransform(original);
+				g2.translate(this.getWidth()/2, this.getHeight());
+				g2.translate(-rect.width/2, -rect.height);
+				g2.setColor(new Color(224,255,255,128));
+				g2.fillRect(rect.x, rect.y, rect.width, rect.height);
 			}
 		}
 		g2.setTransform(original);
