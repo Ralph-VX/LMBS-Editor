@@ -15,7 +15,7 @@ public class Animation {
 	 * mirror: 1 = true, 0 = false<br>
 	 * blendmode: 0 = normal, 1 = additive, 2 = multiply, 3 = screen<br>
 	 */
-	public ArrayList<ArrayList<ArrayList<Float>>> frames;
+	public ArrayList<ArrayList<ArrayList<Double>>> frames;
 	public String name;
 	/**
 	 * 0 = Head,<br>

@@ -15,16 +15,14 @@ import net.arnx.jsonic.TypeReference;
 public class AnimationItemType extends BaseItemType {
 	public LinkedHashMap<Integer, ArrayList<AnimationObject>> data;
 	public File src;
-	public boolean dirty;
 	public int maxFrame;
 	
-	public AnimationItemType(String filename) throws JSONException, IOException {
-		src = new File(filename);
+	public AnimationItemType(File f) throws JSONException, IOException {
+		src = f;
 		FileReader fr = new FileReader(src);;
 		data = JSON.decode(fr, new TypeReference<LinkedHashMap<Integer, ArrayList<AnimationObject>>>(){});
 		fr.close();
 		this.refreshMax();
-		dirty = false;
 	}
 	
 	public AnimationItemType() {
@@ -47,14 +45,6 @@ public class AnimationItemType extends BaseItemType {
 		return "Animation - " + this.getFilename();
 	}
 	
-	public boolean isDirty() {
-		return dirty;
-	}
-	
-	public void setDirty() {
-		dirty = true;
-	}
-	
 	public boolean haveFile() {
 		return src == null;
 	}
@@ -63,7 +53,7 @@ public class AnimationItemType extends BaseItemType {
 		src = f;
 	}
 	
-	public void updateData(int frame, int index, float rectx, float recty, float rectwidth, float rectheight, int dur, float damage, float knockx, float knocky, boolean knockd) {
+	public void updateData(int frame, int index, double rectx, double recty, double rectwidth, double rectheight, int dur, double damage, double knockx, double knocky, boolean knockd) {
 		ArrayList<AnimationObject> list = data.get(frame);
 		if (list == null) {
 			list = new ArrayList<AnimationObject>();

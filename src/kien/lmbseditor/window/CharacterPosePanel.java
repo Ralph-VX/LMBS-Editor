@@ -57,7 +57,7 @@ public class CharacterPosePanel extends JPanel {
 	private JList<String> listCharacter;
 	private JList<String> listPose;
 	private int frameIndex;
-	
+
 	private DefaultListModel<String> listModelPose;
 	private DefaultListModel<String> listModelCharacter;
 	private JSlider sliderCurrentFrame;
@@ -65,7 +65,7 @@ public class CharacterPosePanel extends JPanel {
 	private JCheckBox buttonLooping;
 	private ArrayList<String> characterIndexToName;
 	private ArrayList<String> poseIndexToName;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -75,23 +75,23 @@ public class CharacterPosePanel extends JPanel {
 		currentPose = null;
 		currentCharacter = null;
 		frameIndex = -1;
-		
+
 		setLayout(new MigLayout("", "[100,growprio 20,grow][100,growprio 20,grow][grow]", "[20][grow]"));
-		
+
 		JLabel lblBattler = new JLabel("Character");
 		add(lblBattler, "cell 0 0,alignx left");
-		
+
 		JLabel lblPose = new JLabel("Pose");
 		add(lblPose, "cell 1 0");
-		
+
 		JPanel panel = new JPanel();
 		add(panel, "cell 2 0 1 2,grow");
 		panel.setLayout(new MigLayout("", "[grow]", "[grow 60][grow 40]"));
-		
+
 		posePanel = new PosePanel();
 		posePanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.add(posePanel, "cell 0 0,grow");
-		
+
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, "cell 0 1,grow");
 		panel_2.setLayout(new MigLayout("", "[60px,grow][60,grow][60,grow]", "[13px][][][][][]"));
@@ -99,9 +99,9 @@ public class CharacterPosePanel extends JPanel {
 		JLabel lblNameLabe = new JLabel("Max Frames");
 		panel_2.add(lblNameLabe, "cell 0 0,alignx left,aligny top");
 
-		NumberFormat format = NumberFormat.getIntegerInstance();
-		
-		
+		DecimalFormat format = new DecimalFormat("0.##");
+		format.setMinimumFractionDigits(0);
+
 		JLabel lblCurrentFrame = new JLabel("Current Frame");
 		panel_2.add(lblCurrentFrame, "cell 1 0");
 		maxFrameTextField = new JFormattedTextField(format);
@@ -110,9 +110,9 @@ public class CharacterPosePanel extends JPanel {
 				CharacterPosePanel.this.onMaxFrameChange();
 			}
 		});
-		
+
 		panel_2.add(maxFrameTextField, "cell 0 1,growx");
-		
+
 		sliderCurrentFrame = new JSlider();
 		sliderCurrentFrame.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -121,16 +121,16 @@ public class CharacterPosePanel extends JPanel {
 		});
 		sliderCurrentFrame.setPaintLabels(true);
 		panel_2.add(sliderCurrentFrame, "cell 1 1");
-		
+
 		labelCurrentFrame = new JLabel("New label");
 		panel_2.add(labelCurrentFrame, "cell 2 1");
-		
+
 		JLabel lblCharacterWidth = new JLabel("Character Width");
 		panel_2.add(lblCharacterWidth, "cell 0 2");
-		
+
 		JLabel lblCharacterHeight = new JLabel("Character Height");
 		panel_2.add(lblCharacterHeight, "cell 1 2");
-		
+
 		characterWidthTextField = new JFormattedTextField(format);
 		characterWidthTextField.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -138,7 +138,7 @@ public class CharacterPosePanel extends JPanel {
 			}
 		});
 		panel_2.add(characterWidthTextField, "cell 0 3,growx");
-		
+
 		characterHeightTextField = new JFormattedTextField(format);
 		characterHeightTextField.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -146,7 +146,7 @@ public class CharacterPosePanel extends JPanel {
 			}
 		});
 		panel_2.add(characterHeightTextField, "cell 1 3,growx");
-		
+
 		buttonLooping = new JCheckBox("Pose Looping");
 		buttonLooping.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -154,16 +154,16 @@ public class CharacterPosePanel extends JPanel {
 			}
 		});
 		panel_2.add(buttonLooping, "cell 2 3");
-		
+
 		JLabel lblWeaponX = new JLabel("Weapon X");
 		panel_2.add(lblWeaponX, "cell 0 4");
-		
+
 		JLabel lblWeaponY = new JLabel("Weapon Y");
 		panel_2.add(lblWeaponY, "cell 1 4");
-		
+
 		JLabel lblWeaponAngle = new JLabel("Weapon Angle");
 		panel_2.add(lblWeaponAngle, "cell 2 4");
-		
+
 		weaponXTextField = new JFormattedTextField(format);
 		weaponXTextField.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -171,7 +171,7 @@ public class CharacterPosePanel extends JPanel {
 			}
 		});
 		panel_2.add(weaponXTextField, "cell 0 5,growx");
-		
+
 		weaponYTextField = new JFormattedTextField(format);
 		weaponYTextField.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -179,7 +179,7 @@ public class CharacterPosePanel extends JPanel {
 			}
 		});
 		panel_2.add(weaponYTextField, "cell 1 5,growx");
-		
+
 		weaponAngleTextField = new JFormattedTextField(format);
 		weaponAngleTextField.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -187,7 +187,7 @@ public class CharacterPosePanel extends JPanel {
 			}
 		});
 		panel_2.add(weaponAngleTextField, "cell 2 5,growx");
-		
+
 		listModelCharacter = new DefaultListModel<String>();
 		listCharacter = new JList<String>(listModelCharacter);
 		listCharacter.addListSelectionListener(new ListSelectionListener() {
@@ -197,7 +197,7 @@ public class CharacterPosePanel extends JPanel {
 		});
 		listCharacter.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		add(listCharacter, "cell 0 1,grow");
-		
+
 		listModelPose = new DefaultListModel<String>();
 		listPose = new JList<String>(listModelPose);
 		listPose.addListSelectionListener(new ListSelectionListener() {
@@ -207,12 +207,12 @@ public class CharacterPosePanel extends JPanel {
 		});
 		listPose.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		add(listPose, "cell 1 1,grow");
-		
+
 		this.refreshCharacterList();
 		this.refreshPoseList();
 		this.refreshProperties();
 	}
-	
+
 	private void clearProperties() {
 		maxFrameTextField.setText("");
 		labelCurrentFrame.setText("Not Selected");
@@ -234,27 +234,27 @@ public class CharacterPosePanel extends JPanel {
 		weaponAngleTextField.setEnabled(false);
 		buttonLooping.setEnabled(false);
 	}
-	
+
 	private void clearPosePanel() {
 		posePanel.clear();
 	}
-	
+
 	private void refreshCharacterList() {
 		listModelCharacter.clear();
 		characterIndexToName.clear();
-		for (String name : EditorProperty.characterList.lists.keySet()){
+		for (String name : EditorProperty.characterList.lists.keySet()) {
 			characterIndexToName.add(name);
 			listModelCharacter.addElement((EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
 		}
 	}
-	
+
 	private void updateCharacterList() {
-		for (String name : EditorProperty.characterList.lists.keySet()){
+		for (String name : EditorProperty.characterList.lists.keySet()) {
 			int n = characterIndexToName.indexOf(name);
 			listModelCharacter.set(n, (EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
 		}
 	}
-	
+
 	private void refreshPoseList() {
 		listModelPose.clear();
 		poseIndexToName.clear();
@@ -269,12 +269,12 @@ public class CharacterPosePanel extends JPanel {
 	}
 
 	private void updatePoseList() {
-		for (String name : currentCharacter.poses.keySet()){
+		for (String name : currentCharacter.poses.keySet()) {
 			int n = poseIndexToName.indexOf(name);
 			listModelPose.set(n, (currentCharacter.poses.get(name).isDirty() ? "*" : "") + name);
 		}
 	}
-	
+
 	private void refreshProperties() {
 		if (currentPose != null) {
 			maxFrameTextField.setEnabled(true);
@@ -297,22 +297,22 @@ public class CharacterPosePanel extends JPanel {
 			posePanel.maxFrame = currentPose.property.frameCount;
 			posePanel.curFrame = this.frameIndex;
 			posePanel.posename = currentPose.poseName;
-			if (lastchar != posePanel.charactername || lastpose != posePanel.posename){
+			if (lastchar != posePanel.charactername || lastpose != posePanel.posename) {
 				posePanel.loadImage(currentPose.poseFile);
 			}
 			this.refreshFrameProperty();
-			
+
 		} else {
 			this.clearPosePanel();
 			this.clearProperties();
 			posePanel.repaint();
 		}
 	}
-	
+
 	private void refreshFrameProperty() {
 		if (currentPose != null) {
 			PoseFrameProperty frame = currentPose.property.frames.get(this.frameIndex);
-			labelCurrentFrame.setText("Current: " + Integer.toString(this.frameIndex));
+			labelCurrentFrame.setText("Current: " + Integer.toString(this.frameIndex) + "/" + currentPose.property.frameCount);
 			this.characterWidthTextField.setValue(frame.width);
 			this.characterHeightTextField.setValue(frame.height);
 			this.weaponXTextField.setValue(frame.weaponX);
@@ -324,7 +324,7 @@ public class CharacterPosePanel extends JPanel {
 			posePanel.repaint();
 		}
 	}
-	
+
 	private void updatePaintPanel() {
 		if (currentPose != null) {
 			PoseFrameProperty frame = currentPose.property.frames.get(this.frameIndex);
@@ -335,7 +335,7 @@ public class CharacterPosePanel extends JPanel {
 			posePanel.repaint();
 		}
 	}
-	
+
 	private void onCharacterListSelectedChange() {
 		if (this.currentPose != null) {
 			this.listCharacter.requestFocusInWindow();
@@ -349,7 +349,7 @@ public class CharacterPosePanel extends JPanel {
 		this.refreshPoseList();
 		this.refreshProperties();
 	}
-	
+
 	private void onPoseListSelectedChange() {
 		int num = listPose.getSelectedIndex();
 		if (this.currentPose != null) {
@@ -366,20 +366,20 @@ public class CharacterPosePanel extends JPanel {
 		}
 		this.refreshProperties();
 	}
-	
+
 	private void onFrameSliderChange() {
 		this.frameIndex = this.sliderCurrentFrame.getValue();
 		this.refreshFrameProperty();
 	}
-	
+
 	public void setTabIndex(int n) {
 		this.tabIndex = n;
 	}
-	
+
 	private void onMaxFrameChange() {
 		if (this.currentPose != null) {
 			if (this.maxFrameTextField.getValue() != null) {
-				int max = (((Number)this.maxFrameTextField.getValue()).intValue());
+				int max = (((Number) this.maxFrameTextField.getValue()).intValue());
 				if (max == 0) {
 					this.maxFrameTextField.setValue(1);
 					return;
@@ -398,11 +398,11 @@ public class CharacterPosePanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private void onCharacterWidthChange() {
 		if (this.currentPose != null) {
 			if (this.characterWidthTextField.getValue() != null) {
-				int nv = (((Number)this.characterWidthTextField.getValue()).intValue());
+				int nv = (((Number) this.characterWidthTextField.getValue()).intValue());
 				if (nv != currentPose.property.frames.get(this.frameIndex).width) {
 					currentPose.property.frames.get(this.frameIndex).width = nv;
 					this.currentPose.property.setDirty();
@@ -413,11 +413,11 @@ public class CharacterPosePanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private void onCharacterHeightChange() {
 		if (this.currentPose != null) {
 			if (this.characterHeightTextField.getValue() != null) {
-				int nv = (((Number)this.characterHeightTextField.getValue()).intValue());
+				int nv = (((Number) this.characterHeightTextField.getValue()).intValue());
 				if (nv != currentPose.property.frames.get(this.frameIndex).height) {
 					currentPose.property.frames.get(this.frameIndex).height = nv;
 					this.currentPose.property.setDirty();
@@ -428,11 +428,11 @@ public class CharacterPosePanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private void onWeaponXChange() {
 		if (this.currentPose != null) {
 			if (this.weaponXTextField.getValue() != null) {
-				int nv = (((Number)this.weaponXTextField.getValue()).intValue());
+				int nv = (((Number) this.weaponXTextField.getValue()).intValue());
 				if (nv != currentPose.property.frames.get(this.frameIndex).weaponX) {
 					currentPose.property.frames.get(this.frameIndex).weaponX = nv;
 					this.currentPose.property.setDirty();
@@ -442,11 +442,11 @@ public class CharacterPosePanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private void onWeaponYChange() {
 		if (this.currentPose != null) {
 			if (this.weaponYTextField.getValue() != null) {
-				int nv = (((Number)this.weaponYTextField.getValue()).intValue());
+				int nv = (((Number) this.weaponYTextField.getValue()).intValue());
 				if (nv != currentPose.property.frames.get(this.frameIndex).weaponY) {
 					currentPose.property.frames.get(this.frameIndex).weaponY = nv;
 					this.currentPose.property.setDirty();
@@ -456,11 +456,11 @@ public class CharacterPosePanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private void onWeaponAngleChange() {
 		if (this.currentPose != null) {
 			if (this.weaponAngleTextField.getValue() != null) {
-				int nv = (((Number)this.weaponAngleTextField.getValue()).intValue());
+				int nv = (((Number) this.weaponAngleTextField.getValue()).intValue());
 				if (nv != currentPose.property.frames.get(this.frameIndex).weaponAngle) {
 					currentPose.property.frames.get(this.frameIndex).weaponAngle = nv;
 					this.currentPose.property.setDirty();
@@ -486,7 +486,7 @@ public class CharacterPosePanel extends JPanel {
 		int old = this.frameIndex;
 		try {
 			this.maxFrameTextField.commitEdit();
-			if (old == this.frameIndex){
+			if (old == this.frameIndex) {
 				this.characterHeightTextField.commitEdit();
 				this.characterWidthTextField.commitEdit();
 				this.weaponAngleTextField.commitEdit();
@@ -497,16 +497,11 @@ public class CharacterPosePanel extends JPanel {
 			e.printStackTrace();
 		}
 		/*
-		this.onMaxFrameChange();
-		KienLogger.logger.info("old: " + old + ", this.frameIndex: " + this.frameIndex);
-		this.onLoopChanged();
-		if (old == this.frameIndex) {
-			this.onCharacterHeightChange();
-			this.onCharacterWidthChange();
-			this.onWeaponAngleChange();
-			this.onWeaponXChange();
-			this.onWeaponYChange();
-		}
-		*/
+		 * this.onMaxFrameChange(); KienLogger.logger.info("old: " + old +
+		 * ", this.frameIndex: " + this.frameIndex); this.onLoopChanged(); if
+		 * (old == this.frameIndex) { this.onCharacterHeightChange();
+		 * this.onCharacterWidthChange(); this.onWeaponAngleChange();
+		 * this.onWeaponXChange(); this.onWeaponYChange(); }
+		 */
 	}
 }

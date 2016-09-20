@@ -85,7 +85,8 @@ public class AnimationDescriptionPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AnimationDescriptionPanel() {
+	public AnimationDescriptionPanel(AnimationItemType item) {
+		this.contents = item;
 		this.inited = false;
 		this.animation = null;
 		this.contents = null;
@@ -298,15 +299,11 @@ public class AnimationDescriptionPanel extends JPanel {
 			}
 		});
 		panel_1.add(buttonDeleteTiming);
-		
+
 		this.inited = true;
-	}
-	
-	public void setContent(AnimationItemType item) {
-		this.contents = item;
 		this.refreshComponentContent();
 	}
-
+	
 	private void clearRectContents() {
 		this.timingDamage.setValue(null);
 		this.timingDuration.setValue(null);
@@ -454,7 +451,7 @@ public class AnimationDescriptionPanel extends JPanel {
 	private void onTimingRectXChange() {
 		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
 			if (this.timingRectX.getValue() != null) {
-				float nv = (((Number)this.timingRectX.getValue()).floatValue());
+				double nv = (((Number)this.timingRectX.getValue()).doubleValue());
 				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.x) {
 					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.x = nv;
 					this.animationContent.setRects(contents.data.get(this.curFrame));
@@ -465,7 +462,7 @@ public class AnimationDescriptionPanel extends JPanel {
 	private void onTimingRectYChange() {
 		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
 			if (this.timingRectY.getValue() != null) {
-				float nv = (((Number)this.timingRectY.getValue()).floatValue());
+				double nv = (((Number)this.timingRectY.getValue()).doubleValue());
 				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.y) {
 					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.y = nv;
 					this.animationContent.setRects(contents.data.get(this.curFrame));
@@ -476,7 +473,7 @@ public class AnimationDescriptionPanel extends JPanel {
 	private void onTimingRectWidthChange() {
 		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
 			if (this.timingRectWidth.getValue() != null) {
-				float nv = (((Number)this.timingRectWidth.getValue()).floatValue());
+				double nv = (((Number)this.timingRectWidth.getValue()).doubleValue());
 				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.width) {
 					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.width = nv;
 					this.animationContent.setRects(contents.data.get(this.curFrame));
@@ -487,7 +484,7 @@ public class AnimationDescriptionPanel extends JPanel {
 	private void onTimingRectHeightChange() {
 		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
 			if (this.timingRectHeight.getValue() != null) {
-				float nv = (((Number)this.timingRectHeight.getValue()).floatValue());
+				double nv = (((Number)this.timingRectHeight.getValue()).doubleValue());
 				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.height) {
 					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.height = nv;
 					this.animationContent.setRects(contents.data.get(this.curFrame));
@@ -499,7 +496,7 @@ public class AnimationDescriptionPanel extends JPanel {
 	private void onTimingDamageChange() {
 		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
 			if (this.timingDamage.getValue() != null) {
-				float nv = (((Number)this.timingDamage.getValue()).floatValue());
+				double nv = (((Number)this.timingDamage.getValue()).doubleValue());
 				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).damagePer) {
 					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).damagePer = nv;
 				}
@@ -522,7 +519,7 @@ public class AnimationDescriptionPanel extends JPanel {
 	private void onTimingKnockbackXChange() {
 		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
 			if (this.timingKnockbackX.getValue() != null) {
-				float nv = (((Number)this.timingKnockbackX.getValue()).floatValue());
+				double nv = (((Number)this.timingKnockbackX.getValue()).doubleValue());
 				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.x) {
 					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.x = nv;
 				}
@@ -533,7 +530,7 @@ public class AnimationDescriptionPanel extends JPanel {
 	private void onTimingKnockbackYChange() {
 		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
 			if (this.timingKnockbackY.getValue() != null) {
-				float nv = (((Number)this.timingKnockbackY.getValue()).floatValue());
+				double nv = (((Number)this.timingKnockbackY.getValue()).doubleValue());
 				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.y) {
 					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.y = nv;
 				}

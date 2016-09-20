@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import kien.lmbseditor.core.AnimationItemType;
 import kien.lmbseditor.core.BaseItemType;
 import kien.lmbseditor.core.EditorProperty;
+import kien.lmbseditor.core.SkillMotionItemType;
 import kien.util.KienLogger;
 import kien.util.Util;
 
@@ -124,6 +125,7 @@ public class MainWindow {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser jfc = new JFileChooser();
+				jfc.setDialogTitle("Open Animation Description File");
 				jfc.setCurrentDirectory(new File(EditorProperty.projectDirectory));
 				jfc.setFileFilter(new FileNameExtensionFilter("Javascript Object Notation File", "json"));
 				int ret = jfc.showOpenDialog(frame);
@@ -134,18 +136,17 @@ public class MainWindow {
 				if (f.exists()) {
 					AnimationItemType ait = null;
 					try {
-						ait = new AnimationItemType(f.getAbsolutePath());
+						ait = new AnimationItemType(f);
 					} catch (Exception error) {
-						JOptionPane.showConfirmDialog(frame, "An error occured while reading the file.\n It may not be a valid animation descriptor file.", "Error",
+						JOptionPane.showConfirmDialog(frame, "An error occured while reading the file.\n It may not be a valid animation description file.", "Error",
 								JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 						ait = null;
 					}
 					if (ait != null) {
-						AnimationDescriptionPanel p = new AnimationDescriptionPanel();
-						p.setContent(ait);
+						AnimationDescriptionPanel p = new AnimationDescriptionPanel(ait);
 						int n =tabbedPane.getTabCount();
 						p.setTabIndex(n);
-						tabbedPane.addTab("Animation - " + ait.getFilename(), p);
+						tabbedPane.addTab(ait.getListname(), p);
 						MainWindow.this.items.add(ait);
 						tabbedPane.setSelectedIndex(n);
 					}
@@ -155,6 +156,38 @@ public class MainWindow {
 		mnOpen.add(mntmNewMenuItem);
 		
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Skill Motion Desciption");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser jfc = new JFileChooser();
+				jfc.setDialogTitle("Open Skill Motion Description File");
+				jfc.setCurrentDirectory(new File(EditorProperty.projectDirectory));
+				jfc.setFileFilter(new FileNameExtensionFilter("Javascript Object Notation File", "json"));
+				int ret = jfc.showOpenDialog(frame);
+				if (ret != 0) {
+					return;
+				}
+				File f = jfc.getSelectedFile();
+				if (f.exists()) {
+					SkillMotionItemType ait = null;
+					try {
+						ait = new SkillMotionItemType(f);
+					} catch (Exception error) {
+						JOptionPane.showConfirmDialog(frame, "An error occured while reading the file.\n It may not be a valid skill motion description file.", "Error",
+								JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+						ait = null;
+					}
+					if (ait != null) {
+						SkillMotionDescriptionPanel p = new SkillMotionDescriptionPanel(ait);
+						int n =tabbedPane.getTabCount();
+						p.setTabIndex(n);
+						tabbedPane.addTab(ait.getListname(), p);
+						MainWindow.this.items.add(ait);
+						tabbedPane.setSelectedIndex(n);
+					}
+				}
+				
+			}
+		});
 		mnOpen.add(mntmNewMenuItem_2);
 		
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save");

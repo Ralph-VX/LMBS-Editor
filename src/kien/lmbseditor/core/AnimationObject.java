@@ -11,17 +11,17 @@ import java.awt.geom.Rectangle2D;
  * 
  */
 public class AnimationObject {
-	public Rectangle2D.Float rect;
+	public Rectangle2D.Double rect;
 	public int dur;
-	public float damagePer;
-	public Point2D.Float knockback;
+	public double damagePer;
+	public Point2D.Double knockback;
 	public int knockdir;
 	
 	public AnimationObject() {
-		this.rect = new Rectangle2D.Float();
+		this.rect = new Rectangle2D.Double();
 		this.dur = 0;
 		this.damagePer = 0;
-		this.knockback = new Point2D.Float();
+		this.knockback = new Point2D.Double();
 		this.knockdir = 0;
 	}
 	

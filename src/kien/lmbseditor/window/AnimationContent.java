@@ -30,7 +30,7 @@ public class AnimationContent extends JPanel {
 	private static final long serialVersionUID = -909798655021372590L;
 	public int frameNumber;
 	public Animation animation;
-	ArrayList<ArrayList<Float>> frame;
+	ArrayList<ArrayList<Double>> frame;
 	ArrayList<AnimationObject> rects;
 	
 	private BufferedImage image1;
@@ -40,7 +40,7 @@ public class AnimationContent extends JPanel {
 		super();
 		this.frameNumber = -1;
 		this.animation = new Animation();
-		this.frame = new ArrayList<ArrayList<Float>>();
+		this.frame = new ArrayList<ArrayList<Double>>();
 		this.image1 = null;
 		this.image2 = null;
 		this.rects = null;
@@ -122,18 +122,18 @@ public class AnimationContent extends JPanel {
 		AffineTransform original = g2.getTransform();
 		for (int n = 0; n < frame.size(); n++) {
 			AffineTransform at = new AffineTransform();
-			ArrayList<Float> cell = frame.get(n);
-			int pattern = Math.round(cell.get(0));
+			ArrayList<Double> cell = frame.get(n);
+			int pattern = (int) Math.round(cell.get(0));
 			if (pattern >= 0) {
 				int sx = (pattern % 5) * 192;
 				int sy = (int) Math.round(Math.floor(pattern % 100 / 5) * 192);
 				BufferedImage img = pattern < 100 ? image1 : image2;
 				boolean mirror = Math.round(cell.get(5)) > 0 ? true : false;
-				int rotation = Math.round(cell.get(4));
-				float scale = cell.get(3) / 100;
-				float tx = cell.get(1) - 192/2 * scale;
-				float ty = cell.get(2) - 192/2 * scale;
-				int opacity = Math.round(cell.get(6));
+				int rotation = (int) Math.round(cell.get(4));
+				double scale = cell.get(3) / 100;
+				double tx = cell.get(1) - 192/2 * scale;
+				double ty = cell.get(2) - 192/2 * scale;
+				int opacity = (int) Math.round(cell.get(6));
 				at.rotate(Math.toRadians(rotation));
 				at.scale(mirror ? -scale : scale, scale);
 				g2.translate(tx, ty);
@@ -145,11 +145,11 @@ public class AnimationContent extends JPanel {
 		}
 		if (this.rects != null) {
 			for (int n = 0; n < rects.size(); n++) {
-				Rectangle2D.Float rect = rects.get(n).rect;
+				Rectangle2D.Double rect = rects.get(n).rect;
 				g2.setColor(new Color(255,255,255,192));
-				g2.fillRect(Math.round(rect.x), Math.round(rect.y), Math.round(rect.width), Math.round(rect.height));
+				g2.fillRect((int)Math.round(rect.x), (int)Math.round(rect.y), (int)Math.round(rect.width), (int)Math.round(rect.height));
 				g2.setColor(new Color(0,0,0,255));
-				g2.drawString(Integer.toString(n+1), rect.x, rect.y+g2.getFont().getSize());
+				g2.drawString(Integer.toString(n+1), (int)rect.x, (int)rect.y+g2.getFont().getSize());
 			}
 		}
 	}
