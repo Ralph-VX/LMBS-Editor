@@ -211,4 +211,12 @@ public class EditorProperty {
 		return set;
 	}
 	
+	static public void saveCharacter() {
+		characterList.save();
+	}
+	
+	static public void saveWeapon() {
+		weaponList.save();
+	}
+	
 }

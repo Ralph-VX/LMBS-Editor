@@ -12,13 +12,18 @@ public class CharacterList {
 	}
 	
 	public boolean isDirty() {
-		ArrayList<CharacterSet> charlist = (ArrayList<CharacterSet>) lists.values();
-		for (int n = 0; n < charlist.size(); n++ ) {
-			if (charlist.get(n).isDirty()) {
+		for (CharacterSet chara : lists.values()) {
+			if (chara.isDirty()) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public void save() {
+		for (CharacterSet chara : lists.values()) {
+			chara.save();
+		}
 	}
 	
 }

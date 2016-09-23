@@ -37,6 +37,7 @@ public class MainWindow {
 	public JMenuBar menuBar;
 	public JMenu mnFile;
 	public JTabbedPane tabbedPane;
+	
 
 	/**
 	 * Launch the application.
@@ -441,11 +442,15 @@ public class MainWindow {
 	}
 
 	private boolean onSaveWeapon() {
-		return false;
+		EditorProperty.saveWeapon();
+		((EditorPanelBase)tabbedPane.getComponentAt(1)).refresh();
+		return EditorProperty.weaponList.isDirty();
 	}
 	
 	private boolean onSaveCharacterPose() {
-		return false;
+		EditorProperty.saveCharacter();
+		((EditorPanelBase)tabbedPane.getComponentAt(0)).refresh();
+		return EditorProperty.characterList.isDirty();
 
 	}
 

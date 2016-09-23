@@ -8,6 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.imageio.ImageIO;
@@ -23,7 +24,7 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-public class WeaponPropertyPanel extends JPanel {
+public class WeaponPropertyPanel extends EditorPanelBase {
 	
 	private WeaponSet current;
 	private DefaultListModel<String> listModelWeapon;
@@ -33,6 +34,7 @@ public class WeaponPropertyPanel extends JPanel {
 	private JFormattedTextField angleField;
 	private WeaponImagePanel weaponImagePanel;
 	private int setTabIndex;
+	private ArrayList<String> indexToName;
 	private JCheckBox chckbxNewCheckBox;
 	
 	/**
@@ -41,6 +43,7 @@ public class WeaponPropertyPanel extends JPanel {
 	public WeaponPropertyPanel() {
 		setLayout(new MigLayout("", "[grow 40][grow 80]", "[grow]"));
 		
+		indexToName = new ArrayList<String>();
 		listModelWeapon = new DefaultListModel<String>();
 		listWeapon = new JList<String>(listModelWeapon);
 		listWeapon.addListSelectionListener(new ListSelectionListener() {
@@ -133,11 +136,16 @@ public class WeaponPropertyPanel extends JPanel {
 	}
 
 	private void refreshList() {
-		String current = listWeapon.getSelectedValue();
+		String current = null;
+		if (!indexToName.isEmpty()) {
+			current = indexToName.get(listWeapon.getSelectedIndex());
+		}
 		listModelWeapon.clear();
+		indexToName.clear();
 		if (EditorProperty.weaponList != null) {
 			for (String i : EditorProperty.weaponList.list.keySet()) {
-				listModelWeapon.addElement(i);
+				listModelWeapon.addElement((EditorProperty.weaponList.list.get(i).isDirty() ? "*" : "") + i);
+				indexToName.add(i);
 			}
 			if (current != null) {
 				listWeapon.setSelectedValue(current, true);
@@ -146,7 +154,13 @@ public class WeaponPropertyPanel extends JPanel {
 	}
 	
 	private void refreshProperty() {
-		WeaponSet newItem = EditorProperty.weaponList.list.get(listWeapon.getSelectedValue());
+		
+		WeaponSet newItem;
+		try {
+			newItem = EditorProperty.weaponList.list.get(indexToName.get(listWeapon.getSelectedIndex()));
+		} catch (Exception e) {
+			newItem = null;
+		}
 		if (newItem != current) {
 			updateValue();
 			current = newItem;
@@ -173,12 +187,14 @@ public class WeaponPropertyPanel extends JPanel {
 	}
 	
 	private void updateValue() {
-		try {
-			xField.commitEdit();
-			yField.commitEdit();
-			angleField.commitEdit();
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (this.current != null) {
+			try {
+				xField.commitEdit();
+				yField.commitEdit();
+				angleField.commitEdit();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -220,6 +236,11 @@ public class WeaponPropertyPanel extends JPanel {
 
 	public void setTabIndex(int n2) {
 		this.setTabIndex = n2;
+	}
+
+	@Override
+	public void refresh() {
+		this.refreshList();
 	}
 	
 }

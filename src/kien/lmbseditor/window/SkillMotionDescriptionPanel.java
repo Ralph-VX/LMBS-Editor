@@ -22,7 +22,7 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class SkillMotionDescriptionPanel extends JPanel {
+public class SkillMotionDescriptionPanel extends EditorPanelBase {
 	
 	private ArrayList<SkillMotionCommandBase> commandsInListOrder;
 	private JList<SkillMotionCommandBase> listCommand;
@@ -179,6 +179,10 @@ public class SkillMotionDescriptionPanel extends JPanel {
 	
 	public void setTabIndex(int n) {
 		tabIndex = n;
+	}
+
+	@Override
+	public void refresh() {
 	}
 	
 }

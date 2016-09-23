@@ -1,8 +1,11 @@
 package kien.lmbseditor.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+
+import net.arnx.jsonic.JSONException;
 
 /**
  * Class represents a set of pose for a character.
@@ -29,6 +32,14 @@ public class CharacterSet {
 			}
 		}
 		return false;
+	}
+
+	public void save() {
+		for (CharacterPose item : poses.values() ) {
+			if (item.isDirty()) {
+				item.saveJson();
+			}
+		}
 	}
 	
 	

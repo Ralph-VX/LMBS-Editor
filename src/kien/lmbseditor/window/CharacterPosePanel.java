@@ -42,7 +42,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class CharacterPosePanel extends JPanel {
+public class CharacterPosePanel extends EditorPanelBase {
 	private JFormattedTextField maxFrameTextField;
 	private JLabel labelCurrentFrame;
 	private JFormattedTextField characterWidthTextField;
@@ -269,9 +269,11 @@ public class CharacterPosePanel extends JPanel {
 	}
 
 	private void updatePoseList() {
-		for (String name : currentCharacter.poses.keySet()) {
-			int n = poseIndexToName.indexOf(name);
-			listModelPose.set(n, (currentCharacter.poses.get(name).isDirty() ? "*" : "") + name);
+		if (currentCharacter != null) {
+			for (String name : currentCharacter.poses.keySet()) {
+				int n = poseIndexToName.indexOf(name);
+				listModelPose.set(n, (currentCharacter.poses.get(name).isDirty() ? "*" : "") + name);
+			}
 		}
 	}
 
@@ -503,5 +505,11 @@ public class CharacterPosePanel extends JPanel {
 		 * this.onCharacterWidthChange(); this.onWeaponAngleChange();
 		 * this.onWeaponXChange(); this.onWeaponYChange(); }
 		 */
+	}
+
+	@Override
+	public void refresh() {
+		this.updateCharacterList();
+		this.updatePoseList();
 	}
 }

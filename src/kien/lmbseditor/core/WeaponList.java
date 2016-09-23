@@ -48,5 +48,11 @@ public class WeaponList {
 		}
 		list.put(name, set);
 	}
+
+	public void save() {
+		for (WeaponSet set : list.values()) {
+			set.save();
+		}
+	}
 	
 }

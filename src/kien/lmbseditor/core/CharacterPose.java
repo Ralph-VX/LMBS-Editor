@@ -45,12 +45,17 @@ public class CharacterPose {
 		frame = 1;
 	}
 	
-	public void saveJson() throws JSONException, IOException {
+	public void saveJson() {
 		if (propertyFile == null) {
-			propertyFile = new File(poseFile.getParent() + poseFile.pathSeparator + poseName + ".json");
+			propertyFile = new File(poseFile.getParent() + "\\" + poseName + ".json");
 		}
-		JSON.encode(property, new FileWriter(propertyFile), true);
-		this.clearDirty();
+		try {
+			JSON.encode(property, new FileWriter(propertyFile), true);
+			this.clearDirty();
+		} catch (JSONException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean haveJsonFile() {

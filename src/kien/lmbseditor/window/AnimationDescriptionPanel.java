@@ -43,7 +43,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.awt.event.MouseEvent;
 
-public class AnimationDescriptionPanel extends JPanel {
+public class AnimationDescriptionPanel extends EditorPanelBase {
 
 	private AnimationItemType contents;
 	private int curFrame;
@@ -581,6 +581,11 @@ public class AnimationDescriptionPanel extends JPanel {
 
 	public void setTabIndex(int n) {
 		this.tabIndex = n;
+	}
+
+	@Override
+	public void refresh() {
+		
 	}
 	
 	
