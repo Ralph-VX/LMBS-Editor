@@ -1,31 +1,34 @@
 package kien.lmbseditor.window;
 
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JList;
-import java.awt.BorderLayout;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.WeaponSet;
-import javax.swing.JCheckBox;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+import net.miginfocom.swing.MigLayout;
 
 public class WeaponPropertyPanel extends EditorPanelBase {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private WeaponSet current;
 	private DefaultListModel<String> listModelWeapon;
 	private JList<String> listWeapon;
@@ -47,6 +50,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 		listModelWeapon = new DefaultListModel<String>();
 		listWeapon = new JList<String>(listModelWeapon);
 		listWeapon.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				WeaponPropertyPanel.this.onWeaponListSelectedChange();
 			}
@@ -118,6 +122,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 		
 		chckbxNewCheckBox = new JCheckBox("Show Ovarlay");
 		chckbxNewCheckBox.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
 				weaponImagePanel.showOverlay = ((JCheckBox)e.getSource()).isSelected();
 				weaponImagePanel.repaint();
@@ -149,6 +154,15 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 			}
 			if (current != null) {
 				listWeapon.setSelectedValue(current, true);
+			}
+		}
+	}
+	
+	private void updateList() {
+		if (indexToName != null) {
+			for (int n = 0; n < indexToName.size(); n++) {
+				WeaponSet i = EditorProperty.weaponList.list.get(indexToName.get(n));
+				listModelWeapon.set(n, (i.isDirty() ? "*" : "") + i.name);
 			}
 		}
 	}
@@ -203,8 +217,9 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 			int n = ((Number)xField.getValue()).intValue();
 			if (n != current.json.ox) {
 				current.json.ox = n;
-				current.setDirty();
 				weaponImagePanel.ox = n;
+				current.setDirty();
+				this.updateList();
 				weaponImagePanel.repaint();
 			}
 		}
@@ -215,8 +230,9 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 			int n = ((Number)yField.getValue()).intValue();
 			if (n != current.json.oy) {
 				current.json.oy = n;
-				current.setDirty();
 				weaponImagePanel.oy = n;
+				current.setDirty();
+				this.updateList();
 				weaponImagePanel.repaint();
 			}
 		}
@@ -227,8 +243,9 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 			int n = ((Number)angleField.getValue()).intValue();
 			if (n != current.json.angle) {
 				current.json.angle = n;
-				current.setDirty();
 				weaponImagePanel.angle = n;
+				current.setDirty();
+				this.updateList();
 				weaponImagePanel.repaint();
 			}
 		}
@@ -240,7 +257,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 
 	@Override
 	public void refresh() {
-		this.refreshList();
+		this.updateList();
 	}
 	
 }

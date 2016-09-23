@@ -3,7 +3,6 @@ package kien.lmbseditor.core;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import net.arnx.jsonic.JSON;
@@ -18,8 +17,8 @@ public class WeaponList {
 	}
 	
 	public boolean isDirty() {
-		for (int n = 0; n < list.size(); n++ ) {
-			if (list.get(n).isDirty()) {
+		for (WeaponSet set : list.values()) {
+			if (set.isDirty()) {
 				return true;
 			}
 		}
@@ -45,6 +44,9 @@ public class WeaponList {
 			}
 		} else {
 			set.imageFile = f;
+		}
+		if (set.jsonFile == null) {
+			set.makeJSON();
 		}
 		list.put(name, set);
 	}

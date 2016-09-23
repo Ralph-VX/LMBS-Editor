@@ -1,19 +1,18 @@
 package kien.lmbseditor.window.motion;
 
-import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.core.motion.SkillMotionCommandProjectile;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class MotionPropertyDialogProjectile extends MotionPropertyDialogBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public String classname;
 	public String parameters;
 	private JTextField classnameField;

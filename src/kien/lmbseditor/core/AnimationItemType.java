@@ -39,22 +39,27 @@ public class AnimationItemType extends BaseItemType {
 		}
 	}
 	
+	@Override
 	public String getFilename() {
 		return haveFile() ? src.getName() : "Unnamed" ;
 	}
 	
+	@Override
 	public String getListname() {
 		return "Animation - " + this.getFilename();
 	}
 	
+	@Override
 	public boolean haveFile() {
 		return src != null;
 	}
 	
+	@Override
 	public void setFile(File f) {
 		src = f;
 	}
 	
+	@Override
 	public File getFile() {
 		return src;
 	}

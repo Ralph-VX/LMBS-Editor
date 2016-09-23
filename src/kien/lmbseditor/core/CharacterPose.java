@@ -6,7 +6,6 @@ import java.io.IOException;
 
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
-import net.arnx.jsonic.JSONHint;
 
 
 public class CharacterPose {

@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogRotation;
-import kien.lmbseditor.window.motion.MotionPropertyDialogWait;
 
 public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 

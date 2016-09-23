@@ -2,28 +2,24 @@ package kien.lmbseditor.window;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import kien.lmbseditor.core.EditorProperty;
 import kien.util.KienLogger;
-
-import java.awt.GridBagLayout;
-import javax.swing.JTextField;
-import java.awt.GridBagConstraints;
-import java.awt.Rectangle;
-import java.awt.Insets;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.io.File;
-import java.awt.event.ActionEvent;
 import net.miginfocom.swing.MigLayout;
 
 public class EditorPreferencesWindow extends JDialog {
@@ -40,7 +36,7 @@ public class EditorPreferencesWindow extends JDialog {
 	 */
 	public EditorPreferencesWindow() {
 		setModal(true);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Preferences");
 		setBounds(new Rectangle(0, 0, 450, 200));
 		setResizable(false);
@@ -61,6 +57,7 @@ public class EditorPreferencesWindow extends JDialog {
 		{
 			JButton btnNewButton = new JButton("...");
 			btnNewButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					EditorPreferencesWindow.this.onDirectorySetting();
 				}
@@ -75,6 +72,7 @@ public class EditorPreferencesWindow extends JDialog {
 				JButton okButton = new JButton("OK");
 				
 				okButton.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						EditorPreferencesWindow.this.onOk();
 					}
@@ -86,6 +84,7 @@ public class EditorPreferencesWindow extends JDialog {
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						EditorPreferencesWindow.this.onCancel();
 					}

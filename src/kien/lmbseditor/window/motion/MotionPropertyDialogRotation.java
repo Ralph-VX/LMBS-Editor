@@ -1,22 +1,20 @@
 package kien.lmbseditor.window.motion;
 
-import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 
-import javax.swing.JDialog;
+import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
-import kien.lmbseditor.core.motion.SkillMotionCommandMove;
 import kien.lmbseditor.core.motion.SkillMotionCommandRotation;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.JCheckBox;
 
 public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFormattedTextField rotationField;
 	private JFormattedTextField durationField;
 	public int rotation;

@@ -12,6 +12,10 @@ import kien.lmbseditor.core.EditorProperty;
 
 public class WeaponImagePanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public BufferedImage img;
 	public int ox;
 	public int oy;

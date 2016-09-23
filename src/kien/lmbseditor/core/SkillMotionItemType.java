@@ -16,7 +16,6 @@ import net.arnx.jsonic.JSONException;
 public class SkillMotionItemType extends BaseItemType {
 	
 	private File src;
-	private boolean dirty;
 	public ArrayList<SkillMotionCommandBase> list;
 	
 	public SkillMotionItemType(File file) throws JSONException, FileNotFoundException, IOException {
@@ -65,14 +64,16 @@ public class SkillMotionItemType extends BaseItemType {
 		this.src = f;
 	}
 
+	@Override
 	public File getFile() {
 		return src;
 	}
 	
+	@Override
 	public void setDirty() {
-		this.dirty = true;
 	}
 	
+	@Override
 	public void clearDirty() {
 		for (SkillMotionCommandBase i : list) {
 			i.clearDirty();

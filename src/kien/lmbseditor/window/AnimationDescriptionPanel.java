@@ -1,47 +1,33 @@
 package kien.lmbseditor.window;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import kien.lmbseditor.core.AnimationItemType;
 import kien.lmbseditor.core.AnimationObject;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.mv.Animation;
-
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.awt.event.ActionEvent;
-import javax.swing.JList;
-import javax.swing.border.BevelBorder;
-import javax.swing.text.NumberFormatter;
-
-import java.awt.Rectangle;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.JCheckBox;
-import java.awt.FlowLayout;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.event.MouseEvent;
 
 public class AnimationDescriptionPanel extends EditorPanelBase {
 
@@ -99,6 +85,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		
 		animationList = new JComboBox<String>();
 		animationList.addItemListener(new ItemListener() {
+			@Override
 			public void itemStateChanged(ItemEvent e) {
 				AnimationDescriptionPanel.this.onAnimationListChange();
 			}
@@ -122,6 +109,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		buttonPrevFrame = new JButton("<");
 		buttonPrevFrame.setEnabled(false);
 		buttonPrevFrame.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AnimationDescriptionPanel.this.onPreviousFrame();
 			}
@@ -131,6 +119,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		buttonNextFrame = new JButton(">");
 		buttonNextFrame.setEnabled(false);
 		buttonNextFrame.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AnimationDescriptionPanel.this.onNextFrame();
 			}
@@ -146,6 +135,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		timingListContent = new DefaultListModel<String>();
 		timingList = new JList<String>(timingListContent);
 		timingList.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				AnimationDescriptionPanel.this.onTimingListChange();
 			}
@@ -272,6 +262,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		
 		timingKnockbackInvert = new JCheckBox("Invert");
 		timingKnockbackInvert.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
 				AnimationDescriptionPanel.this.onTimingKnockbackInvertChange();
 			}
@@ -284,6 +275,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		buttonNewTiming = new JButton("New");
 		buttonNewTiming.setEnabled(false);
 		buttonNewTiming.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AnimationDescriptionPanel.this.onTimingNew();
 			}
@@ -293,6 +285,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		buttonDeleteTiming = new JButton("Delete");
 		buttonDeleteTiming.setEnabled(false);
 		buttonDeleteTiming.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AnimationDescriptionPanel.this.onTimingDelete();
 			}

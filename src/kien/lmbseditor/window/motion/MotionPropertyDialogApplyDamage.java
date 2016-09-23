@@ -1,23 +1,15 @@
 package kien.lmbseditor.window.motion;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 
 import kien.lmbseditor.core.motion.SkillMotionCommandApplyDamage;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
-import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JFormattedTextField;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-import java.awt.event.ActionEvent;
 
 public class MotionPropertyDialogApplyDamage extends MotionPropertyDialogBase {
 

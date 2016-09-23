@@ -1,9 +1,15 @@
 package kien.util;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferDouble;
+import java.awt.image.DataBufferFloat;
+import java.awt.image.DataBufferInt;
+import java.awt.image.DataBufferShort;
+import java.awt.image.DataBufferUShort;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
@@ -84,6 +90,7 @@ public class Util {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static DataBuffer getBuffer(int transferType, int size) {
 		switch(transferType) {
 		case DataBuffer.TYPE_BYTE: 

@@ -1,7 +1,6 @@
 package kien.lmbseditor.core.motion;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;

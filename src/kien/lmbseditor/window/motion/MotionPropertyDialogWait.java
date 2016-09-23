@@ -1,23 +1,19 @@
 package kien.lmbseditor.window.motion;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.text.DecimalFormat;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.core.motion.SkillMotionCommandWait;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-
 public class MotionPropertyDialogWait extends MotionPropertyDialogBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JFormattedTextField textField;
 	public int dur;
 	public JLabel labelTitle;

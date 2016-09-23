@@ -1,6 +1,5 @@
 package kien.lmbseditor.core.motion;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
@@ -43,6 +42,7 @@ public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
 		return type;
 	}
 	
+	@Override
 	public boolean includeAvailable() {
 		return false;
 	}

@@ -1,48 +1,37 @@
 package kien.lmbseditor.window;
 
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Set;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import kien.lmbseditor.core.CharacterPose;
 import kien.lmbseditor.core.CharacterSet;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.PoseFrameProperty;
-import kien.lmbseditor.core.PoseProperty;
-import kien.util.KienLogger;
-import kien.util.Util;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import net.miginfocom.swing.MigLayout;
 
 public class CharacterPosePanel extends EditorPanelBase {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JFormattedTextField maxFrameTextField;
 	private JLabel labelCurrentFrame;
 	private JFormattedTextField characterWidthTextField;
@@ -106,6 +95,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		panel_2.add(lblCurrentFrame, "cell 1 0");
 		maxFrameTextField = new JFormattedTextField(format);
 		maxFrameTextField.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				CharacterPosePanel.this.onMaxFrameChange();
 			}
@@ -115,6 +105,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		sliderCurrentFrame = new JSlider();
 		sliderCurrentFrame.addChangeListener(new ChangeListener() {
+			@Override
 			public void stateChanged(ChangeEvent e) {
 				CharacterPosePanel.this.onFrameSliderChange();
 			}
@@ -133,6 +124,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		characterWidthTextField = new JFormattedTextField(format);
 		characterWidthTextField.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				CharacterPosePanel.this.onCharacterWidthChange();
 			}
@@ -141,6 +133,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		characterHeightTextField = new JFormattedTextField(format);
 		characterHeightTextField.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				CharacterPosePanel.this.onCharacterHeightChange();
 			}
@@ -149,6 +142,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		buttonLooping = new JCheckBox("Pose Looping");
 		buttonLooping.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				CharacterPosePanel.this.onLoopChanged();
 			}
@@ -166,6 +160,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		weaponXTextField = new JFormattedTextField(format);
 		weaponXTextField.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				CharacterPosePanel.this.onWeaponXChange();
 			}
@@ -174,6 +169,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		weaponYTextField = new JFormattedTextField(format);
 		weaponYTextField.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				CharacterPosePanel.this.onWeaponYChange();
 			}
@@ -182,6 +178,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		weaponAngleTextField = new JFormattedTextField(format);
 		weaponAngleTextField.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				CharacterPosePanel.this.onWeaponAngleChange();
 			}
@@ -191,6 +188,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		listModelCharacter = new DefaultListModel<String>();
 		listCharacter = new JList<String>(listModelCharacter);
 		listCharacter.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				CharacterPosePanel.this.onCharacterListSelectedChange();
 			}
@@ -201,6 +199,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		listModelPose = new DefaultListModel<String>();
 		listPose = new JList<String>(listModelPose);
 		listPose.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				CharacterPosePanel.this.onPoseListSelectedChange();
 			}

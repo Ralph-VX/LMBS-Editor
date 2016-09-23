@@ -13,10 +13,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import kien.lmbseditor.core.EditorProperty;
-import kien.util.KienLogger;
 
 public class PosePanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public BufferedImage pose;
 	public String posename;
 	public String charactername;
@@ -43,6 +46,7 @@ public class PosePanel extends JPanel {
 		}
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		AffineTransform original = g2.getTransform();

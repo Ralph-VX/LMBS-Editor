@@ -21,6 +21,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		list.get(0).setParent(this);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> in) {
 		this.expression = (String) in.get("expression");
@@ -50,6 +51,11 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
 		MotionPropertyDialogChangePose d = new MotionPropertyDialogChangePose() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void setObject(SkillMotionCommandBase object) {
 				SkillMotionCommandIf o = (SkillMotionCommandIf)object;
@@ -94,6 +100,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		return false;
 	}
 	
+	@Override
 	public void clearDirty() {
 		super.clearDirty();
 		for (SkillMotionCommandBase i : list) {
@@ -129,6 +136,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		}
 	}
 	
+	@Override
 	public void addChild(SkillMotionCommandBase child) {
 		if (child.parent == this) {
 			return;
@@ -141,6 +149,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		child.setDepth(this.depth + 1);
 	}
 	
+	@Override
 	public void removeChild(SkillMotionCommandBase child) {
 		if (child.typeName() == "endif") {
 			return;

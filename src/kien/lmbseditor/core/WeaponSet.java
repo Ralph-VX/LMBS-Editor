@@ -35,16 +35,19 @@ public class WeaponSet {
 	}
 
 	public void save() {
-		if (jsonFile == null && imageFile != null) {
-			jsonFile = new File(imageFile.getParent() +  "\\"  + name + ".json");
-		}
 		try {
 			JSON.encode(json, new FileWriter(jsonFile), true);
 			this.clearDirty();
 		} catch (JSONException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void makeJSON() {
+		if (jsonFile == null && imageFile != null) {
+			jsonFile = new File(imageFile.getParent() +  "\\"  + name + ".json");
+		}
+		this.setDirty();
 	}
 
 }

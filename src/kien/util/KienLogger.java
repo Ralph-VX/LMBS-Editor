@@ -7,11 +7,10 @@ package kien.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
-
-import java.util.logging.FileHandler;
 
 /**
  *

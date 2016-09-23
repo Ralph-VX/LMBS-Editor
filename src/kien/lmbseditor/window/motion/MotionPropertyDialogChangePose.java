@@ -1,25 +1,17 @@
 package kien.lmbseditor.window.motion;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.core.motion.SkillMotionCommandChangePose;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.Dialog.ModalExclusionType;
-import java.awt.Dialog.ModalityType;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class MotionPropertyDialogChangePose extends MotionPropertyDialogBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5407845095800179918L;
 	/**
 	 * Create the dialog.
 	 */
@@ -52,6 +44,7 @@ public class MotionPropertyDialogChangePose extends MotionPropertyDialogBase {
 		this.result = o.name;
 	}
 
+	@Override
 	public void onOk() {
 		this.result = this.textField.getText();
 		this.setDirty();

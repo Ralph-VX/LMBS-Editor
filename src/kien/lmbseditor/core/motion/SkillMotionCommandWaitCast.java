@@ -19,6 +19,11 @@ public class SkillMotionCommandWaitCast extends SkillMotionCommandBase {
 	public MotionPropertyDialogBase obtainDialog() {
 		// TODO Auto-generated method stub
 		MotionPropertyDialogWait d = new MotionPropertyDialogWait() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void setObject(SkillMotionCommandBase object) {
 				SkillMotionCommandWaitCast src = (SkillMotionCommandWaitCast)object;

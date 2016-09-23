@@ -1,29 +1,29 @@
 package kien.lmbseditor.window;
 
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JList;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import kien.lmbseditor.core.SkillMotionCommands;
 import kien.lmbseditor.core.SkillMotionItemType;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
-import kien.lmbseditor.core.motion.SkillMotionCommandEndIf;
-import kien.lmbseditor.core.motion.SkillMotionCommandIf;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-
-import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import net.miginfocom.swing.MigLayout;
 
 public class SkillMotionDescriptionPanel extends EditorPanelBase {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<SkillMotionCommandBase> commandsInListOrder;
 	private JList<SkillMotionCommandBase> listCommand;
 	private JComboBox<String> listMotionCommand;
@@ -56,6 +56,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		
 		JButton btnNewButton_1 = new JButton("Add Command");
 		btnNewButton_1.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				SkillMotionDescriptionPanel.this.onAddCommand();
 			}
@@ -64,6 +65,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		
 		JButton btnNewButton_2 = new JButton("Edit Command");
 		btnNewButton_2.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				SkillMotionDescriptionPanel.this.onEditCommand();
 			}
@@ -72,6 +74,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		
 		JButton btnNewButton = new JButton("Delete Command");
 		btnNewButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				SkillMotionDescriptionPanel.this.onDeleteCommand();
 			}

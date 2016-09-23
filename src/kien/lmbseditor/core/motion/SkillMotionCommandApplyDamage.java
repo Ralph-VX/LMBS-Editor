@@ -20,6 +20,7 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 		knockdir = 0;
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws IllegalArgumentException {
 		try {

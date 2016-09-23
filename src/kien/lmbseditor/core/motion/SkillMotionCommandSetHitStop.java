@@ -18,6 +18,11 @@ public class SkillMotionCommandSetHitStop extends SkillMotionCommandBase {
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
 		MotionPropertyDialogWait d = new MotionPropertyDialogWait(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void setObject(SkillMotionCommandBase object) {
 				SkillMotionCommandSetHitStop src = (SkillMotionCommandSetHitStop)object;

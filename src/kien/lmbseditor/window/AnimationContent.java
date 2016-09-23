@@ -1,11 +1,8 @@
 package kien.lmbseditor.window;
 
 import java.awt.Color;
-import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -21,7 +18,6 @@ import kien.lmbseditor.core.AnimationObject;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.mv.Animation;
 import kien.util.KienLogger;
-import kien.util.Util;
 
 public class AnimationContent extends JPanel {
 	/**

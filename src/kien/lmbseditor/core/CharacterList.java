@@ -1,7 +1,5 @@
 package kien.lmbseditor.core;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class CharacterList {

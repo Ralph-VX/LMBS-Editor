@@ -1,12 +1,8 @@
 package kien.lmbseditor.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Set;
 
 import org.reflections.Reflections;
@@ -24,7 +20,6 @@ public class SkillMotionCommands {
 	}
 	
 	static public void init() {
-		Date d = new Date();
 		motionTypeToClass = new LinkedHashMap<String, Class<? extends SkillMotionCommandBase>>();
 		motionNameToType = new LinkedHashMap<String, String>();
 
@@ -32,10 +27,10 @@ public class SkillMotionCommands {
 		Set<Class<? extends SkillMotionCommandBase>> set = reflections.getSubTypesOf(SkillMotionCommandBase.class);
 		ArrayList<Class< ? extends SkillMotionCommandBase>> list = new ArrayList<Class< ? extends SkillMotionCommandBase>>();
 		list.addAll(set);
-		list.sort(new Comparator<Class>() {
+		list.sort(new Comparator<Class< ? extends SkillMotionCommandBase>>() {
 
 			@Override
-			public int compare(Class o1, Class o2) {
+			public int compare(Class< ? extends SkillMotionCommandBase> o1, Class< ? extends SkillMotionCommandBase> o2) {
 				// TODO Auto-generated method stub
 				return o1.getName().compareTo(o2.getName());
 			}

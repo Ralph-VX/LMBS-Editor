@@ -1,20 +1,25 @@
 package kien.lmbseditor.window;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 
-import javax.swing.JMenuBar;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import java.awt.Dimension;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JOptionPane;
 
 import kien.lmbseditor.core.AnimationItemType;
 import kien.lmbseditor.core.BaseItemType;
@@ -22,11 +27,6 @@ import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.SkillMotionItemType;
 import kien.util.KienLogger;
 import kien.util.Util;
-
-import java.awt.GridBagConstraints;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
 
 public class MainWindow {
 
@@ -119,6 +119,7 @@ public class MainWindow {
 
 		JMenuItem menuItem = new JMenuItem("Animation Description");
 		menuItem.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				AnimationItemType ait = new AnimationItemType();
 				AnimationDescriptionPanel p = new AnimationDescriptionPanel(ait);
@@ -133,6 +134,7 @@ public class MainWindow {
 
 		JMenuItem menuItem_2 = new JMenuItem("Skill Motion Desciption");
 		menuItem_2.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				SkillMotionItemType ait = new SkillMotionItemType();
 				SkillMotionDescriptionPanel p = new SkillMotionDescriptionPanel(ait);
@@ -150,6 +152,7 @@ public class MainWindow {
 
 		JMenuItem mntmNewMenuItem = new JMenuItem("Animation Description");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser jfc = new JFileChooser();
 				jfc.setDialogTitle("Open Animation Description File");
@@ -185,6 +188,7 @@ public class MainWindow {
 
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Skill Motion Desciption");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser jfc = new JFileChooser();
 				jfc.setDialogTitle("Open Skill Motion Description File");
@@ -221,6 +225,7 @@ public class MainWindow {
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainWindow.this.onSavePerformed();
 			}
@@ -229,6 +234,7 @@ public class MainWindow {
 
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
 		mntmSaveAs.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainWindow.this.onSaveAsPerformed();
 			}
@@ -237,6 +243,7 @@ public class MainWindow {
 
 		JMenuItem mntmClose = new JMenuItem("Close");
 		mntmClose.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainWindow.this.onColsePerformed();
 			}
@@ -248,6 +255,7 @@ public class MainWindow {
 
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mntmExit.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 			}
@@ -259,6 +267,7 @@ public class MainWindow {
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences...");
 		mntmPreferences.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				EditorPreferencesWindow dialog = new EditorPreferencesWindow();
 				Rectangle rect1 = dialog.getBounds();
@@ -270,6 +279,7 @@ public class MainWindow {
 
 		JMenuItem mntmBackgroundColorSetting = new JMenuItem("Background Color Setting...");
 		mntmBackgroundColorSetting.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				BackgroundColorConfig dialog = new BackgroundColorConfig();
 				Rectangle rect1 = dialog.getBounds();
@@ -289,7 +299,7 @@ public class MainWindow {
 		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
 
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 0;
@@ -345,6 +355,11 @@ public class MainWindow {
 		} else {
 			BaseItemType bit = items.get(index - fixedTab);
 			JFileChooser jfc = new JFileChooser() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void approveSelection() {
 					File f = getSelectedFile();
@@ -399,6 +414,11 @@ public class MainWindow {
 			BaseItemType bit = items.get(index - fixedTab);
 			if (!bit.haveFile()) {
 				JFileChooser jfc = new JFileChooser() {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
 					@Override
 					public void approveSelection() {
 						File f = getSelectedFile();

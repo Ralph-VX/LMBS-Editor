@@ -1,21 +1,15 @@
 package kien.lmbseditor.window.motion;
 
-import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
-
-import javax.swing.JDialog;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import kien.lmbseditor.core.motion.SkillMotionCommandBase;
-import kien.lmbseditor.core.motion.SkillMotionCommandStartDamage;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import kien.lmbseditor.core.motion.SkillMotionCommandBase;
+import kien.lmbseditor.core.motion.SkillMotionCommandStartDamage;
+import net.miginfocom.swing.MigLayout;
 
 public class MotionPropertyDialogStartDamage extends MotionPropertyDialogBase {
 	private static final long serialVersionUID = 1L;
