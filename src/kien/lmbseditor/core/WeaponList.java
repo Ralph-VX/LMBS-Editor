@@ -11,9 +11,11 @@ import net.arnx.jsonic.TypeReference;
 
 public class WeaponList {
 	public LinkedHashMap<String, WeaponSet> list;
+	public WeaponSet current;
 	
 	public WeaponList() {
 		list = new LinkedHashMap<String, WeaponSet>();
+		current = null;
 	}
 	
 	public boolean isDirty() {

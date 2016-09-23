@@ -26,6 +26,7 @@ import kien.lmbseditor.core.CharacterSet;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.PoseFrameProperty;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JButton;
 
 public class CharacterPosePanel extends EditorPanelBase {
 	/**
@@ -54,6 +55,10 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private JCheckBox buttonLooping;
 	private ArrayList<String> characterIndexToName;
 	private ArrayList<String> poseIndexToName;
+	private JCheckBox buttonHideWeapon;
+	private JSlider sliderPreviewScale;
+	private JLabel lblPreviewScale;
+	private JButton buttonApplyAll;
 
 	/**
 	 * Create the panel.
@@ -83,7 +88,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, "cell 0 1,grow");
-		panel_2.setLayout(new MigLayout("", "[60px,grow][60,grow][60,grow]", "[13px][][][][][]"));
+		panel_2.setLayout(new MigLayout("", "[60px,grow][60,grow][60,grow]", "[13px][][][][][][][]"));
 
 		JLabel lblNameLabe = new JLabel("Max Frames");
 		panel_2.add(lblNameLabe, "cell 0 0,alignx left,aligny top");
@@ -184,6 +189,38 @@ public class CharacterPosePanel extends EditorPanelBase {
 			}
 		});
 		panel_2.add(weaponAngleTextField, "cell 2 5,growx");
+		
+		buttonHideWeapon = new JCheckBox("Hide Weapon");
+		buttonHideWeapon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CharacterPosePanel.this.onHideWeapon();
+			}
+		});
+		
+		sliderPreviewScale = new JSlider();
+		panel_2.add(sliderPreviewScale, "cell 0 6");
+		
+		lblPreviewScale = new JLabel("Preview Scale:");
+		sliderPreviewScale.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				posePanel.setScale(((double)sliderPreviewScale.getValue())/10);
+				posePanel.repaint();
+				lblPreviewScale.setText("Preview Scale: " + (double)sliderPreviewScale.getValue() * 10 + "%");
+			}
+		});
+		sliderPreviewScale.setValue(10);
+		panel_2.add(lblPreviewScale, "cell 1 6");
+		panel_2.add(buttonHideWeapon, "cell 2 6");
+		
+		buttonApplyAll = new JButton("Apply to all frame");
+		buttonApplyAll.setEnabled(false);
+		buttonApplyAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CharacterPosePanel.this.onApplyToAll();
+			}
+		});
+		panel_2.add(buttonApplyAll, "cell 0 7");
 
 		listModelCharacter = new DefaultListModel<String>();
 		listCharacter = new JList<String>(listModelCharacter);
@@ -224,6 +261,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		weaponYTextField.setValue(null);
 		weaponAngleTextField.setValue(null);
 		buttonLooping.setSelected(false);
+		buttonHideWeapon.setSelected(false);
 		maxFrameTextField.setEnabled(false);
 		sliderCurrentFrame.setEnabled(false);
 		characterWidthTextField.setEnabled(false);
@@ -232,6 +270,8 @@ public class CharacterPosePanel extends EditorPanelBase {
 		weaponYTextField.setEnabled(false);
 		weaponAngleTextField.setEnabled(false);
 		buttonLooping.setEnabled(false);
+		buttonHideWeapon.setEnabled(false);
+		buttonApplyAll.setEnabled(false);
 	}
 
 	private void clearPosePanel() {
@@ -287,6 +327,8 @@ public class CharacterPosePanel extends EditorPanelBase {
 			weaponYTextField.setEnabled(true);
 			weaponAngleTextField.setEnabled(true);
 			buttonLooping.setEnabled(true);
+			buttonHideWeapon.setEnabled(true);
+			buttonApplyAll.setEnabled(true);
 			maxFrameTextField.setValue(currentPose.property.frameCount);
 			this.sliderCurrentFrame.setMinimum(0);
 			this.sliderCurrentFrame.setMaximum(currentPose.property.frameCount - 1);
@@ -313,15 +355,20 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private void refreshFrameProperty() {
 		if (currentPose != null) {
 			PoseFrameProperty frame = currentPose.property.frames.get(this.frameIndex);
-			labelCurrentFrame.setText("Current: " + Integer.toString(this.frameIndex) + "/" + currentPose.property.frameCount);
+			labelCurrentFrame.setText("Current: " + Integer.toString(this.frameIndex+1) + "/" + currentPose.property.frameCount);
 			this.characterWidthTextField.setValue(frame.width);
 			this.characterHeightTextField.setValue(frame.height);
 			this.weaponXTextField.setValue(frame.weaponX);
 			this.weaponYTextField.setValue(frame.weaponY);
 			this.weaponAngleTextField.setValue(frame.weaponAngle);
+			this.buttonHideWeapon.setSelected(frame.hideWeapon);
 			posePanel.curFrame = this.frameIndex;
 			posePanel.rect.width = frame.width;
 			posePanel.rect.height = frame.height;
+			posePanel.weaponX = frame.weaponX;
+			posePanel.weaponY = frame.weaponY;
+			posePanel.weaponAngle = frame.weaponAngle;
+			posePanel.hideWeapon = frame.hideWeapon;
 			posePanel.repaint();
 		}
 	}
@@ -333,6 +380,10 @@ public class CharacterPosePanel extends EditorPanelBase {
 			posePanel.curFrame = this.frameIndex;
 			posePanel.rect.width = frame.width;
 			posePanel.rect.height = frame.height;
+			posePanel.weaponX = frame.weaponX;
+			posePanel.weaponY = frame.weaponY;
+			posePanel.weaponAngle = frame.weaponAngle;
+			posePanel.hideWeapon = frame.hideWeapon;
 			posePanel.repaint();
 		}
 	}
@@ -389,9 +440,10 @@ public class CharacterPosePanel extends EditorPanelBase {
 					this.currentPose.property.setMaxFrame(max);
 					if (this.frameIndex >= max) {
 						this.frameIndex = 0;
-						this.refreshFrameProperty();
+						//this.refreshFrameProperty();
 					}
 					this.currentPose.property.setDirty();
+					this.refreshProperties();
 					this.updateCharacterList();
 					this.updatePoseList();
 					this.updatePaintPanel();
@@ -439,6 +491,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 					this.currentPose.property.setDirty();
 					this.updateCharacterList();
 					this.updatePoseList();
+					this.updatePaintPanel();
 				}
 			}
 		}
@@ -453,6 +506,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 					this.currentPose.property.setDirty();
 					this.updateCharacterList();
 					this.updatePoseList();
+					this.updatePaintPanel();
 				}
 			}
 		}
@@ -467,11 +521,24 @@ public class CharacterPosePanel extends EditorPanelBase {
 					this.currentPose.property.setDirty();
 					this.updateCharacterList();
 					this.updatePoseList();
+					this.updatePaintPanel();
 				}
 			}
 		}
 	}
-
+	
+	private void onHideWeapon() {
+		if (this.currentPose != null) {
+			if (this.currentPose.property.frames.get(this.frameIndex).hideWeapon != this.buttonHideWeapon.isSelected()) {
+				this.currentPose.property.frames.get(this.frameIndex).hideWeapon = this.buttonHideWeapon.isSelected();
+				this.currentPose.property.setDirty();
+				this.updateCharacterList();
+				this.updatePoseList();
+				this.updatePaintPanel();
+			}
+		}
+	}
+	
 	protected void onLoopChanged() {
 		if (this.currentPose != null) {
 			if (this.currentPose.property.loop != this.buttonLooping.isSelected()) {
@@ -497,15 +564,17 @@ public class CharacterPosePanel extends EditorPanelBase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		/*
-		 * this.onMaxFrameChange(); KienLogger.logger.info("old: " + old +
-		 * ", this.frameIndex: " + this.frameIndex); this.onLoopChanged(); if
-		 * (old == this.frameIndex) { this.onCharacterHeightChange();
-		 * this.onCharacterWidthChange(); this.onWeaponAngleChange();
-		 * this.onWeaponXChange(); this.onWeaponYChange(); }
-		 */
 	}
 
+	protected void onApplyToAll() {
+		if (this.currentPose != null){
+			PoseFrameProperty prop = this.currentPose.property.frames.get(this.frameIndex);
+			for (PoseFrameProperty p : this.currentPose.property.frames) {
+				p.overwrite(prop);
+			}
+		}
+	}
+	
 	@Override
 	public void refresh() {
 		this.updateCharacterList();

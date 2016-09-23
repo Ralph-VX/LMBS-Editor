@@ -36,14 +36,14 @@ public class WeaponImagePanel extends JPanel {
 			g.rotate(Math.toRadians(angle), ox, oy);
 			g.translate(-img.getWidth()/2, -img.getHeight()/2);
 			g.drawImage(img, 0, 0, this);
-			g.setColor(new Color(255,255,255,128));
 			g.setTransform(at2);
 			if (showOverlay) {
+				g.setColor(new Color(255,255,255,128));
 				g.translate(ox, oy);
 				g.fillRect(-1, -1, 3, 3);
 				g.setColor(new Color(255,255,255,128));
 				g.drawOval(-30, -30, 60, 60);
-				g.fillRect(0, -2, 60, 4);
+				g.fillRect(-60, -2, 60, 4);
 			}
 		}
 		

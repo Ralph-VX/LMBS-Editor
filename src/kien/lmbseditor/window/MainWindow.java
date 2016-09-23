@@ -27,6 +27,7 @@ import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.SkillMotionItemType;
 import kien.util.KienLogger;
 import kien.util.Util;
+import java.awt.event.WindowAdapter;
 
 public class MainWindow {
 
@@ -103,6 +104,12 @@ public class MainWindow {
 	private void initialize() {
 		fixedTab = 0;
 		frame = new JFrame();
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				EditorProperty.onClose();
+			}
+		});
 		frame.setMinimumSize(new Dimension(640, 480));
 		frame.setBounds(100, 100, 640, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -316,6 +323,7 @@ public class MainWindow {
 		WeaponPropertyPanel p2 = new WeaponPropertyPanel();
 		int n2 = tabbedPane.getTabCount();
 		p2.setTabIndex(n2);
+		p2.setCurrent(EditorProperty.weaponList.current);
 		tabbedPane.addTab("Weapon Property", p2);
 		tabbedPane.setSelectedIndex(n);
 		fixedTab++;

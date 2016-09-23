@@ -2,6 +2,8 @@ package kien.lmbseditor.core;
 
 import java.util.ArrayList;
 
+import net.arnx.jsonic.JSONHint;
+
 /**
  * Contents of the json file for character poses.
  * @author Kien-PC
@@ -39,10 +41,12 @@ public class PoseProperty {
 		}
 	}
 	
+	@JSONHint(ignore=true)
 	public boolean isDirty() {
 		return dirty;
 	}
-	
+
+	@JSONHint(ignore=true)
 	public void setDirty() {
 		this.dirty = true;
 	}

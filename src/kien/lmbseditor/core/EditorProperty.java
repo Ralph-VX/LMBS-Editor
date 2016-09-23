@@ -15,6 +15,8 @@ import java.util.prefs.Preferences;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.imageio.ImageIO;
+
 import kien.lmbseditor.mv.Animation;
 import kien.util.KienLogger;
 import kien.util.Util;
@@ -34,6 +36,8 @@ public class EditorProperty {
 	static public CharacterList characterList;
 	static public File weaponDirectory;
 	static public WeaponList weaponList;
+	static public String currentWeaponName;
+	static public BufferedImage currentWeaponImage;
 	
 	static {
 		init();
@@ -45,7 +49,24 @@ public class EditorProperty {
 		backgroundRed = prefs.getInt("backgroundRed", 0);
 		backgroundGreen = prefs.getInt("backgroundGreen", 0);
 		backgroundBlue = prefs.getInt("backgroundBlue", 255);
+		currentWeaponName = prefs.get("currentweapon", "");
 		loadProject();
+	}
+	
+	static public void updateCurrentWeapon(WeaponSet n) {
+		weaponList.current = n;
+		if (n != null) {
+			try {
+				currentWeaponImage = ImageIO.read(n.imageFile);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	static public void onClose() {
+		prefs.put("currentweapon", weaponList.current != null ? weaponList.current.name : "");
 	}
 	
 	static public void setProjectDirectory(String newDirectory) {
@@ -120,6 +141,7 @@ public class EditorProperty {
 		for (File f : files) {
 			weaponList.addFile(f);
 		}
+		updateCurrentWeapon(weaponList.list.get(currentWeaponName));
 	}
 
 	static private void initAllCharacters() {

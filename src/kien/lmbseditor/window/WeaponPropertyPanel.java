@@ -73,7 +73,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 		lblNewLabel.setToolTipText("The coordinate from center of the image representing the point where character will hold this weapon");
 		panel_1.add(lblNewLabel, "cell 0 0");
 		
-		DecimalFormat format = new DecimalFormat("##0");
+		DecimalFormat format = new DecimalFormat("##0;##0");
 		format.setMinimumFractionDigits(0);
 		
 		xField = new JFormattedTextField(format);
@@ -105,7 +105,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 		panel_1.add(yField, "cell 0 3,growx");
 		
 		JLabel lblNewLabel_2 = new JLabel("Weapon default angle");
-		lblNewLabel_2.setToolTipText("The angle need to rotate the weapon facing right horizontally");
+		lblNewLabel_2.setToolTipText("The angle need to rotate the weapon facing left horizontally");
 		panel_1.add(lblNewLabel_2, "cell 0 4");
 		
 		angleField = new JFormattedTextField(format);
@@ -117,7 +117,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 			}
 			
 		});
-		angleField.setToolTipText("The angle need to rotate the weapon facing right horizontally");
+		angleField.setToolTipText("The angle need to rotate the weapon facing left horizontally");
 		panel_1.add(angleField, "cell 0 5,growx");
 		
 		chckbxNewCheckBox = new JCheckBox("Show Ovarlay");
@@ -142,8 +142,8 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 
 	private void refreshList() {
 		String current = null;
-		if (!indexToName.isEmpty()) {
-			current = indexToName.get(listWeapon.getSelectedIndex());
+		if (this.current != null) {
+			current = this.current.name;
 		}
 		listModelWeapon.clear();
 		indexToName.clear();
@@ -153,7 +153,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 				indexToName.add(i);
 			}
 			if (current != null) {
-				listWeapon.setSelectedValue(current, true);
+				listWeapon.setSelectedIndex(indexToName.indexOf(current));
 			}
 		}
 	}
@@ -168,7 +168,6 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 	}
 	
 	private void refreshProperty() {
-		
 		WeaponSet newItem;
 		try {
 			newItem = EditorProperty.weaponList.list.get(indexToName.get(listWeapon.getSelectedIndex()));
@@ -177,20 +176,22 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 		}
 		if (newItem != current) {
 			updateValue();
-			current = newItem;
-			if (current != null) {
-				xField.setValue(current.json.ox);
-				yField.setValue(current.json.oy);
-				angleField.setValue(current.json.angle);
+			current = null;
+			EditorProperty.updateCurrentWeapon(newItem);;
+			if (newItem != null) {
+				xField.setValue(newItem.json.ox);
+				yField.setValue(newItem.json.oy);
+				angleField.setValue(newItem.json.angle);
 				try {
-					weaponImagePanel.img = ImageIO.read(current.imageFile);
-					weaponImagePanel.angle = current.json.angle;
-					weaponImagePanel.ox = current.json.ox;
-					weaponImagePanel.oy = current.json.oy;
+					weaponImagePanel.img = ImageIO.read(newItem.imageFile);
+					weaponImagePanel.angle = newItem.json.angle;
+					weaponImagePanel.ox = newItem.json.ox;
+					weaponImagePanel.oy = newItem.json.oy;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				current = newItem;
 			} else {
 				weaponImagePanel.img = null;
 				xField.setValue(null);
@@ -258,6 +259,12 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 	@Override
 	public void refresh() {
 		this.updateList();
+	}
+
+	public void setCurrent(WeaponSet current2) {
+		if (!this.indexToName.isEmpty()){
+			this.listWeapon.setSelectedIndex(this.indexToName.indexOf(current2.name));
+		}
 	}
 	
 }
