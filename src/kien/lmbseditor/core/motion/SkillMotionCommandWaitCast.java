@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogWait;
 
-public class SkillMotionCommandWait extends SkillMotionCommandBase {
+public class SkillMotionCommandWaitCast extends SkillMotionCommandBase {
 
-	public final String type = "wait";
+	public final String type = "waitcast";
 	public int dur;
 	
 	@Override
@@ -18,7 +18,16 @@ public class SkillMotionCommandWait extends SkillMotionCommandBase {
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
 		// TODO Auto-generated method stub
-		return new MotionPropertyDialogWait();
+		MotionPropertyDialogWait d = new MotionPropertyDialogWait() {
+			@Override
+			public void setObject(SkillMotionCommandBase object) {
+				SkillMotionCommandWaitCast src = (SkillMotionCommandWaitCast)object;
+				this.dur = src.dur;
+				this.textField.setValue(dur);
+			}
+		};
+		d.setTitle("Wait Cast");
+		return d;
 	}
 
 	@Override
@@ -36,7 +45,7 @@ public class SkillMotionCommandWait extends SkillMotionCommandBase {
 	@Override
 	public String commandListName() {
 		// TODO Auto-generated method stub
-		return "Wait";
+		return "Wait Cast";
 	}
 
 	@Override

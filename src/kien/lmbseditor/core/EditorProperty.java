@@ -33,6 +33,8 @@ public class EditorProperty {
 	static public ArrayList<Animation> animations;
 	static public File poseDirectory;
 	static public CharacterList characterList;
+	static public File weaponDirectory;
+	static public WeaponList weaponList;
 	
 	static {
 		init();
@@ -107,10 +109,20 @@ public class EditorProperty {
 				}
 			}
 			poseDirectory = new File(projectDirectory + "\\img\\sv_actors\\");
+			weaponDirectory = new File(projectDirectory + "\\img\\weapons\\");
 			initAllCharacters();
+			initAllWeapons();
 		}
 	}
 	
+	private static void initAllWeapons() {
+		weaponList = new WeaponList();
+		File[] files = weaponDirectory.listFiles();
+		for (File f : files) {
+			weaponList.addFile(f);
+		}
+	}
+
 	static private void initAllCharacters() {
 		characterList = new CharacterList();
 		File[] subdirectories = Util.getSubDirectories(poseDirectory);

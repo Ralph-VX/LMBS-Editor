@@ -14,6 +14,8 @@ import javax.swing.border.BevelBorder;
 import kien.lmbseditor.core.SkillMotionCommands;
 import kien.lmbseditor.core.SkillMotionItemType;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
+import kien.lmbseditor.core.motion.SkillMotionCommandEndIf;
+import kien.lmbseditor.core.motion.SkillMotionCommandIf;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 
 import javax.swing.JComboBox;
@@ -61,9 +63,19 @@ public class SkillMotionDescriptionPanel extends JPanel {
 		panel.add(btnNewButton_1, "cell 0 1,growx");
 		
 		JButton btnNewButton_2 = new JButton("Edit Command");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SkillMotionDescriptionPanel.this.onEditCommand();
+			}
+		});
 		panel.add(btnNewButton_2, "cell 0 2,growx");
 		
 		JButton btnNewButton = new JButton("Delete Command");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SkillMotionDescriptionPanel.this.onDeleteCommand();
+			}
+		});
 		panel.add(btnNewButton, "cell 0 3,growx");
 		
 		refreshAvailableCommand();
@@ -71,11 +83,15 @@ public class SkillMotionDescriptionPanel extends JPanel {
 	}
 	
 	public void initializeCommandList() {
+		int i = listCommand.getSelectedIndex();
 		commandsInListOrder.clear();
 		for (SkillMotionCommandBase obj : contents.list) {
 			obj.addList(commandsInListOrder);
 		}
 		refreshCommandList();
+		if (i >= 0) {
+			listCommand.setSelectedIndex(i);
+		}
 	}
 	
 	public void refreshCommandList() {
@@ -88,6 +104,10 @@ public class SkillMotionDescriptionPanel extends JPanel {
 			listCommand.setSelectedIndex(i);
 		}
 	}
+
+	public void refreshContents() {
+		
+	}
 	
 	public void refreshAvailableCommand() {
 		for (String commandName : SkillMotionCommands.motionNameToType.keySet()) { 
@@ -97,24 +117,68 @@ public class SkillMotionDescriptionPanel extends JPanel {
 	
 	public void onAddCommand() {
 		int index = listCommand.getSelectedIndex();
+		if (index == -1) {
+			index = commandsInListOrder.size()-1;
+		}
 		try {
+			SkillMotionCommandBase selected = commandsInListOrder.get(index);
 			SkillMotionCommandBase obj = SkillMotionCommands.motionTypeToClass.get(SkillMotionCommands.motionNameToType.get(listMotionCommand.getItemAt(listMotionCommand.getSelectedIndex()))).newInstance();
-			MotionPropertyDialogBase d = obj.obtainDialogClass().newInstance();
-			d.setObject(obj);
-			d.clearDirty();
-			d.setVisible(true);
-			if (d.isDirty()) {
-				obj.updateProperty(d);
-				commandsInListOrder.add(index, obj);
-				this.refreshCommandList();
+			MotionPropertyDialogBase d = obj.obtainDialog();
+			if (d != null) {
+				d.setObject(obj);
+				d.clearDirty();
+				d.setVisible(true);
+				if (d.isDirty()) {
+					obj.updateProperty(d);
+					obj.setDirty();
+				}
 			}
+			obj.setDepth(selected.getDepth());
+			if (selected.getParent() != null) {
+				selected.getParent().addChild(obj);
+			} else {
+				this.contents.list.add(index, obj);
+			}
+			this.initializeCommandList();
 		} catch (InstantiationException | IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	public void onEditCommand() {
+		int index = listCommand.getSelectedIndex();
+		if (index >= 0) {
+			SkillMotionCommandBase obj = listModelCommand.getElementAt(index);
+			MotionPropertyDialogBase d = obj.obtainDialog();
+			if (d != null) {
+				d.setObject(obj);
+				d.clearDirty();
+				d.setVisible(true);
+				if (d.isDirty()) {
+					obj.setDirty();
+					obj.updateProperty(d);
+					listCommand.repaint();
+				}
+			}
+		}
+	}
+	
+	public void onDeleteCommand() {
+		int index = listCommand.getSelectedIndex();
+		if (index >= 0) {
+			SkillMotionCommandBase obj = commandsInListOrder.get(index);
+			if (obj.getParent() != null) {
+				obj.getParent().removeChild(obj);
+			} else {
+				contents.list.remove(obj);
+			}
+			this.initializeCommandList();
+		}
+	}
+	
 	public void setTabIndex(int n) {
 		tabIndex = n;
 	}
+	
 }

@@ -18,8 +18,9 @@ import javax.swing.JFormattedTextField;
 
 public class MotionPropertyDialogWait extends MotionPropertyDialogBase {
 
-	private JFormattedTextField textField;
+	public JFormattedTextField textField;
 	public int dur;
+	public JLabel labelTitle;
 	
 	/**
 	 * Create the dialog.
@@ -31,11 +32,13 @@ public class MotionPropertyDialogWait extends MotionPropertyDialogBase {
 		setTitle("Wait");
 		setBounds(100, 100, 259, 133);
 		{
-			JLabel lblNewLabel = new JLabel("Duration");
-			contentPanel.add(lblNewLabel);
+			labelTitle = new JLabel("Duration");
+			labelTitle.setToolTipText("Amount of frames the process will pause");
+			contentPanel.add(labelTitle);
 		}
 		{
 			textField = new JFormattedTextField();
+			textField.setToolTipText("Amount of frames the process will pause");
 			contentPanel.add(textField);
 			textField.setColumns(10);
 		}
@@ -46,7 +49,6 @@ public class MotionPropertyDialogWait extends MotionPropertyDialogBase {
 		SkillMotionCommandWait src = (SkillMotionCommandWait)object;
 		this.dur = src.dur;
 		this.textField.setValue(dur);
-		
 	}
 
 	@Override

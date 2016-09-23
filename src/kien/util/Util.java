@@ -6,6 +6,9 @@ import java.awt.Rectangle;
 import java.awt.image.*;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -150,5 +153,15 @@ public class Util {
 		}
 		return null;
 	}
-	
+	/**
+	 * Sort a provided collection.
+	 * Provided from: <a href="http://stackoverflow.com/questions/740299/how-do-i-sort-a-set-to-a-list-in-java">StackOverflow</a> 
+	 * @param c
+	 * @return
+	 */
+	public static <T extends Comparable<? super T>> List<T> asSortedList(Collection<T> c) {
+	  List<T> list = new ArrayList<T>(c);
+	  java.util.Collections.sort(list);
+	  return list;
+	}
 }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
+import kien.util.KienLogger;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
 import net.arnx.jsonic.TypeReference;
@@ -28,6 +29,7 @@ public class AnimationItemType extends BaseItemType {
 	public AnimationItemType() {
 		src = null;
 		data = new LinkedHashMap<Integer, ArrayList<AnimationObject>>();
+		this.setDirty();
 	}
 	
 	public void save() throws IOException {
@@ -38,7 +40,7 @@ public class AnimationItemType extends BaseItemType {
 	}
 	
 	public String getFilename() {
-		return src.getName();
+		return haveFile() ? src.getName() : "Unnamed" ;
 	}
 	
 	public String getListname() {
@@ -46,11 +48,15 @@ public class AnimationItemType extends BaseItemType {
 	}
 	
 	public boolean haveFile() {
-		return src == null;
+		return src != null;
 	}
 	
 	public void setFile(File f) {
 		src = f;
+	}
+	
+	public File getFile() {
+		return src;
 	}
 	
 	public void updateData(int frame, int index, double rectx, double recty, double rectwidth, double rectheight, int dur, double damage, double knockx, double knocky, boolean knockd) {
@@ -62,7 +68,7 @@ public class AnimationItemType extends BaseItemType {
 		if (obj == null) {
 			obj = new AnimationObject();
 		}
-		obj.rect.setRect(rectx,recty,rectwidth,rectheight);
+		obj.rect.updateRect(rectx,recty,rectwidth,rectheight);
 		obj.dur = dur;
 		obj.knockback.setLocation(knockx,knocky);
 		obj.knockdir = knockd ? 1 : 0;
@@ -94,6 +100,18 @@ public class AnimationItemType extends BaseItemType {
 	
 	public void refreshMax() {
 		this.maxFrame = Collections.max(data.keySet());
+	}
+
+	@Override
+	public void saveFile() {
+		KienLogger.logger.info(this.data.toString());
+		try {
+			JSON.encode(this.data, new FileWriter(src), true);
+		} catch (JSONException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.clearDirty();
 	}
 	
 }

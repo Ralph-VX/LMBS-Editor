@@ -10,6 +10,10 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	public final String type = "pose";
 	public String name;
 	
+	public SkillMotionCommandChangePose() {
+		name = "";
+	}
+	
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws IllegalArgumentException {
 		try {
@@ -20,15 +24,15 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public Class<? extends MotionPropertyDialogBase> obtainDialogClass() {
+	public MotionPropertyDialogBase obtainDialog() {
 		// TODO Auto-generated method stub
-		return MotionPropertyDialogChangePose.class;
+		return new MotionPropertyDialogChangePose();
 	}
 
 	@Override
 	public String obtainCommandRepresentation() {
 		// TODO Auto-generated method stub
-		return commandListName() + ": " + name;
+		return indentString() + "Åü" + commandListName() + ": " + name;
 	}
 
 	@Override
@@ -39,7 +43,6 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 		} else {
 			name = "";
 		}
-		this.setDirty();
 	}
 
 	@Override

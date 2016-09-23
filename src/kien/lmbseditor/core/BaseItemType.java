@@ -14,6 +14,8 @@ public abstract class BaseItemType {
 	
 	public abstract void setFile(File f);
 	
+	public abstract File getFile();
+	
 	public boolean isDirty() {
 		return this.dirty;
 	}
@@ -26,4 +28,5 @@ public abstract class BaseItemType {
 		this.dirty = false;
 	}
 	
+	public abstract void saveFile();
 }

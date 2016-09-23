@@ -16,6 +16,8 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 	public SkillMotionCommandApplyDamage() {
 		super();
 		knockback = new Point2D.Double();
+		damage = 1;
+		knockdir = 0;
 	}
 	
 	@Override
@@ -32,15 +34,9 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public Class<? extends MotionPropertyDialogBase> obtainDialogClass() {
-		// TODO Auto-generated method stub
-		return MotionPropertyDialogApplyDamage.class;
-	}
-
-	@Override
 	public String obtainCommandRepresentation() {
 		// TODO Auto-generated method stub
-		return commandListName() + ": " + damage*100 + "% damage, knockback: " + knockback.x + ", " + knockback.y + ", Inverted: " + (knockdir > 0 ? "true" : "false");
+		return indentString() + "Ÿ" + commandListName() + ": " + damage*100 + "% damage, knockback: " + knockback.x + ", " + knockback.y + ", Inverted: " + (knockdir > 0 ? "true" : "false");
 	}
 
 	@Override
@@ -49,7 +45,6 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 		this.damage = d.damage;
 		this.knockback = d.knockback;
 		this.knockdir = d.knockdir;
-		this.setDirty();
 	}
 
 	@Override
@@ -61,6 +56,12 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+
+	@Override
+	public MotionPropertyDialogBase obtainDialog() {
+		// TODO Auto-generated method stub
+		return new MotionPropertyDialogApplyDamage();
 	}
 	
 }

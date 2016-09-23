@@ -145,7 +145,7 @@ public class AnimationContent extends JPanel {
 		}
 		if (this.rects != null) {
 			for (int n = 0; n < rects.size(); n++) {
-				Rectangle2D.Double rect = rects.get(n).rect;
+				Rectangle2D.Double rect = rects.get(n).rect.toRectangle2D();
 				g2.setColor(new Color(255,255,255,192));
 				g2.fillRect((int)Math.round(rect.x), (int)Math.round(rect.y), (int)Math.round(rect.width), (int)Math.round(rect.height));
 				g2.setColor(new Color(0,0,0,255));

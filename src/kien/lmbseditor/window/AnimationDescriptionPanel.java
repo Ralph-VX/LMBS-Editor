@@ -89,7 +89,6 @@ public class AnimationDescriptionPanel extends JPanel {
 		this.contents = item;
 		this.inited = false;
 		this.animation = null;
-		this.contents = null;
 		this.curFrame = -1;
 		this.maxFrame = -1;
 		

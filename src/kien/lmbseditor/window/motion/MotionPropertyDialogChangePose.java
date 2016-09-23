@@ -26,17 +26,20 @@ public class MotionPropertyDialogChangePose extends MotionPropertyDialogBase {
 	
 	private boolean dirty;
 	public String result;
-	private JTextField textField;
+	public JTextField textField;
+	public JLabel labelTitle;
 	
 	public MotionPropertyDialogChangePose() {
 		setTitle("Change Pose");
 		setBounds(100, 100, 208, 98);
 		{
-			JLabel lblPoseName = new JLabel("Pose Name");
-			contentPanel.add(lblPoseName);
+			labelTitle = new JLabel("Pose Name");
+			labelTitle.setToolTipText("Name of the new pose");
+			contentPanel.add(labelTitle);
 		}
 		{
 			textField = new JTextField();
+			textField.setToolTipText("Name of the new pose");
 			contentPanel.add(textField);
 			textField.setColumns(10);
 		}

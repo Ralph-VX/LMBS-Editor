@@ -1,46 +1,49 @@
 package kien.lmbseditor.core.motion;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogWait;
 
-public class SkillMotionCommandWait extends SkillMotionCommandBase {
-
-	public final String type = "wait";
-	public int dur;
-	
+public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
+	public final String type = "endif";
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
-		dur = ((Number)list.get("dur")).intValue();
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
 		// TODO Auto-generated method stub
-		return new MotionPropertyDialogWait();
+		return null;
 	}
 
 	@Override
 	public String obtainCommandRepresentation() {
 		// TODO Auto-generated method stub
-		return indentString() + "Åü" + commandListName() + ": " + dur + " Frames";
+		return indentString() + "Åü" + commandListName();
 	}
 
 	@Override
 	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogWait d = (MotionPropertyDialogWait)dialog;
-		dur = d.dur;
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public String commandListName() {
 		// TODO Auto-generated method stub
-		return "Wait";
+		return "End If";
 	}
 
 	@Override
 	public String typeName() {
+		// TODO Auto-generated method stub
 		return type;
+	}
+	
+	public boolean includeAvailable() {
+		return false;
 	}
 }
