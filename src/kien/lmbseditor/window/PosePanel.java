@@ -28,6 +28,7 @@ public class PosePanel extends JPanel {
 	public int weaponAngle;
 	public boolean hideWeapon;
 	public boolean weaponBack;
+	public boolean weaponMirror;
 	public int curFrame;
 	public int maxFrame;
 	public Rectangle rect;
@@ -72,6 +73,7 @@ public class PosePanel extends JPanel {
 					imgat.scale(this.scale, this.scale);
 					imgat.translate(0, -pose.getHeight()/2);
 					imgat.translate(weaponX, weaponY);
+					imgat.scale(this.weaponMirror ? -1 : 1, 1);
 					imgat.rotate(Math.toRadians(weaponAngle + EditorProperty.weaponList.current.json.angle));
 					imgat.translate(-img.getWidth()/2-ox, -img.getHeight()/2-oy);
 					g2.drawImage(img, imgat, this);
@@ -80,6 +82,7 @@ public class PosePanel extends JPanel {
 					overat.scale(this.scale, this.scale);
 					overat.translate(0, -pose.getHeight()/2);
 					overat.translate(weaponX, weaponY);
+					overat.scale(this.weaponMirror ? -1 : 1, 1);
 					g2.setTransform(overat);
 					g.setColor(new Color(255,255,255,128));
 					g.fillRect(-1, -1, 3, 3);
@@ -114,14 +117,16 @@ public class PosePanel extends JPanel {
 					imgat.scale(this.scale, this.scale);
 					imgat.translate(0, -pose.getHeight()/2);
 					imgat.translate(weaponX, weaponY);
+					imgat.scale(this.weaponMirror ? -1 : 1, 1);
 					imgat.rotate(Math.toRadians(weaponAngle + EditorProperty.weaponList.current.json.angle));
 					imgat.translate(-img.getWidth()/2-ox, -img.getHeight()/2-oy);
 					g2.drawImage(img, imgat, this);
 					AffineTransform overat = new AffineTransform();
 					overat.translate(this.getWidth()/2, this.getHeight());
-					overat.scale(this.scale, this.scale);
+					overat.scale(this.scale * (this.weaponMirror ? -1 : 1), this.scale);
 					overat.translate(0, -pose.getHeight()/2);
 					overat.translate(weaponX, weaponY);
+					overat.scale(this.weaponMirror ? -1 : 1, 1);
 					g2.setTransform(overat);
 					g.setColor(new Color(255,255,255,128));
 					g.fillRect(-1, -1, 3, 3);

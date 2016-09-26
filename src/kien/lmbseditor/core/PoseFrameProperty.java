@@ -8,6 +8,7 @@ public class PoseFrameProperty {
 	public int weaponAngle;
 	public boolean hideWeapon;
 	public boolean weaponBack;
+	public boolean weaponMirror;
 	
 	public PoseFrameProperty() {
 		width = 1;
@@ -17,6 +18,7 @@ public class PoseFrameProperty {
 		weaponAngle = 0;
 		hideWeapon = false;
 		weaponBack = false;
+		weaponMirror = false;
 	}
 	
 	public PoseFrameProperty(PoseFrameProperty other) {
@@ -32,6 +34,7 @@ public class PoseFrameProperty {
 		this.weaponY = other.weaponY;
 		this.hideWeapon = other.hideWeapon;
 		this.weaponBack = other.weaponBack;
+		this.weaponMirror = other.weaponMirror;
 	}
 	
 }

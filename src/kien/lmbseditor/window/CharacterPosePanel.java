@@ -60,6 +60,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private JLabel lblPreviewScale;
 	private JButton buttonApplyAll;
 	private JCheckBox buttonWeaponBack;
+	private JCheckBox buttonWeaponMirrored;
 
 	/**
 	 * Create the panel.
@@ -89,7 +90,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 		JPanel panel_2 = new JPanel();
 		panel.add(panel_2, "cell 0 1,grow");
-		panel_2.setLayout(new MigLayout("", "[60px,grow][60,grow][60,grow]", "[13px][][][][][][][]"));
+		panel_2.setLayout(new MigLayout("", "[60px,grow][60,grow][60,grow]", "[13px][][][][][][][][]"));
 
 		JLabel lblNameLabe = new JLabel("Max Frames");
 		panel_2.add(lblNameLabe, "cell 0 0,alignx left,aligny top");
@@ -230,6 +231,14 @@ public class CharacterPosePanel extends EditorPanelBase {
 			}
 		});
 		panel_2.add(buttonWeaponBack, "cell 2 7");
+		
+		buttonWeaponMirrored = new JCheckBox("Weapon Mirrored");
+		buttonWeaponMirrored.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CharacterPosePanel.this.onWeaponMirrored();
+			}
+		});
+		panel_2.add(buttonWeaponMirrored, "cell 2 8");
 
 		listModelCharacter = new DefaultListModel<String>();
 		listCharacter = new JList<String>(listModelCharacter);
@@ -272,6 +281,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		buttonLooping.setSelected(false);
 		buttonHideWeapon.setSelected(false);
 		buttonWeaponBack.setSelected(false);
+		buttonWeaponMirrored.setSelected(false);
 		maxFrameTextField.setEnabled(false);
 		sliderCurrentFrame.setEnabled(false);
 		characterWidthTextField.setEnabled(false);
@@ -282,6 +292,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		buttonLooping.setEnabled(false);
 		buttonHideWeapon.setEnabled(false);
 		buttonWeaponBack.setEnabled(false);
+		buttonWeaponMirrored.setEnabled(false);
 		buttonApplyAll.setEnabled(false);
 	}
 
@@ -345,6 +356,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			buttonLooping.setEnabled(true);
 			buttonHideWeapon.setEnabled(true);
 			buttonWeaponBack.setEnabled(true);
+			buttonWeaponMirrored.setEnabled(true);
 			buttonApplyAll.setEnabled(true);
 			maxFrameTextField.setValue(currentPose.property.frameCount);
 			this.sliderCurrentFrame.setMinimum(0);
@@ -380,6 +392,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			this.weaponAngleTextField.setValue(frame.weaponAngle);
 			this.buttonHideWeapon.setSelected(frame.hideWeapon);
 			this.buttonWeaponBack.setSelected(frame.weaponBack);
+			this.buttonWeaponMirrored.setSelected(frame.weaponMirror);
 			posePanel.curFrame = this.frameIndex;
 			posePanel.rect.width = frame.width;
 			posePanel.rect.height = frame.height;
@@ -388,6 +401,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			posePanel.weaponAngle = frame.weaponAngle;
 			posePanel.hideWeapon = frame.hideWeapon;
 			posePanel.weaponBack = frame.weaponBack;
+			posePanel.weaponMirror = frame.weaponMirror;
 			posePanel.repaint();
 		}
 	}
@@ -404,6 +418,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			posePanel.weaponAngle = frame.weaponAngle;
 			posePanel.hideWeapon = frame.hideWeapon;
 			posePanel.weaponBack = frame.weaponBack;
+			posePanel.weaponMirror = frame.weaponMirror;
 			posePanel.repaint();
 		}
 	}
@@ -570,7 +585,19 @@ public class CharacterPosePanel extends EditorPanelBase {
 			}
 		}
 	}
-	
+
+	protected void onWeaponMirrored() {
+		if (this.currentPose != null) {
+			if (this.currentPose.property.frames.get(this.frameIndex).weaponMirror != this.buttonWeaponMirrored.isSelected()) {
+				this.currentPose.property.frames.get(this.frameIndex).weaponMirror = this.buttonWeaponMirrored.isSelected();
+				this.currentPose.property.setDirty();
+				this.updateCharacterList();
+				this.updatePoseList();
+				this.updatePaintPanel();
+			}
+		}
+	}
+
 	protected void onLoopChanged() {
 		if (this.currentPose != null) {
 			if (this.currentPose.property.loop != this.buttonLooping.isSelected()) {
