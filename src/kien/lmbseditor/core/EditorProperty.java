@@ -236,6 +236,10 @@ public class EditorProperty {
 		characterList.save();
 	}
 	
+	static public void forceSaveCharacter() {
+		characterList.forceSave();
+	}
+	
 	static public void saveWeapon() {
 		weaponList.save();
 	}

@@ -37,6 +37,11 @@ public class CharacterSet {
 			}
 		}
 	}
-	
+
+	public void forceSave() {
+		for (CharacterPose item : poses.values() ) {
+			item.saveJson();
+		}
+	}
 	
 }

@@ -59,6 +59,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private JSlider sliderPreviewScale;
 	private JLabel lblPreviewScale;
 	private JButton buttonApplyAll;
+	private JCheckBox buttonWeaponBack;
 
 	/**
 	 * Create the panel.
@@ -221,6 +222,14 @@ public class CharacterPosePanel extends EditorPanelBase {
 			}
 		});
 		panel_2.add(buttonApplyAll, "cell 0 7");
+		
+		buttonWeaponBack = new JCheckBox("Weapon Back");
+		buttonWeaponBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CharacterPosePanel.this.onWeaponBack();
+			}
+		});
+		panel_2.add(buttonWeaponBack, "cell 2 7");
 
 		listModelCharacter = new DefaultListModel<String>();
 		listCharacter = new JList<String>(listModelCharacter);
@@ -262,6 +271,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		weaponAngleTextField.setValue(null);
 		buttonLooping.setSelected(false);
 		buttonHideWeapon.setSelected(false);
+		buttonWeaponBack.setSelected(false);
 		maxFrameTextField.setEnabled(false);
 		sliderCurrentFrame.setEnabled(false);
 		characterWidthTextField.setEnabled(false);
@@ -271,6 +281,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		weaponAngleTextField.setEnabled(false);
 		buttonLooping.setEnabled(false);
 		buttonHideWeapon.setEnabled(false);
+		buttonWeaponBack.setEnabled(false);
 		buttonApplyAll.setEnabled(false);
 	}
 
@@ -290,7 +301,12 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private void updateCharacterList() {
 		for (String name : EditorProperty.characterList.lists.keySet()) {
 			int n = characterIndexToName.indexOf(name);
-			listModelCharacter.set(n, (EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
+			if (n >= 0) {
+				listModelCharacter.set(n, (EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
+			} else {
+				characterIndexToName.add(name);
+				listModelCharacter.addElement(name);;
+			}
 		}
 	}
 
@@ -328,6 +344,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			weaponAngleTextField.setEnabled(true);
 			buttonLooping.setEnabled(true);
 			buttonHideWeapon.setEnabled(true);
+			buttonWeaponBack.setEnabled(true);
 			buttonApplyAll.setEnabled(true);
 			maxFrameTextField.setValue(currentPose.property.frameCount);
 			this.sliderCurrentFrame.setMinimum(0);
@@ -362,6 +379,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			this.weaponYTextField.setValue(frame.weaponY);
 			this.weaponAngleTextField.setValue(frame.weaponAngle);
 			this.buttonHideWeapon.setSelected(frame.hideWeapon);
+			this.buttonWeaponBack.setSelected(frame.weaponBack);
 			posePanel.curFrame = this.frameIndex;
 			posePanel.rect.width = frame.width;
 			posePanel.rect.height = frame.height;
@@ -369,6 +387,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			posePanel.weaponY = frame.weaponY;
 			posePanel.weaponAngle = frame.weaponAngle;
 			posePanel.hideWeapon = frame.hideWeapon;
+			posePanel.weaponBack = frame.weaponBack;
 			posePanel.repaint();
 		}
 	}
@@ -384,6 +403,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			posePanel.weaponY = frame.weaponY;
 			posePanel.weaponAngle = frame.weaponAngle;
 			posePanel.hideWeapon = frame.hideWeapon;
+			posePanel.weaponBack = frame.weaponBack;
 			posePanel.repaint();
 		}
 	}
@@ -531,6 +551,18 @@ public class CharacterPosePanel extends EditorPanelBase {
 		if (this.currentPose != null) {
 			if (this.currentPose.property.frames.get(this.frameIndex).hideWeapon != this.buttonHideWeapon.isSelected()) {
 				this.currentPose.property.frames.get(this.frameIndex).hideWeapon = this.buttonHideWeapon.isSelected();
+				this.currentPose.property.setDirty();
+				this.updateCharacterList();
+				this.updatePoseList();
+				this.updatePaintPanel();
+			}
+		}
+	}
+
+	protected void onWeaponBack() {
+		if (this.currentPose != null) {
+			if (this.currentPose.property.frames.get(this.frameIndex).weaponBack != this.buttonWeaponBack.isSelected()) {
+				this.currentPose.property.frames.get(this.frameIndex).weaponBack = this.buttonWeaponBack.isSelected();
 				this.currentPose.property.setDirty();
 				this.updateCharacterList();
 				this.updatePoseList();

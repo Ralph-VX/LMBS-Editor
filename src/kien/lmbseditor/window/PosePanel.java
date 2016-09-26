@@ -27,6 +27,7 @@ public class PosePanel extends JPanel {
 	public int weaponY;
 	public int weaponAngle;
 	public boolean hideWeapon;
+	public boolean weaponBack;
 	public int curFrame;
 	public int maxFrame;
 	public Rectangle rect;
@@ -61,6 +62,33 @@ public class PosePanel extends JPanel {
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g2.setPaint(null);
 		if (this.pose != null) {
+			if (this.weaponBack) {
+				if (EditorProperty.weaponList.current != null && !this.hideWeapon) {
+					int ox = EditorProperty.weaponList.current.json.ox;
+					int oy = EditorProperty.weaponList.current.json.oy;
+					BufferedImage img = EditorProperty.currentWeaponImage;
+					AffineTransform imgat = new AffineTransform();
+					imgat.translate(this.getWidth()/2, this.getHeight());
+					imgat.scale(this.scale, this.scale);
+					imgat.translate(0, -pose.getHeight()/2);
+					imgat.translate(weaponX, weaponY);
+					imgat.rotate(Math.toRadians(weaponAngle + EditorProperty.weaponList.current.json.angle));
+					imgat.translate(-img.getWidth()/2-ox, -img.getHeight()/2-oy);
+					g2.drawImage(img, imgat, this);
+					AffineTransform overat = new AffineTransform();
+					overat.translate(this.getWidth()/2, this.getHeight());
+					overat.scale(this.scale, this.scale);
+					overat.translate(0, -pose.getHeight()/2);
+					overat.translate(weaponX, weaponY);
+					g2.setTransform(overat);
+					g.setColor(new Color(255,255,255,128));
+					g.fillRect(-1, -1, 3, 3);
+					g.setColor(new Color(255,255,255,128));
+					g.drawOval(-30, -30, 60, 60);
+					g.fillRect(-60, -2, 60, 4);
+					g2.setTransform(original);
+				}
+			}
 			if (this.maxFrame != -1 && this.curFrame != -1){
 				int fw = pose.getWidth() / this.maxFrame;
 				int fx = fw * this.curFrame;
@@ -76,29 +104,31 @@ public class PosePanel extends JPanel {
 				pat.translate(-pose.getWidth()/2, -pose.getHeight());
 				g2.drawImage(pose, pat, this);
 			}
-			if (EditorProperty.weaponList.current != null && !this.hideWeapon) {
-				int ox = EditorProperty.weaponList.current.json.ox;
-				int oy = EditorProperty.weaponList.current.json.oy;
-				BufferedImage img = EditorProperty.currentWeaponImage;
-				AffineTransform imgat = new AffineTransform();
-				imgat.translate(this.getWidth()/2, this.getHeight());
-				imgat.scale(this.scale, this.scale);
-				imgat.translate(0, -pose.getHeight()/2);
-				imgat.translate(weaponX, weaponY);
-				imgat.rotate(Math.toRadians(weaponAngle + EditorProperty.weaponList.current.json.angle));
-				imgat.translate(-img.getWidth()/2-ox, -img.getHeight()/2-oy);
-				g2.drawImage(img, imgat, this);
-				AffineTransform overat = new AffineTransform();
-				overat.translate(this.getWidth()/2, this.getHeight());
-				overat.scale(this.scale, this.scale);
-				overat.translate(0, -pose.getHeight()/2);
-				overat.translate(weaponX, weaponY);
-				g2.setTransform(overat);
-				g.setColor(new Color(255,255,255,128));
-				g.fillRect(-1, -1, 3, 3);
-				g.setColor(new Color(255,255,255,128));
-				g.drawOval(-30, -30, 60, 60);
-				g.fillRect(-60, -2, 60, 4);
+			if (!this.weaponBack) {
+				if (EditorProperty.weaponList.current != null && !this.hideWeapon) {
+					int ox = EditorProperty.weaponList.current.json.ox;
+					int oy = EditorProperty.weaponList.current.json.oy;
+					BufferedImage img = EditorProperty.currentWeaponImage;
+					AffineTransform imgat = new AffineTransform();
+					imgat.translate(this.getWidth()/2, this.getHeight());
+					imgat.scale(this.scale, this.scale);
+					imgat.translate(0, -pose.getHeight()/2);
+					imgat.translate(weaponX, weaponY);
+					imgat.rotate(Math.toRadians(weaponAngle + EditorProperty.weaponList.current.json.angle));
+					imgat.translate(-img.getWidth()/2-ox, -img.getHeight()/2-oy);
+					g2.drawImage(img, imgat, this);
+					AffineTransform overat = new AffineTransform();
+					overat.translate(this.getWidth()/2, this.getHeight());
+					overat.scale(this.scale, this.scale);
+					overat.translate(0, -pose.getHeight()/2);
+					overat.translate(weaponX, weaponY);
+					g2.setTransform(overat);
+					g.setColor(new Color(255,255,255,128));
+					g.fillRect(-1, -1, 3, 3);
+					g.setColor(new Color(255,255,255,128));
+					g.drawOval(-30, -30, 60, 60);
+					g.fillRect(-60, -2, 60, 4);
+				}
 			}
 			if (this.rect != null) {
 				g2.setTransform(original);

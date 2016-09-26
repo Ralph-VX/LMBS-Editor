@@ -28,6 +28,9 @@ import kien.lmbseditor.core.SkillMotionItemType;
 import kien.util.KienLogger;
 import kien.util.Util;
 import java.awt.event.WindowAdapter;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class MainWindow {
 
@@ -231,6 +234,7 @@ public class MainWindow {
 		mnOpen.add(mntmNewMenuItem_2);
 
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Save");
+		mntmNewMenuItem_4.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -240,6 +244,7 @@ public class MainWindow {
 		mnFile.add(mntmNewMenuItem_4);
 
 		JMenuItem mntmSaveAs = new JMenuItem("Save As...");
+		mntmSaveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK | InputEvent.SHIFT_MASK));
 		mntmSaveAs.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -305,6 +310,7 @@ public class MainWindow {
 				Rectangle rect2 = MainWindow.this.frame.getBounds();
 				dialog.setLocation(Util.centerRects(rect1, rect2));
 				dialog.setVisible(true);
+				((EditorPanelBase)tabbedPane.getComponentAt(0)).refresh();
 			}
 		});
 		mnEdite.add(mntmNewMenuItem_1);
@@ -369,9 +375,9 @@ public class MainWindow {
 	private boolean onSaveAsPerformed() {
 		int index = tabbedPane.getSelectedIndex();
 		if (index == 0) {
-			return this.onSaveCharacterPose();
+			return this.onForceSaveCharacterPose();
 		} else if (index == 1) {
-			return this.onSaveWeapon();
+			return this.onForceSaveWeapon();
 		} else {
 			BaseItemType bit = items.get(index - fixedTab);
 			JFileChooser jfc = new JFileChooser() {
@@ -494,4 +500,16 @@ public class MainWindow {
 
 	}
 
+	private boolean onForceSaveWeapon() {
+		EditorProperty.saveWeapon();
+		((EditorPanelBase)tabbedPane.getComponentAt(1)).refresh();
+		return EditorProperty.weaponList.isDirty();
+	}
+	
+	private boolean onForceSaveCharacterPose() {
+		EditorProperty.forceSaveCharacter();
+		((EditorPanelBase)tabbedPane.getComponentAt(0)).refresh();
+		return EditorProperty.characterList.isDirty();
+
+	}
 }

@@ -7,6 +7,7 @@ public class PoseFrameProperty {
 	public int weaponY;
 	public int weaponAngle;
 	public boolean hideWeapon;
+	public boolean weaponBack;
 	
 	public PoseFrameProperty() {
 		width = 1;
@@ -15,6 +16,7 @@ public class PoseFrameProperty {
 		weaponY = 0;
 		weaponAngle = 0;
 		hideWeapon = false;
+		weaponBack = false;
 	}
 	
 	public PoseFrameProperty(PoseFrameProperty other) {
@@ -29,7 +31,7 @@ public class PoseFrameProperty {
 		this.weaponX = other.weaponX;
 		this.weaponY = other.weaponY;
 		this.hideWeapon = other.hideWeapon;
-		
+		this.weaponBack = other.weaponBack;
 	}
 	
 }

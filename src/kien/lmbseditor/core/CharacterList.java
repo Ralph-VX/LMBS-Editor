@@ -23,5 +23,11 @@ public class CharacterList {
 			chara.save();
 		}
 	}
+
+	public void forceSave() {
+		for (CharacterSet chara : lists.values()) {
+			chara.forceSave();
+		}
+	}
 	
 }
