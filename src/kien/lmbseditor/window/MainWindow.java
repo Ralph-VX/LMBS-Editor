@@ -269,7 +269,7 @@ public class MainWindow {
 		});
 		mnFile.add(mntmExit);
 
-		JMenu mnEdite = new JMenu("Edit(E)");
+		JMenu mnEdite = new JMenu("Tools(E)");
 		menuBar.add(mnEdite);
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences...");
@@ -296,6 +296,18 @@ public class MainWindow {
 			}
 		});
 		mnEdite.add(mntmBackgroundColorSetting);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Pose Extractor...");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PoseExtractor dialog = new PoseExtractor();
+				Rectangle rect1 = dialog.getBounds();
+				Rectangle rect2 = MainWindow.this.frame.getBounds();
+				dialog.setLocation(Util.centerRects(rect1, rect2));
+				dialog.setVisible(true);
+			}
+		});
+		mnEdite.add(mntmNewMenuItem_1);
 		mnEdite.add(mntmPreferences);
 
 		// GridBagLayout setting

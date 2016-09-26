@@ -250,7 +250,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 	}
 
 	private void clearProperties() {
-		maxFrameTextField.setText("");
+		maxFrameTextField.setValue(0);
 		labelCurrentFrame.setText("Not Selected");
 		sliderCurrentFrame.setMinimum(0);
 		sliderCurrentFrame.setValue(0);
@@ -390,7 +390,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 
 	private void onCharacterListSelectedChange() {
 		if (this.currentPose != null) {
-			this.listCharacter.requestFocusInWindow();
+			//this.listCharacter.requestFocusInWindow();
 			this.onPoseSelectedChangeSaveCurrent();
 		}
 		int num = listCharacter.getSelectedIndex();
@@ -405,7 +405,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private void onPoseListSelectedChange() {
 		int num = listPose.getSelectedIndex();
 		if (this.currentPose != null) {
-			this.listPose.requestFocusInWindow();
+			//this.listPose.requestFocusInWindow();
 			this.onPoseSelectedChangeSaveCurrent();
 		}
 		if (num >= 0) {
@@ -433,7 +433,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			if (this.maxFrameTextField.getValue() != null) {
 				int max = (((Number) this.maxFrameTextField.getValue()).intValue());
 				if (max == 0) {
-					this.maxFrameTextField.setValue(1);
+					this.maxFrameTextField.setValue(this.currentPose.property.frameCount);
 					return;
 				}
 				if (max != this.currentPose.property.frameCount) {

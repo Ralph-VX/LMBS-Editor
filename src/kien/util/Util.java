@@ -171,4 +171,44 @@ public class Util {
 	  java.util.Collections.sort(list);
 	  return list;
 	}
+	
+	public static int getWidthFit(BufferedImage img) {
+		int lmax = img.getWidth() / 2;
+		for (int y = 0; y < img.getHeight(); y++) {
+			for (int x = 0; x < img.getWidth(); x++) {
+				if ((img.getRGB(x, y) & 0xff000000) >>> 24 != 0) {
+					if (lmax > x) {
+						lmax = x;
+					}
+					break;
+				}
+			}
+		}
+		int rmax = img.getWidth();
+		for (int y = 0; y < img.getHeight(); y++) {
+			for (int x = img.getWidth()-1; x >= 0; x--) {
+				if ((img.getRGB(x, y) & 0xff000000) >>> 24 != 0) {
+					if (rmax < x) {
+						rmax = x;
+					}
+					break;
+				}
+			}
+		}
+		lmax = img.getWidth() / 2 - lmax;
+		rmax = rmax - img.getWidth() / 2;
+		return lmax > rmax ? lmax * 2 : rmax * 2;
+	}
+	
+	public static int getHeightFit(BufferedImage img) {
+		for (int y = 0; y < img.getHeight(); y++) {
+			for (int x = 0; x < img.getWidth(); x++) {
+				if ((img.getRGB(x, y) & 0xff000000) >>> 24 != 0) {
+					return img.getHeight() - y;
+				}
+			}
+		}
+		return 0;
+	}
+	
 }

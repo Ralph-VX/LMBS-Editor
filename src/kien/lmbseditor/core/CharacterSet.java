@@ -17,7 +17,7 @@ public class CharacterSet {
 	public LinkedHashMap<String, CharacterPose> poses;
 	
 	public CharacterSet() {
-		
+		poses = new LinkedHashMap<String, CharacterPose>();
 	}
 	
 	public boolean isDirty() {
