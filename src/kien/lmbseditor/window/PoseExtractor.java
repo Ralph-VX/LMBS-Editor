@@ -490,7 +490,7 @@ public class PoseExtractor extends JDialog {
 		String cname = characterName.getText();
 		File parent = new File(EditorProperty.poseDirectory.getAbsolutePath() + "\\" + cname);
 		if (!parent.exists() && !parent.mkdir()) {
-			JOptionPane.showConfirmDialog(this, "Cannot creat-e the directory: " + parent.getAbsolutePath(), "Error", JOptionPane.OK_OPTION);
+			JOptionPane.showConfirmDialog(this, "Cannot create the directory: " + parent.getAbsolutePath(), "Error", JOptionPane.OK_OPTION);
 			return;
 		}
 		CharacterSet set = new CharacterSet();
@@ -498,6 +498,9 @@ public class PoseExtractor extends JDialog {
 		for (JTextField f : names) {
 			int index = names.indexOf(f);
 			String pname = f.getText();
+			if (pname.isEmpty()){
+				continue;
+			}
 			File imgFile = new File(parent.getAbsolutePath() + "\\" + pname + ".png");
 			BufferedImage img = outputs.get(index);
 			try {

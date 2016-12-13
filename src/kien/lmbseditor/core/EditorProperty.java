@@ -138,8 +138,10 @@ public class EditorProperty {
 	private static void initAllWeapons() {
 		weaponList = new WeaponList();
 		File[] files = weaponDirectory.listFiles();
-		for (File f : files) {
-			weaponList.addFile(f);
+		if (files != null) {
+			for (File f : files) {
+				weaponList.addFile(f);
+			}
 		}
 		updateCurrentWeapon(weaponList.list.get(currentWeaponName));
 	}
