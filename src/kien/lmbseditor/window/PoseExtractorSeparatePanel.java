@@ -19,7 +19,6 @@ import javax.swing.JLabel;
 public class PoseExtractorSeparatePanel extends JPanel {
 	
 	public BufferedImage output;
-	public BufferedImage src;
 	public boolean isLoop;
 	private JPanel panelPreview;
 	private JLabel lblPoseName;

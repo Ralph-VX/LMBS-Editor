@@ -314,7 +314,6 @@ public class PoseExtractor extends JDialog {
 						if (f.exists() && f.getName().endsWith(".png")) {
 							PoseExtractor.this.setup(f);
 						}
-
 					}
 				});
 				buttonPane.add(btnNewButton);
@@ -493,8 +492,13 @@ public class PoseExtractor extends JDialog {
 			JOptionPane.showConfirmDialog(this, "Cannot create the directory: " + parent.getAbsolutePath(), "Error", JOptionPane.OK_OPTION);
 			return;
 		}
-		CharacterSet set = new CharacterSet();
-		set.characterName = cname;
+		CharacterSet set;
+		if (EditorProperty.characterList.lists.containsKey(cname)) {
+			set = EditorProperty.characterList.lists.get(cname);
+		} else {
+			set = new CharacterSet();
+			set.characterName = cname;
+		}
 		for (JTextField f : names) {
 			int index = names.indexOf(f);
 			String pname = f.getText();
