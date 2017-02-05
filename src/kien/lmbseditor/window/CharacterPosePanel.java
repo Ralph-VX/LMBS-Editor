@@ -266,6 +266,12 @@ public class CharacterPosePanel extends EditorPanelBase {
 		this.refreshPoseList();
 		this.refreshProperties();
 	}
+	
+	public void fullRefresh() {
+		this.refreshCharacterList();
+		this.refreshPoseList();
+		this.refreshProperties();
+	}
 
 	private void clearProperties() {
 		maxFrameTextField.setValue(0);
@@ -303,20 +309,24 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private void refreshCharacterList() {
 		listModelCharacter.clear();
 		characterIndexToName.clear();
-		for (String name : EditorProperty.characterList.lists.keySet()) {
-			characterIndexToName.add(name);
-			listModelCharacter.addElement((EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
+		if (EditorProperty.characterList != null) {
+			for (String name : EditorProperty.characterList.lists.keySet()) {
+				characterIndexToName.add(name);
+				listModelCharacter.addElement((EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
+			}
 		}
 	}
 
 	private void updateCharacterList() {
-		for (String name : EditorProperty.characterList.lists.keySet()) {
-			int n = characterIndexToName.indexOf(name);
-			if (n >= 0) {
-				listModelCharacter.set(n, (EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
-			} else {
-				characterIndexToName.add(name);
-				listModelCharacter.addElement(name);;
+		if (EditorProperty.characterList != null) {
+			for (String name : EditorProperty.characterList.lists.keySet()) {
+				int n = characterIndexToName.indexOf(name);
+				if (n >= 0) {
+					listModelCharacter.set(n, (EditorProperty.characterList.lists.get(name).isDirty() ? "*" : "") + name);
+				} else {
+					characterIndexToName.add(name);
+					listModelCharacter.addElement(name);;
+				}
 			}
 		}
 	}

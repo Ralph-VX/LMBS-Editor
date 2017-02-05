@@ -41,6 +41,10 @@ public class MainWindow {
 	public JMenuBar menuBar;
 	public JMenu mnFile;
 	public JTabbedPane tabbedPane;
+
+	protected WeaponPropertyPanel weaponPropertyPane;
+
+	private CharacterPosePanel characterPosePane;
 	
 
 	/**
@@ -73,6 +77,8 @@ public class MainWindow {
 								File project = new File(f.getAbsolutePath() + "\\Game.rpgproject");
 								if (project.exists()) {
 									EditorProperty.setProjectDirectory(f.getAbsolutePath());
+									window.characterPosePane.fullRefresh();
+									window.weaponPropertyPane.fullRefresh();
 									break;
 								}
 							}
@@ -331,18 +337,20 @@ public class MainWindow {
 		gbc_tabbedPane.gridy = 0;
 		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
 
-		CharacterPosePanel p = new CharacterPosePanel();
+		characterPosePane = new CharacterPosePanel();
 		int n = tabbedPane.getTabCount();
-		p.setTabIndex(n);
-		tabbedPane.addTab("Character Poses", p);
+		characterPosePane.setTabIndex(n);
+		tabbedPane.addTab("Character Poses", characterPosePane);
 		tabbedPane.setSelectedIndex(n);
 		fixedTab++;
 
-		WeaponPropertyPanel p2 = new WeaponPropertyPanel();
+		weaponPropertyPane = new WeaponPropertyPanel();
 		int n2 = tabbedPane.getTabCount();
-		p2.setTabIndex(n2);
-		p2.setCurrent(EditorProperty.weaponList.current);
-		tabbedPane.addTab("Weapon Property", p2);
+		weaponPropertyPane.setTabIndex(n2);
+		if (EditorProperty.weaponList != null) {
+			weaponPropertyPane.setCurrent(EditorProperty.weaponList.current);
+		}
+		tabbedPane.addTab("Weapon Property", weaponPropertyPane);
 		tabbedPane.setSelectedIndex(n);
 		fixedTab++;
 

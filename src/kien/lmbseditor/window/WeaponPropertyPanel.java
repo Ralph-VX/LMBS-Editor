@@ -136,6 +136,11 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 		this.refreshProperty();
 	}
 	
+	public void fullRefresh() {
+		this.refreshList();
+		this.refreshProperty();
+	}
+	
 	protected void onWeaponListSelectedChange() {
 		this.refreshProperty();
 	}
@@ -262,7 +267,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 	}
 
 	public void setCurrent(WeaponSet current2) {
-		if (!this.indexToName.isEmpty()){
+		if (!this.indexToName.isEmpty() && current2 != null){
 			this.listWeapon.setSelectedIndex(this.indexToName.indexOf(current2.name));
 		}
 	}
