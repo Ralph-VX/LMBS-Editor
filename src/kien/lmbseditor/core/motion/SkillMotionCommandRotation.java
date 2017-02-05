@@ -2,8 +2,11 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
+import org.reflections.util.Utils;
+
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogRotation;
+import kien.util.Util;
 
 public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 
@@ -11,12 +14,14 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 	public int rotation;
 	public int dir;
 	public int dur;
+	public int rounds;
 	
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 		dur = ((Number)list.get("dur")).intValue();
 		dir = ((Number)list.get("dir")).intValue();
 		rotation = ((Number)list.get("rotation")).intValue();
+		rounds = Util.getJSONInt(list, "rounds", 0);
 	}
 
 	@Override
@@ -27,7 +32,11 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 	@Override
 	public String obtainCommandRepresentation() {
 		// TODO Auto-generated method stub
-		return indentString() + "Ÿ" + commandListName() + ": " + "Target: " + rotation + " degree, " + dur + " Frames, Inverted: " + (dir > 0 ? "true" : "false");
+		return indentString() + 
+				"Ÿ" + commandListName() + 
+				": " + "Target: " + rotation + " degree, " + 
+				dur + " Frames, Inverted: " + (dir > 0 ? "true" : "false") + 
+				(rounds > 0 ? "for " + rounds + "rounds" : "" );
 	}
 
 	@Override

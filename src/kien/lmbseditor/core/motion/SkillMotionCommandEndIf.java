@@ -1,5 +1,6 @@
 package kien.lmbseditor.core.motion;
 
+import java.awt.Color;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
@@ -45,5 +46,10 @@ public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
 	@Override
 	public boolean includeAvailable() {
 		return false;
+	}
+
+	@Override
+	public Color commandColor() {
+		return Color.BLUE;
 	}
 }

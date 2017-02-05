@@ -1,5 +1,6 @@
 package kien.util;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -211,4 +213,25 @@ public class Util {
 		return 0;
 	}
 	
+	public static int getJSONInt(LinkedHashMap<String, Object> list, String name, int defVal) {
+		Object obj = list.get(name);
+		if (obj == null) {
+			return defVal;
+		} else {
+			return ((Number)obj).intValue();
+		}
+	}
+
+	public static double getJSONDouble(LinkedHashMap<String, Object> list, String name, double defVal) {
+		Object obj = list.get(name);
+		if (obj == null) {
+			return defVal;
+		} else {
+			return ((Number)obj).doubleValue();
+		}
+	}
+	
+	public static Color getInvertedColor(Color input) {
+		return new Color(255 - input.getRed(), 255 - input.getGreen(), 255 - input.getBlue());
+	}
 }

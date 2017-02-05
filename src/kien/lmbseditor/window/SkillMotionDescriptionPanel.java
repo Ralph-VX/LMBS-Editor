@@ -44,6 +44,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		listModelCommand = new DefaultListModel<SkillMotionCommandBase>();
 		listCommand = new JList<SkillMotionCommandBase>(listModelCommand);
 		listCommand.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		listCommand.setCellRenderer(new SkillMotionCommandCellRenderer());
 		add(listCommand, "cell 0 0,grow");
 		
 		JPanel panel = new JPanel();

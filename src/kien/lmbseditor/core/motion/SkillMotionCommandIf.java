@@ -1,5 +1,6 @@
 package kien.lmbseditor.core.motion;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -155,5 +156,10 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 			return;
 		}
 		this.list.remove(child);
+	}
+	
+	@Override
+	public Color commandColor() {
+		return Color.BLUE;
 	}
 }
