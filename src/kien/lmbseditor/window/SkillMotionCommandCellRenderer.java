@@ -27,7 +27,6 @@ public class SkillMotionCommandCellRenderer extends JLabel implements ListCellRe
 	@Override
 	public Component getListCellRendererComponent(JList<? extends SkillMotionCommandBase> list,
 			SkillMotionCommandBase value, int index, boolean isSelected, boolean cellHasFocus) {
-		// TODO Auto-generated method stub
 		
 		this.setText(value.toString());
 		this.setForeground(value.commandColor());

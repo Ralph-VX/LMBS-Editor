@@ -411,19 +411,16 @@ public class PoseExtractor extends JDialog {
 
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
 				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 
@@ -436,7 +433,6 @@ public class PoseExtractor extends JDialog {
 
 				@Override
 				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 				
@@ -511,7 +507,6 @@ public class PoseExtractor extends JDialog {
 				ImageIO.write(outputs.get(index), "png", imgFile);
 				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				continue;
 			}

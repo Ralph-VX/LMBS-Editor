@@ -34,13 +34,11 @@ public class SkillMotionItemType extends BaseItemType {
 	
 	@Override
 	public String getFilename() {
-		// TODO Auto-generated method stub
 		return haveFile() ? src.getName() : "Unnamed" ;
 	}
 
 	@Override
 	public String getListname() {
-		// TODO Auto-generated method stub
 		return "Skill - " + this.getFilename();
 	}
 
@@ -93,7 +91,6 @@ public class SkillMotionItemType extends BaseItemType {
 			JSON.encode(output, new FileWriter(src), true);
 			this.clearDirty();
 		} catch (JSONException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

@@ -28,10 +28,8 @@ public class KienLogger {
     	try {
 			LogManager.getLogManager().readConfiguration(new FileInputStream("logger.property"));
 		} catch (SecurityException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
         logger = Logger.getLogger("Kien");
@@ -40,10 +38,8 @@ public class KienLogger {
 			file.setFormatter(new KienFormatter());
 			logger.addHandler(file);
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }

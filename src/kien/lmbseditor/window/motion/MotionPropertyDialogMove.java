@@ -72,7 +72,6 @@ public class MotionPropertyDialogMove extends MotionPropertyDialogBase {
 
 	@Override
 	public void onOk() {
-		// TODO Auto-generated method stub
 		dx = ((Number)xField.getValue()).intValue();
 		dy = ((Number)yField.getValue()).intValue();
 		dur = ((Number)durationField.getValue()).intValue();

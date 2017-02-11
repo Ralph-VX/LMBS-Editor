@@ -31,7 +31,6 @@ public class SkillMotionCommands {
 
 			@Override
 			public int compare(Class< ? extends SkillMotionCommandBase> o1, Class< ? extends SkillMotionCommandBase> o2) {
-				// TODO Auto-generated method stub
 				return o1.getName().compareTo(o2.getName());
 			}
 			
@@ -44,7 +43,6 @@ public class SkillMotionCommands {
 					motionNameToType.put(obj.commandListName(), obj.typeName());
 				}
 			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -60,7 +58,6 @@ public class SkillMotionCommands {
 				obj.setProperty(jsonobj);
 				out.add(obj);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				KienLogger.error("Error occured while resolving type \"" + type + "\":", e);
 			}
 		}

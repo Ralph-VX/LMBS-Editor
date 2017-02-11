@@ -119,7 +119,6 @@ public class MotionPropertyDialogStartDamage extends MotionPropertyDialogBase {
 
 	@Override
 	public void setObject(SkillMotionCommandBase object) {
-		// TODO Auto-generated method stub
 		SkillMotionCommandStartDamage src = (SkillMotionCommandStartDamage)object;
 		this.rectXTextField.setValue(src.rect.x);
 		this.rectYTextField.setValue(src.rect.y);

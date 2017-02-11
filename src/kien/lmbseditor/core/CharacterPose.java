@@ -52,7 +52,6 @@ public class CharacterPose {
 			JSON.encode(property, new FileWriter(propertyFile), true);
 			this.clearDirty();
 		} catch (JSONException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

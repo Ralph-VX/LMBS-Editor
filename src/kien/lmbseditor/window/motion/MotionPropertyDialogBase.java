@@ -55,10 +55,7 @@ public abstract class MotionPropertyDialogBase extends JDialog implements Action
 	 * @param object
 	 */
 	public abstract void setObject(SkillMotionCommandBase object);
-	/**
-	 * Store informations into the object.
-	 * @return TODO
-	 */
+	
 	public boolean isDirty() {
 		return dirty;
 	}

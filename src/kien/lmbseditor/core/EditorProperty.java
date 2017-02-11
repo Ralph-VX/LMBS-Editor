@@ -59,7 +59,6 @@ public class EditorProperty {
 			try {
 				currentWeaponImage = ImageIO.read(n.imageFile);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -123,7 +122,6 @@ public class EditorProperty {
 				try {
 					animations = JSON.decode(new FileReader(animationjson), new TypeReference<ArrayList<Animation>> () {});
 				} catch (JSONException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					animations = new ArrayList<Animation>();
 				}

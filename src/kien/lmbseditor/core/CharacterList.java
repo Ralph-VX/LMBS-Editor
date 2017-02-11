@@ -50,7 +50,6 @@ public class CharacterList {
 		try {
 			JSON.encode(list, new FileWriter(new File(EditorProperty.projectDirectory + "\\data\\characterList.json")), true);
 		} catch (JSONException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

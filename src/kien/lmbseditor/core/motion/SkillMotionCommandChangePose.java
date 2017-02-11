@@ -25,13 +25,11 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
-		// TODO Auto-generated method stub
 		return new MotionPropertyDialogChangePose();
 	}
 
 	@Override
 	public String obtainCommandRepresentation() {
-		// TODO Auto-generated method stub
 		return super.obtainCommandRepresentation() + ": " + name;
 	}
 
@@ -47,7 +45,6 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		// TODO Auto-generated method stub
 		return "Change Pose";
 	}
 

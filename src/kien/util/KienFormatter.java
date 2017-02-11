@@ -15,7 +15,6 @@ public class KienFormatter extends Formatter {
 	
 	@Override
 	public String format(LogRecord record) {
-		// TODO Auto-generated method stub
 		StringBuffer buf = new StringBuffer();
 		buf	.append("["+d.format(new Date(record.getMillis()))+"]")
 		    .append("")

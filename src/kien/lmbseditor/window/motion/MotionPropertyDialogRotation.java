@@ -79,7 +79,6 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 
 	@Override
 	public void onOk() {
-		// TODO Auto-generated method stub
 		rotation = ((Number)rotationField.getValue()).intValue();
 		dur = ((Number)durationField.getValue()).intValue();
 		dir = invertCheck.isSelected() ? 1 : 0;

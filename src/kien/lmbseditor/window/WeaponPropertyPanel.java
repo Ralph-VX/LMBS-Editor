@@ -193,7 +193,6 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 					weaponImagePanel.ox = newItem.json.ox;
 					weaponImagePanel.oy = newItem.json.oy;
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				current = newItem;

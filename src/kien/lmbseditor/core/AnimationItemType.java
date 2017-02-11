@@ -113,7 +113,6 @@ public class AnimationItemType extends BaseItemType {
 		try {
 			JSON.encode(this.data, new FileWriter(src), true);
 		} catch (JSONException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		this.clearDirty();

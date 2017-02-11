@@ -48,7 +48,6 @@ public class PosePanel extends JPanel {
 		try {
 			pose = ImageIO.read(imageFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			pose = null;
 		}

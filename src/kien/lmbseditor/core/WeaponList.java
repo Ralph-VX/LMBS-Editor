@@ -40,7 +40,6 @@ public class WeaponList {
 			try {
 				set.json = JSON.decode(new FileReader(f), new TypeReference<WeaponProperty>() {} );
 			} catch (JSONException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				set.json = new WeaponProperty();
 			}

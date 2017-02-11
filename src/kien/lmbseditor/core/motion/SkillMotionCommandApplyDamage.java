@@ -36,7 +36,6 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 
 	@Override
 	public String obtainCommandRepresentation() {
-		// TODO Auto-generated method stub
 		return super.obtainCommandRepresentation() + ": " + damage*100 + "% damage, knockback: " + knockback.x + ", " + knockback.y + ", Inverted: " + (knockdir > 0 ? "true" : "false");
 	}
 
@@ -50,7 +49,6 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		// TODO Auto-generated method stub
 		return "Apply Damage";
 	}
 	
@@ -61,7 +59,6 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
-		// TODO Auto-generated method stub
 		return new MotionPropertyDialogApplyDamage();
 	}
 	

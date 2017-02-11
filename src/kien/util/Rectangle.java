@@ -16,7 +16,6 @@ public class Rectangle {
 	}
 
 	public Rectangle2D.Double toRectangle2D() {
-		// TODO Auto-generated method stub
 		return new Rectangle2D.Double(x, y, width, height);
 	}
 }

@@ -145,7 +145,6 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 			}
 			this.initializeCommandList();
 		} catch (InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
