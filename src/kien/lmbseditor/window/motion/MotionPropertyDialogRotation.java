@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.core.motion.SkillMotionCommandRotation;
 import net.miginfocom.swing.MigLayout;
+import java.text.Format;
 
 public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 	/**
@@ -20,7 +21,10 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 	public int rotation;
 	public int dir;
 	public int dur;
+	public int rounds;
 	private JCheckBox invertCheck;
+	private JLabel lblNewLabel_1;
+	private JFormattedTextField roundField;
 	
 	
 	/**
@@ -28,7 +32,7 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 	 */
 	public MotionPropertyDialogRotation() {
 		setTitle("Rotation");
-		setBounds(100, 100, 352, 133);
+		setBounds(100, 100, 352, 154);
 		contentPanel.setLayout(new MigLayout("", "[][grow]", "[][]"));
 		
 		DecimalFormat format = new DecimalFormat("##0");
@@ -50,7 +54,14 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 		durationField.setToolTipText("Amount of time this rotation will use");
 		contentPanel.add(durationField, "cell 1 0,growx");
 		
-		invertCheck = new JCheckBox("Invert Direction");
+		lblNewLabel_1 = new JLabel("rounds");
+		contentPanel.add(lblNewLabel_1, "cell 0 1,alignx left");
+		
+		roundField = new JFormattedTextField(format);
+		roundField.setToolTipText("Amount of time this rotation will use");
+		contentPanel.add(roundField, "flowx,cell 1 1,growx");
+		
+		invertCheck = new JCheckBox("Invert Direction  ");
 		invertCheck.setToolTipText("is this rotation is counter-clockwise or not");
 		contentPanel.add(invertCheck, "cell 1 1");
 
@@ -62,6 +73,7 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 		rotationField.setValue(obj.rotation);
 		durationField.setValue(obj.dur);
 		invertCheck.setSelected(obj.dir > 0);
+		roundField.setValue(obj.rounds);
 		clearDirty();
 	}
 
@@ -71,6 +83,7 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 		rotation = ((Number)rotationField.getValue()).intValue();
 		dur = ((Number)durationField.getValue()).intValue();
 		dir = invertCheck.isSelected() ? 1 : 0;
+		rounds = ((Number)durationField.getValue()).intValue();
 		this.setDirty();
 		this.onCancel();
 	}

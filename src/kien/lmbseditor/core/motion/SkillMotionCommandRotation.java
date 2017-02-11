@@ -45,6 +45,7 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 		dur = d.dur;
 		dir = d.dir;
 		rotation = d.rotation;
+		rounds = d.rounds;
 	}
 
 	@Override
