@@ -3,6 +3,7 @@ package kien.lmbseditor.core.motion;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
+import kien.lmbseditor.window.motion.MotionPropertyDialogProjectile;
 
 public class SkillMotionCommandProjectile extends SkillMotionCommandBase {
 	public final String type = "projectile";
@@ -16,8 +17,7 @@ public class SkillMotionCommandProjectile extends SkillMotionCommandBase {
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
-		// TODO uncompleted dialog.
-		return null;
+		return new MotionPropertyDialogProjectile();
 	}
 
 	@Override
@@ -27,7 +27,9 @@ public class SkillMotionCommandProjectile extends SkillMotionCommandBase {
 
 	@Override
 	public void updateProperty(MotionPropertyDialogBase dialog) {
-		// TODO uncompleted dialog.
+		MotionPropertyDialogProjectile d = (MotionPropertyDialogProjectile)dialog;
+		this.classname = d.classname;
+		this.parameters = d.parameters;
 
 	}
 
