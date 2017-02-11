@@ -37,7 +37,7 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 	@Override
 	public String obtainCommandRepresentation() {
 		// TODO Auto-generated method stub
-		return indentString() + "Ÿ" + commandListName() + ": " + damage*100 + "% damage, knockback: " + knockback.x + ", " + knockback.y + ", Inverted: " + (knockdir > 0 ? "true" : "false");
+		return super.obtainCommandRepresentation() + ": " + damage*100 + "% damage, knockback: " + knockback.x + ", " + knockback.y + ", Inverted: " + (knockdir > 0 ? "true" : "false");
 	}
 
 	@Override

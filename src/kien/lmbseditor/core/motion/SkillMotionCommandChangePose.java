@@ -32,7 +32,7 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	@Override
 	public String obtainCommandRepresentation() {
 		// TODO Auto-generated method stub
-		return indentString() + "Åü" + commandListName() + ": " + name;
+		return super.obtainCommandRepresentation() + ": " + name;
 	}
 
 	@Override

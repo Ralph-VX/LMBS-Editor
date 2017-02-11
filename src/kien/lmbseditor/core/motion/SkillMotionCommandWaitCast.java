@@ -17,7 +17,6 @@ public class SkillMotionCommandWaitCast extends SkillMotionCommandBase {
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
-		// TODO Auto-generated method stub
 		MotionPropertyDialogWait d = new MotionPropertyDialogWait() {
 			/**
 			 * 
@@ -37,8 +36,7 @@ public class SkillMotionCommandWaitCast extends SkillMotionCommandBase {
 
 	@Override
 	public String obtainCommandRepresentation() {
-		// TODO Auto-generated method stub
-		return indentString() + "Åü" + commandListName() + ": " + dur + " Frames";
+		return super.obtainCommandRepresentation() + ": " + dur + " Frames";
 	}
 
 	@Override
@@ -49,7 +47,6 @@ public class SkillMotionCommandWaitCast extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		// TODO Auto-generated method stub
 		return "Wait Cast";
 	}
 

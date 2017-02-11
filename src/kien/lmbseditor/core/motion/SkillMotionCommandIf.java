@@ -64,7 +64,6 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 				this.result = o.expression;
 			}
 		};
-		// TODO Auto-generated method stub
 		d.setTitle("If");
 		d.labelTitle.setText("expression");
 		d.labelTitle.setToolTipText("The expression this if statement will execute");
@@ -74,8 +73,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 
 	@Override
 	public String obtainCommandRepresentation() {
-		// TODO Auto-generated method stub
-		return indentString() + "Åü" + commandListName() + " " + expression + ": ";
+		return super.obtainCommandRepresentation() + ":" + expression + ", then: ";
 	}
 
 	@Override
@@ -111,7 +109,6 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		// TODO Auto-generated method stub
 		return "If";
 	}
 

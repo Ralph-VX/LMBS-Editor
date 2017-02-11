@@ -38,8 +38,7 @@ public class SkillMotionCommandSetHitStop extends SkillMotionCommandBase {
 
 	@Override
 	public String obtainCommandRepresentation() {
-		// TODO Auto-generated method stub
-		return indentString() + "Åü" + commandListName() + ": " + length + " Frames";
+		return super.obtainCommandRepresentation() + ": " + length + " Frames";
 	}
 
 	@Override
@@ -50,7 +49,6 @@ public class SkillMotionCommandSetHitStop extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		// TODO Auto-generated method stub
 		return "Set Hit Stop";
 	}
 

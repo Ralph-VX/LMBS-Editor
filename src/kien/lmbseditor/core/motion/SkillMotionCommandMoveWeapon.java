@@ -4,41 +4,43 @@ import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 
-public class SkillMotionCommandProjectile extends SkillMotionCommandBase {
-	public final String type = "projectile";
-	public String classname;
-	public String parameters;
+public class SkillMotionCommandMoveWeapon extends SkillMotionCommandBase {
+
+	public final String type = "moveweapon";
+	public int dx;
+	public int dy;
+	public int dur;
+	
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
-		classname = (String)list.get("classname");
-		parameters = (String)list.get("parameters");
+		dx = ((Number)list.get("dx")).intValue();
+		dy = ((Number)list.get("dy")).intValue();
+		dur = ((Number)list.get("dur")).intValue();
 	}
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
-		// TODO uncompleted dialog.
 		return null;
 	}
 
 	@Override
 	public String obtainCommandRepresentation() {
-		return super.obtainCommandRepresentation() + ":" + classname + ", " + parameters;
+		return null;
 	}
 
 	@Override
 	public void updateProperty(MotionPropertyDialogBase dialog) {
-		// TODO uncompleted dialog.
 
 	}
 
 	@Override
 	public String commandListName() {
-		return "Projectile";
+		return null;
 	}
 
 	@Override
 	public String typeName() {
-		return type;
+		return null;
 	}
 
 }

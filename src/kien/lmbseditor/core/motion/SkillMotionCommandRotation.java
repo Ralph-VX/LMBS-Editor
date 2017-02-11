@@ -31,9 +31,7 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 
 	@Override
 	public String obtainCommandRepresentation() {
-		// TODO Auto-generated method stub
-		return indentString() + 
-				"Ÿ" + commandListName() + 
+		return super.obtainCommandRepresentation() + 
 				": " + "Target: " + rotation + " degree, " + 
 				dur + " Frames, Inverted: " + (dir > 0 ? "true" : "false") + 
 				(rounds > 0 ? "for " + rounds + "rounds" : "" );
@@ -50,7 +48,6 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		// TODO Auto-generated method stub
 		return "Rotation";
 	}
 

@@ -39,14 +39,12 @@ public class SkillMotionCommandStartDamage extends SkillMotionCommandBase {
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
-		// TODO Auto-generated method stub
 		return new MotionPropertyDialogStartDamage();
 	}
 
 	@Override
 	public String obtainCommandRepresentation() {
-		// TODO Auto-generated method stub
-		return indentString() + "Ÿ" + commandListName() + ": " + damage + "%, rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height + " knockback: " + knockback.x + ", " + knockback.y + " inverted: " + (knockdir > 0 ? "true" : "false") ;
+		return super.obtainCommandRepresentation() + ": " + damage + "%, rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height + " knockback: " + knockback.x + ", " + knockback.y + " inverted: " + (knockdir > 0 ? "true" : "false") ;
 	}
 
 	@Override
@@ -65,13 +63,11 @@ public class SkillMotionCommandStartDamage extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		// TODO Auto-generated method stub
 		return "Start Damage";
 	}
 
 	@Override
 	public String typeName() {
-		// TODO Auto-generated method stub
 		return type;
 	}
 
