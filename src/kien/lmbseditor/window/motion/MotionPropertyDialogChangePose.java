@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.core.motion.SkillMotionCommandChangePose;
 
+@SuppressWarnings("unused")
 public class MotionPropertyDialogChangePose extends MotionPropertyDialogBase {
 
 	/**

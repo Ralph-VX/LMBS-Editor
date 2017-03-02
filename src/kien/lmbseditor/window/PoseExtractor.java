@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -21,34 +20,29 @@ import kien.lmbseditor.core.CharacterPose;
 import kien.lmbseditor.core.CharacterSet;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.PoseFrameProperty;
-import kien.lmbseditor.core.PoseProperty;
-import kien.lmbseditor.core.SkillMotionItemType;
-import kien.util.KienLogger;
 import kien.util.Util;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.border.BevelBorder;
 
 public class PoseExtractor extends JDialog {
 
+	private static final long serialVersionUID = 8861450390235853215L;
+	
 	static final String[] defaultNames = {"Walk","Stand","Cast","Guard","Damage","Evade","Thrust","Swing","Missile","General","Magic","Item","Escape","Victory","NearDeath","StatusAilment","Sleep","Dead"};
 	static final boolean[] defaultLoops = {true, true, true, true, false, false, false ,false, false ,false ,false, false, false ,false ,true, true, true, true};
 	

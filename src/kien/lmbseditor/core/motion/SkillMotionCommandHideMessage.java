@@ -18,6 +18,8 @@ public class SkillMotionCommandHideMessage extends SkillMotionCommandBase {
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
 		MotionPropertyDialogWait d = new MotionPropertyDialogWait() {
+			private static final long serialVersionUID = -5807640816648337033L;
+
 			@Override
 			public void setObject(SkillMotionCommandBase obj) {
 				SkillMotionCommandHideMessage o = (SkillMotionCommandHideMessage)obj;

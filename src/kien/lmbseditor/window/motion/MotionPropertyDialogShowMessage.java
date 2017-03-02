@@ -1,23 +1,18 @@
 package kien.lmbseditor.window.motion;
 
+import java.text.DecimalFormat;
+
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
-import kien.lmbseditor.core.motion.SkillMotionCommandProjectile;
 import kien.lmbseditor.core.motion.SkillMotionCommandShowMessage;
 import net.miginfocom.swing.MigLayout;
 
-import java.text.DecimalFormat;
-
-import javax.swing.JFormattedTextField;
-
 public class MotionPropertyDialogShowMessage extends MotionPropertyDialogBase {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = -504979773795691396L;
 	public int channel;
 	public String string;
 	private JFormattedTextField channelField;

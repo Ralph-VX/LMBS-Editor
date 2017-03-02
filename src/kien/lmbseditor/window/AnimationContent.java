@@ -81,7 +81,7 @@ public class AnimationContent extends JPanel {
 				//Util.rotateHue(image1, animation.animation1Hue);
 			} catch (IOException e) {
 				KienLogger.error("An error occured while loading Animatino Image File : ", e);
-				image1 = new BufferedImage(1,1, BufferedImage.TYPE_INT_ARGB);
+				image1 = null;
 			}
 		}
 		if (animation.animation2Name != null && !animation.animation2Name.isEmpty()) {
@@ -90,12 +90,13 @@ public class AnimationContent extends JPanel {
 				//Util.rotateHue(image2, animation.animation2Hue);
 			} catch (IOException e) {
 				KienLogger.error("An error occured while loading Animatino Image File : ", e);
-				image2 = new BufferedImage(1,1, BufferedImage.TYPE_INT_ARGB);
+				image2 = null;
 			}
 		}
 	} 
 	
 	@Override
+	@SuppressWarnings("unused")
 	public void paintComponent(Graphics g) {
 		
 		Graphics2D g2 = (Graphics2D)g.create();
@@ -103,7 +104,7 @@ public class AnimationContent extends JPanel {
 		g2.setPaint(EditorProperty.getBackgroundTexturePaint());
 		g2.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		if (animation == null || frameNumber == -1) {
+		if (animation == null || frameNumber == -1 || (image1 == null && image2 == null)) {
 			return;
 		}
 		
@@ -124,18 +125,20 @@ public class AnimationContent extends JPanel {
 				int sx = (pattern % 5) * 192;
 				int sy = (int) Math.round(Math.floor(pattern % 100 / 5) * 192);
 				BufferedImage img = pattern < 100 ? image1 : image2;
-				boolean mirror = Math.round(cell.get(5)) > 0 ? true : false;
-				int rotation = (int) Math.round(cell.get(4));
-				double scale = cell.get(3) / 100;
-				double tx = cell.get(1) - 192/2 * scale;
-				double ty = cell.get(2) - 192/2 * scale;
-				int opacity = (int) Math.round(cell.get(6));
-				at.rotate(Math.toRadians(rotation));
-				at.scale(mirror ? -scale : scale, scale);
-				g2.translate(tx, ty);
-				
-				g2.drawImage(img.getSubimage(sx, sy, 192, 192), at, this);
-				g2.setTransform(original);
+				if (img != null) {
+					boolean mirror = Math.round(cell.get(5)) > 0 ? true : false;
+					int rotation = (int) Math.round(cell.get(4));
+					double scale = cell.get(3) / 100;
+					double tx = cell.get(1) - 192/2 * scale;
+					double ty = cell.get(2) - 192/2 * scale;
+					int opacity = (int) Math.round(cell.get(6));
+					at.rotate(Math.toRadians(rotation));
+					at.scale(mirror ? -scale : scale, scale);
+					g2.translate(tx, ty);
+					
+					g2.drawImage(img.getSubimage(sx, sy, 192, 192), at, this);
+					g2.setTransform(original);
+				}
 				
 			}
 		}

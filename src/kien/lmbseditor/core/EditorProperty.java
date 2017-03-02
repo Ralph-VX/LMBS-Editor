@@ -115,6 +115,7 @@ public class EditorProperty {
 	}
 	
 	static public void loadProject() {
+		animations = null;
 		if (projectDirectory != null) {
 			String dataFolder = projectDirectory + "\\data\\";
 			File animationjson = new File(dataFolder + "Animations.json");

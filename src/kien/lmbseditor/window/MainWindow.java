@@ -287,11 +287,18 @@ public class MainWindow {
 		mntmPreferences.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				String last = EditorProperty.projectDirectory;
 				EditorPreferencesWindow dialog = new EditorPreferencesWindow();
 				Rectangle rect1 = dialog.getBounds();
 				Rectangle rect2 = MainWindow.this.frame.getBounds();
 				dialog.setLocation(Util.centerRects(rect1, rect2));
 				dialog.setVisible(true);
+				if (last != EditorProperty.projectDirectory) {
+					for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+						EditorPanelBase panel = (EditorPanelBase)tabbedPane.getComponentAt(i);
+						panel.refresh();
+					}
+				}
 			}
 		});
 

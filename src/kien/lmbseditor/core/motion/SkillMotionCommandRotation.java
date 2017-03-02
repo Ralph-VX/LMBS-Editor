@@ -2,8 +2,6 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import org.reflections.util.Utils;
-
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogRotation;
 import kien.util.Util;

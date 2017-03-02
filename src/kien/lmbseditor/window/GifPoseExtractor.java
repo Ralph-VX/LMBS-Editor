@@ -2,36 +2,37 @@ package kien.lmbseditor.window;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import kien.util.ChromaKeyFilter;
-
 import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.GridBagLayout;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JFormattedTextField;
-import javax.swing.JCheckBox;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import kien.util.ChromaKeyFilter;
+import net.miginfocom.swing.MigLayout;
+
+@SuppressWarnings("unused")
 public class GifPoseExtractor extends JDialog {
 
+	private static final long serialVersionUID = 322324815771054281L;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 	private JLabel lblTotalFrame;

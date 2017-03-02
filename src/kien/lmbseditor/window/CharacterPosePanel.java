@@ -28,6 +28,7 @@ import kien.lmbseditor.core.PoseFrameProperty;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 
+@SuppressWarnings("unused")
 public class CharacterPosePanel extends EditorPanelBase {
 	/**
 	 * 
@@ -646,7 +647,6 @@ public class CharacterPosePanel extends EditorPanelBase {
 	
 	@Override
 	public void refresh() {
-		this.updateCharacterList();
-		this.updatePoseList();
+		this.fullRefresh();
 	}
 }

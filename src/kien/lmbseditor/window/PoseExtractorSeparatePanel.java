@@ -1,22 +1,20 @@
 package kien.lmbseditor.window;
 
-import java.awt.image.BufferedImage;
-
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
-import javax.swing.JCheckBox;
-import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import kien.lmbseditor.core.EditorProperty;
 
-import javax.swing.JLabel;
-
 public class PoseExtractorSeparatePanel extends JPanel {
+	
+	private static final long serialVersionUID = -6073636543569104563L;
 	
 	public BufferedImage output;
 	public boolean isLoop;
@@ -40,6 +38,8 @@ public class PoseExtractorSeparatePanel extends JPanel {
 		panel.add(lblPoseName);
 		
 		panelPreview = new JPanel(){
+			private static final long serialVersionUID = -3963203663722447755L;
+
 			public void paintComponent(Graphics g) {
 				PoseExtractorSeparatePanel.this.onPaintPanel(g);
 			}

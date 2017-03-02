@@ -29,6 +29,7 @@ import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.mv.Animation;
 import net.miginfocom.swing.MigLayout;
 
+@SuppressWarnings("unused")
 public class AnimationDescriptionPanel extends EditorPanelBase {
 
 	private AnimationItemType contents;
@@ -339,6 +340,8 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 	}
 	
 	private void refreshAnimationList() {
+		this.animationList.removeAllItems();
+		this.animation = null;
 		this.animationList.addItem("Select Animation");
 		ArrayList<Animation> list = EditorProperty.animations;
 		DecimalFormat format = new DecimalFormat("000");
@@ -578,7 +581,9 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 
 	@Override
 	public void refresh() {
-		
+		this.refreshAnimationList();
+		this.refreshAnimationPanel();
+		this.refreshComponentContent();
 	}
 	
 	

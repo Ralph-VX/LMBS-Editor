@@ -10,17 +10,16 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
-import kien.util.Util;
 
 public class SkillMotionCommandCellRenderer extends JLabel implements ListCellRenderer<SkillMotionCommandBase> {
 	
-	private DefaultListCellRenderer generator;
+	private static final long serialVersionUID = 7170180652543758298L;
 	public static final Color defaultSelectedBackground = new Color(184,207,229);
 	public static final Color defaultSelectedBorder = new Color(99,130,191);
 
 	public SkillMotionCommandCellRenderer() {
 		super();
-		this.generator = new DefaultListCellRenderer();
+		new DefaultListCellRenderer();
 		this.setOpaque(true);
 	}
 	

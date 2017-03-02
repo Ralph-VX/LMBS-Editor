@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 
 public class WalkPoseExtractor extends JDialog {
 
+	private static final long serialVersionUID = -2760810872943079357L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
 

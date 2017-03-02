@@ -3,7 +3,6 @@ package kien.lmbseditor.core.motion;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogMove;
 import kien.lmbseditor.window.motion.MotionPropertyDialogRotation;
 import kien.util.Util;
 

@@ -9,13 +9,10 @@ import javax.swing.JLabel;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.core.motion.SkillMotionCommandRotation;
 import net.miginfocom.swing.MigLayout;
-import java.text.Format;
 
 public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3292873801824570323L;
+	
 	protected JFormattedTextField rotationField;
 	protected JFormattedTextField durationField;
 	public int rotation;

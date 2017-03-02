@@ -106,7 +106,6 @@ public class EditorPreferencesWindow extends JDialog {
 			return;
 		} else {
 			File f = jfc.getSelectedFile();
-			KienLogger.logger.info("Selected: " + f.getAbsolutePath());
 			if (f.exists() && f.isDirectory()) {
 				File project = new File(f.getAbsolutePath() + "\\Game.rpgproject");
 				if (project.exists()) {

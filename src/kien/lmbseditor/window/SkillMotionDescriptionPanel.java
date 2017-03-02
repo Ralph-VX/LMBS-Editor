@@ -18,6 +18,7 @@ import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import net.miginfocom.swing.MigLayout;
 
+@SuppressWarnings("unused")
 public class SkillMotionDescriptionPanel extends EditorPanelBase {
 	
 	/**

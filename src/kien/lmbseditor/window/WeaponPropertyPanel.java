@@ -23,6 +23,7 @@ import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.WeaponSet;
 import net.miginfocom.swing.MigLayout;
 
+@SuppressWarnings("unused")
 public class WeaponPropertyPanel extends EditorPanelBase {
 	
 	/**
@@ -192,6 +193,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 					weaponImagePanel.angle = newItem.json.angle;
 					weaponImagePanel.ox = newItem.json.ox;
 					weaponImagePanel.oy = newItem.json.oy;
+					weaponImagePanel.repaint();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -262,7 +264,7 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 
 	@Override
 	public void refresh() {
-		this.updateList();
+		this.fullRefresh();
 	}
 
 	public void setCurrent(WeaponSet current2) {
