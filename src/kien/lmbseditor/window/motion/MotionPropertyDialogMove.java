@@ -14,9 +14,9 @@ public class MotionPropertyDialogMove extends MotionPropertyDialogBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JFormattedTextField xField;
-	private JFormattedTextField yField;
-	private JFormattedTextField durationField;
+	protected JFormattedTextField xField;
+	protected JFormattedTextField yField;
+	protected JFormattedTextField durationField;
 	public int dx;
 	public int dy;
 	public int dur;

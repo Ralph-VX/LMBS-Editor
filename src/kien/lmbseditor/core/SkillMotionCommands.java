@@ -54,9 +54,13 @@ public class SkillMotionCommands {
 			String type = (String)jsonobj.get("type");
 			SkillMotionCommandBase obj = null;
 			try {
-				obj = motionTypeToClass.get(type).newInstance();
-				obj.setProperty(jsonobj);
-				out.add(obj);
+				if (motionTypeToClass.get(type) != null) {
+					obj = motionTypeToClass.get(type).newInstance();
+					obj.setProperty(jsonobj);
+					out.add(obj);
+				} else {
+					KienLogger.logger.severe("Failed to load a json object:\n  Missing property \"type\"");
+				}
 			} catch (Exception e) {
 				KienLogger.error("Error occured while resolving type \"" + type + "\":", e);
 			}

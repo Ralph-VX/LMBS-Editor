@@ -16,15 +16,15 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JFormattedTextField rotationField;
-	private JFormattedTextField durationField;
+	protected JFormattedTextField rotationField;
+	protected JFormattedTextField durationField;
 	public int rotation;
 	public int dir;
 	public int dur;
 	public int rounds;
-	private JCheckBox invertCheck;
+	protected JCheckBox invertCheck;
 	private JLabel lblNewLabel_1;
-	private JFormattedTextField roundField;
+	protected JFormattedTextField roundField;
 	
 	
 	/**
@@ -58,7 +58,7 @@ public class MotionPropertyDialogRotation extends MotionPropertyDialogBase {
 		contentPanel.add(lblNewLabel_1, "cell 0 1,alignx left");
 		
 		roundField = new JFormattedTextField(format);
-		roundField.setToolTipText("Amount of time this rotation will use");
+		roundField.setToolTipText("Amount of rounds this rotation will do.");
 		contentPanel.add(roundField, "flowx,cell 1 1,growx");
 		
 		invertCheck = new JCheckBox("Invert Direction  ");

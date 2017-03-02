@@ -33,7 +33,7 @@ public class MotionPropertyDialogWait extends MotionPropertyDialogBase {
 			contentPanel.add(labelTitle);
 		}
 		{
-			textField = new JFormattedTextField();
+			textField = new JFormattedTextField(format);
 			textField.setToolTipText("Amount of frames the process will pause");
 			contentPanel.add(textField);
 			textField.setColumns(10);

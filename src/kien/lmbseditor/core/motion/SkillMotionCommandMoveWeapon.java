@@ -3,6 +3,7 @@ package kien.lmbseditor.core.motion;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
+import kien.lmbseditor.window.motion.MotionPropertyDialogMove;
 
 public class SkillMotionCommandMoveWeapon extends SkillMotionCommandBase {
 
@@ -20,27 +21,45 @@ public class SkillMotionCommandMoveWeapon extends SkillMotionCommandBase {
 
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
-		return null;
+		MotionPropertyDialogMove diag = new MotionPropertyDialogMove(){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void setObject(SkillMotionCommandBase object) {
+				SkillMotionCommandMoveWeapon src = (SkillMotionCommandMoveWeapon)object;
+				this.xField.setValue(src.dx);
+				this.yField.setValue(src.dy);
+				this.durationField.setValue(src.dur);
+			}
+		};
+		diag.setTitle("Move Weapon");
+		return diag;
 	}
 
 	@Override
 	public String obtainCommandRepresentation() {
-		return null;
+		return super.obtainCommandRepresentation() + ": x: " + dx + ", y: " + dy + ", in " + dur + " Frames";
 	}
 
 	@Override
 	public void updateProperty(MotionPropertyDialogBase dialog) {
-
+		MotionPropertyDialogMove diag = (MotionPropertyDialogMove) dialog;
+		this.dx = diag.dx;
+		this.dy = diag.dy;
+		this.dur = diag.dur;
 	}
 
 	@Override
 	public String commandListName() {
-		return null;
+		return "Move Weapon";
 	}
 
 	@Override
 	public String typeName() {
-		return null;
+		return type;
 	}
 
 }

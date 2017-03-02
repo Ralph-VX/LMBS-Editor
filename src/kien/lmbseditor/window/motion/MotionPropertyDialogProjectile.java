@@ -19,6 +19,7 @@ public class MotionPropertyDialogProjectile extends MotionPropertyDialogBase {
 	private JTextField parametersField;
 	
 	public MotionPropertyDialogProjectile() {
+		setTitle("Projectile");
 		setBounds(100, 100, 450, 170);
 		contentPanel.setLayout(new MigLayout("", "[][grow]", "[][]"));
 		

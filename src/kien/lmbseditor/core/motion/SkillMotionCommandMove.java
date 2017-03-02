@@ -28,7 +28,7 @@ public class SkillMotionCommandMove extends SkillMotionCommandBase {
 
 	@Override
 	public String obtainCommandRepresentation() {
-		return super.obtainCommandRepresentation() + ": x: " + dx + ", y: " + dy + ", in" + dur + " Frames";
+		return super.obtainCommandRepresentation() + ": x: " + dx + ", y: " + dy + ", in " + dur + " Frames";
 	}
 
 	@Override

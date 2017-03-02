@@ -34,7 +34,7 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 		return super.obtainCommandRepresentation() + 
 				": " + "Target: " + rotation + " degree, " + 
 				dur + " Frames, Inverted: " + (dir > 0 ? "true" : "false") + 
-				(rounds > 0 ? "for " + rounds + "rounds" : "" );
+				(rounds > 0 ? "for " + rounds + " rounds" : "" );
 	}
 
 	@Override
