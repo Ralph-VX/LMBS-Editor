@@ -586,6 +586,9 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		this.refreshComponentContent();
 	}
 	
-	
+	@Override
+	public void update() {
+		this.refresh();
+	}
 	
 }

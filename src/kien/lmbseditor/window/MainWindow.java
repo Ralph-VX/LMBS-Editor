@@ -504,26 +504,26 @@ public class MainWindow {
 
 	private boolean onSaveWeapon() {
 		EditorProperty.saveWeapon();
-		((EditorPanelBase)tabbedPane.getComponentAt(1)).refresh();
+		((EditorPanelBase)tabbedPane.getComponentAt(1)).update();
 		return EditorProperty.weaponList.isDirty();
 	}
 	
 	private boolean onSaveCharacterPose() {
 		EditorProperty.saveCharacter();
-		((EditorPanelBase)tabbedPane.getComponentAt(0)).refresh();
+		((EditorPanelBase)tabbedPane.getComponentAt(0)).update();
 		return EditorProperty.characterList.isDirty();
 
 	}
 
 	private boolean onForceSaveWeapon() {
 		EditorProperty.saveWeapon();
-		((EditorPanelBase)tabbedPane.getComponentAt(1)).refresh();
+		((EditorPanelBase)tabbedPane.getComponentAt(1)).update();
 		return EditorProperty.weaponList.isDirty();
 	}
 	
 	private boolean onForceSaveCharacterPose() {
 		EditorProperty.forceSaveCharacter();
-		((EditorPanelBase)tabbedPane.getComponentAt(0)).refresh();
+		((EditorPanelBase)tabbedPane.getComponentAt(0)).update();
 		return EditorProperty.characterList.isDirty();
 
 	}

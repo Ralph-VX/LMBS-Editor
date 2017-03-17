@@ -440,8 +440,12 @@ public class CharacterPosePanel extends EditorPanelBase {
 			this.onPoseSelectedChangeSaveCurrent();
 		}
 		int num = listCharacter.getSelectedIndex();
-		String character = characterIndexToName.get(num);
-		this.currentCharacter = EditorProperty.characterList.lists.get(character);
+		if (num >= 0) {
+			String character = characterIndexToName.get(num);
+			this.currentCharacter = EditorProperty.characterList.lists.get(character);
+		} else {
+			this.currentCharacter = null;
+		}
 		this.currentPose = null;
 		this.frameIndex = -1;
 		this.refreshPoseList();
@@ -637,7 +641,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 	}
 
 	protected void onApplyToAll() {
-		if (this.currentPose != null){
+		if (this.currentPose != null) {
 			PoseFrameProperty prop = this.currentPose.property.frames.get(this.frameIndex);
 			for (PoseFrameProperty p : this.currentPose.property.frames) {
 				p.overwrite(prop);
@@ -649,4 +653,12 @@ public class CharacterPosePanel extends EditorPanelBase {
 	public void refresh() {
 		this.fullRefresh();
 	}
+	
+	@Override
+	public void update() {
+		this.updateCharacterList();
+		this.updatePoseList();
+		this.updatePaintPanel();
+	}
+	
 }

@@ -273,4 +273,10 @@ public class WeaponPropertyPanel extends EditorPanelBase {
 		}
 	}
 	
+	@Override
+	public void update() {
+		this.updateList();
+		this.updateValue();
+	}
+	
 }
