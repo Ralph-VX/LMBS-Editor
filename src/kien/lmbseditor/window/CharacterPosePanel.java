@@ -2,6 +2,7 @@ package kien.lmbseditor.window;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -25,6 +26,7 @@ import kien.lmbseditor.core.CharacterPose;
 import kien.lmbseditor.core.CharacterSet;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.PoseFrameProperty;
+import kien.util.Util;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 
@@ -62,6 +64,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 	private JButton buttonApplyAll;
 	private JCheckBox buttonWeaponBack;
 	private JCheckBox buttonWeaponMirrored;
+	private JButton buttonCalculate;
 
 	/**
 	 * Create the panel.
@@ -239,6 +242,15 @@ public class CharacterPosePanel extends EditorPanelBase {
 				CharacterPosePanel.this.onWeaponMirrored();
 			}
 		});
+		
+		buttonCalculate = new JButton("Calculate Rectangle");
+		buttonCalculate.setEnabled(false);
+		buttonCalculate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CharacterPosePanel.this.onCalculateRectangle();
+			}
+		});
+		panel_2.add(buttonCalculate, "cell 0 8,growx");
 		panel_2.add(buttonWeaponMirrored, "cell 2 8");
 
 		listModelCharacter = new DefaultListModel<String>();
@@ -268,6 +280,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		this.refreshProperties();
 	}
 	
+
 	public void fullRefresh() {
 		this.refreshCharacterList();
 		this.refreshPoseList();
@@ -301,6 +314,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 		buttonWeaponBack.setEnabled(false);
 		buttonWeaponMirrored.setEnabled(false);
 		buttonApplyAll.setEnabled(false);
+		buttonCalculate.setEnabled(false);
 	}
 
 	private void clearPosePanel() {
@@ -369,6 +383,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			buttonWeaponBack.setEnabled(true);
 			buttonWeaponMirrored.setEnabled(true);
 			buttonApplyAll.setEnabled(true);
+			buttonCalculate.setEnabled(true);
 			maxFrameTextField.setValue(currentPose.property.frameCount);
 			this.sliderCurrentFrame.setMinimum(0);
 			this.sliderCurrentFrame.setMaximum(currentPose.property.frameCount - 1);
@@ -380,7 +395,7 @@ public class CharacterPosePanel extends EditorPanelBase {
 			posePanel.maxFrame = currentPose.property.frameCount;
 			posePanel.curFrame = this.frameIndex;
 			posePanel.posename = currentPose.poseName;
-			if (lastchar != posePanel.charactername || lastpose != posePanel.posename) {
+			if (posePanel.pose == null || lastchar != posePanel.charactername || lastpose != posePanel.posename) {
 				posePanel.loadImage(currentPose.poseFile);
 			}
 			this.refreshFrameProperty();
@@ -647,6 +662,10 @@ public class CharacterPosePanel extends EditorPanelBase {
 				p.overwrite(prop);
 			}
 		}
+		this.currentPose.property.setDirty();
+		this.updateCharacterList();
+		this.updatePoseList();
+		this.updatePaintPanel();
 	}
 	
 	@Override
@@ -660,5 +679,27 @@ public class CharacterPosePanel extends EditorPanelBase {
 		this.updatePoseList();
 		this.updatePaintPanel();
 	}
-	
+
+	protected void onCalculateRectangle() {
+		if (this.posePanel.pose != null) {
+			BufferedImage img = this.posePanel.pose;
+			int ps = this.currentPose.property.frameCount;
+			int i = 0;
+			int pw = img.getWidth()/ps;
+			int ph = img.getHeight();
+			for (PoseFrameProperty p : this.currentPose.property.frames) {
+				p.width = Util.getWidthFit(img.getSubimage(i * pw, 0, pw, ph));
+				p.height = Util.getHeightFit(img.getSubimage(i * pw, 0, pw, ph));
+				if (i == this.frameIndex) {
+					this.characterWidthTextField.setValue(p.width);
+					this.characterHeightTextField.setValue(p.height);
+				}
+				i++;
+			}
+		}
+		this.currentPose.property.setDirty();
+		this.updateCharacterList();
+		this.updatePoseList();
+		this.updatePaintPanel();
+	}
 }
