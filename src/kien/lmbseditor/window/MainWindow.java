@@ -1,5 +1,6 @@
 package kien.lmbseditor.window;
 
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -281,6 +282,7 @@ public class MainWindow {
 		mnFile.add(mntmExit);
 
 		JMenu mnEdite = new JMenu("Tools(E)");
+		mnEdite.setMnemonic('E');
 		menuBar.add(mnEdite);
 
 		JMenuItem mntmPreferences = new JMenuItem("Preferences...");
@@ -328,6 +330,22 @@ public class MainWindow {
 		});
 		mnEdite.add(mntmNewMenuItem_1);
 		mnEdite.add(mntmPreferences);
+		
+		JMenu mnHelp = new JMenu("Help(H)");
+		mnHelp.setMnemonic('H');
+		menuBar.add(mnHelp);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Dialog dialog = new AboutDialog();
+				Rectangle rect1 = dialog.getBounds();
+				Rectangle rect2 = MainWindow.this.frame.getBounds();
+				dialog.setLocation(Util.centerRects(rect1, rect2));
+				dialog.setVisible(true);
+			}
+		});
+		mnHelp.add(mntmAbout);
 
 		// GridBagLayout setting
 		GridBagLayout gridBagLayout = new GridBagLayout();
