@@ -1,4 +1,4 @@
-package kien.lmbseditor.window;
+package kien.lmbseditor.window.weapon;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,4 +1,4 @@
-package kien.lmbseditor.window;
+package kien.lmbseditor.window.skillmotion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +15,7 @@ import javax.swing.border.BevelBorder;
 import kien.lmbseditor.core.SkillMotionCommands;
 import kien.lmbseditor.core.SkillMotionItemType;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
+import kien.lmbseditor.window.EditorPanelBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import net.miginfocom.swing.MigLayout;
 
@@ -145,6 +146,8 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				this.contents.list.add(index, obj);
 			}
 			this.initializeCommandList();
+			int i = listModelCommand.indexOf(obj);
+			listCommand.setSelectedIndex(index+1);
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}

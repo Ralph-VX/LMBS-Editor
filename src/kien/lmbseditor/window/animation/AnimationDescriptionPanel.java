@@ -1,4 +1,4 @@
-package kien.lmbseditor.window;
+package kien.lmbseditor.window.animation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +27,7 @@ import kien.lmbseditor.core.AnimationItemType;
 import kien.lmbseditor.core.AnimationObject;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.mv.Animation;
+import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("unused")

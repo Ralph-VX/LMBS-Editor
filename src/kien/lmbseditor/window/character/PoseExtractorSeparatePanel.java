@@ -1,4 +1,4 @@
-package kien.lmbseditor.window;
+package kien.lmbseditor.window.character;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

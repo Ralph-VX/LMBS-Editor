@@ -1,4 +1,4 @@
-package kien.lmbseditor.window;
+package kien.lmbseditor.window.character;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +26,7 @@ import kien.lmbseditor.core.CharacterPose;
 import kien.lmbseditor.core.CharacterSet;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.PoseFrameProperty;
+import kien.lmbseditor.window.EditorPanelBase;
 import kien.util.Util;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;

@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import kien.lmbseditor.window.character.PoseExtractorSeparatePanel;
 import kien.util.ChromaKeyFilter;
 import net.miginfocom.swing.MigLayout;
 

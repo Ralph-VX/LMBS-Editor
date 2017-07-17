@@ -1,4 +1,4 @@
-package kien.lmbseditor.window;
+package kien.lmbseditor.window.weapon;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionListener;
 
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.WeaponSet;
+import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("unused")
