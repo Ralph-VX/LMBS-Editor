@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 
 public class SkillMotionCommandEmpty extends SkillMotionCommandBase {
-	public final String type = "endif";
+	public final String type = "empty";
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 		

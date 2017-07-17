@@ -1,15 +1,30 @@
 package kien.lmbseditor.window.skillmotion;
 
+import java.awt.KeyboardFocusManager;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
+import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.TransferHandler;
 import javax.swing.border.BevelBorder;
 
 import kien.lmbseditor.core.SkillMotionCommands;
@@ -17,6 +32,7 @@ import kien.lmbseditor.core.SkillMotionItemType;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.window.EditorPanelBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
+import net.arnx.jsonic.JSON;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("unused")
@@ -32,6 +48,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 	private DefaultComboBoxModel<String> listModelMotionCommand;
 	private DefaultListModel<SkillMotionCommandBase> listModelCommand;
 	private SkillMotionItemType contents;
+	private SkillMotionTransferHandler smth; 
 	
 	private int tabIndex;
 	
@@ -43,10 +60,28 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		contents = source;
 		setLayout(new MigLayout("", "[growprio 80,grow 80][growprio 5,grow 5]", "[grow]"));
 		
+		smth = new SkillMotionTransferHandler();
 		listModelCommand = new DefaultListModel<SkillMotionCommandBase>();
 		listCommand = new JList<SkillMotionCommandBase>(listModelCommand);
 		listCommand.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		listCommand.setCellRenderer(new SkillMotionCommandCellRenderer());
+		listCommand.setTransferHandler(smth);
+		ActionMap map = listCommand.getActionMap();
+		map.put(SkillMotionTransferHandler.getCutAction().getValue(Action.NAME),
+				SkillMotionTransferHandler.getCutAction());
+		map.put(SkillMotionTransferHandler.getCopyAction().getValue(Action.NAME),
+				SkillMotionTransferHandler.getCopyAction());
+		map.put(SkillMotionTransferHandler.getPasteAction().getValue(Action.NAME),
+				SkillMotionTransferHandler.getPasteAction());
+		
+		InputMap imap = listCommand.getInputMap(JComponent.WHEN_FOCUSED);
+		imap.put(KeyStroke.getKeyStroke("ctrl X"), 
+				SkillMotionTransferHandler.getCutAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl C"), 
+				SkillMotionTransferHandler.getCopyAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("ctrl V"), 
+				SkillMotionTransferHandler.getPasteAction().getValue(Action.NAME));
+		
 		add(listCommand, "cell 0 0,grow");
 		
 		JPanel panel = new JPanel();
@@ -175,10 +210,12 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		int index = listCommand.getSelectedIndex();
 		if (index >= 0) {
 			SkillMotionCommandBase obj = commandsInListOrder.get(index);
-			if (obj.getParent() != null) {
-				obj.getParent().removeChild(obj);
-			} else {
-				contents.list.remove(obj);
+			if (obj.includeAvailable()) {
+				if (obj.getParent() != null) {
+					obj.getParent().removeChild(obj);
+				} else {
+					contents.list.remove(obj);
+				}
 			}
 			this.initializeCommandList();
 		}
@@ -197,4 +234,108 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		
 	}
 	
+	private class SkillMotionTransferHandler extends TransferHandler {
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public int getSourceActions(JComponent c) {
+			return COPY_OR_MOVE;
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public Transferable createTransferable(JComponent c) {
+			
+			JList<SkillMotionCommandBase> list = (JList<SkillMotionCommandBase>) c;
+			SkillMotionCommandBase b = list.getSelectedValue();
+			if (b != null && b.includeJSON()) {
+				return new StringSelection(JSON.encode(b));
+			}
+			return null;
+		}
+		
+		@Override
+		protected void exportDone(JComponent c, Transferable t, int action) {
+		    if (action == MOVE) {
+		    	SkillMotionDescriptionPanel p = (SkillMotionDescriptionPanel)(c.getParent());
+		    	p.onDeleteCommand();
+		    }
+		}
+		
+		@Override
+		public boolean canImport(TransferHandler.TransferSupport support) {
+			try {
+				String s = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+				LinkedHashMap<String, Object> h = JSON.decode(s);
+				SkillMotionCommands.motionTypeToClass.get((String)h.get("type")).newInstance().setProperty(h);;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		}
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public boolean importData(TransferHandler.TransferSupport support) {
+			if (!canImport(support)) {
+				return false;
+			}
+			try {
+				String s = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+				LinkedHashMap<String, Object> h = JSON.decode(s);
+				SkillMotionCommandBase obj = SkillMotionCommands.motionTypeToClass.get((String)h.get("type")).newInstance();
+				obj.setProperty(h);
+				JList<SkillMotionCommandBase> list = (JList<SkillMotionCommandBase>) support.getComponent();
+				SkillMotionDescriptionPanel p = (SkillMotionDescriptionPanel)(list.getParent());
+				int i = list.getSelectedIndex();
+				if (i == -1) {
+					i = list.getModel().getSize() - 1;
+				}
+				SkillMotionCommandBase selected = p.commandsInListOrder.get(i);
+				obj.setDepth(selected.getDepth());
+				if (selected.getParent() != null) {
+					selected.getParent().addChild(obj);
+				} else {
+					p.contents.list.add(i, obj);
+				}
+				p.initializeCommandList();
+				p.listCommand.setSelectedIndex(i+1);
+				return true;
+			}catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		}
+	}
+	public class TransferActionListener implements ActionListener, PropertyChangeListener {
+		private JComponent focusOwner = null;
+
+		public TransferActionListener() {
+			KeyboardFocusManager manager = KeyboardFocusManager.
+					getCurrentKeyboardFocusManager();
+			manager.addPropertyChangeListener("permanentFocusOwner", this);
+		}
+
+		public void propertyChange(PropertyChangeEvent e) {
+			Object o = e.getNewValue();
+			if (o instanceof JComponent) {
+				focusOwner = (JComponent)o;
+			} else {
+				focusOwner = null;
+			}
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			if (focusOwner == null)
+				return;
+			String action = (String)e.getActionCommand();
+			Action a = focusOwner.getActionMap().get(action);
+			if (a != null) {
+				a.actionPerformed(new ActionEvent(focusOwner,
+						ActionEvent.ACTION_PERFORMED,
+						null));
+			}
+		}
+	}
 }
