@@ -129,4 +129,12 @@ public abstract class SkillMotionCommandBase {
 	public void removeChild(SkillMotionCommandBase child) {
 		
 	}
+
+	public void addChild(int index, SkillMotionCommandBase child) {
+	}
+
+	@JSONHint(ignore = true)
+	public int getChildIndex(SkillMotionCommandBase child) {
+		return -1;
+	}
 }

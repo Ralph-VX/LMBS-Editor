@@ -14,24 +14,24 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	public final String type = "if";
 	public String expression;
 	public ArrayList<SkillMotionCommandBase> list;
-	
+
 	public SkillMotionCommandIf() {
 		expression = "";
 		list = new ArrayList<SkillMotionCommandBase>();
 		list.add(new SkillMotionCommandEndIf());
 		list.get(0).setParent(this);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> in) {
 		this.expression = (String) in.get("expression");
-		list = SkillMotionCommands.convertJsonToObjectList((ArrayList<LinkedHashMap<String, Object> >)in.get("list"));
+		list = SkillMotionCommands.convertJsonToObjectList((ArrayList<LinkedHashMap<String, Object>>) in.get("list"));
 		for (SkillMotionCommandBase item : list) {
 			this.addChild(item);
 		}
 	}
-	
+
 	@Override
 	public void addList(ArrayList<SkillMotionCommandBase> list) {
 		list.add(this);
@@ -49,6 +49,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 			index++;
 		}
 	}
+
 	@Override
 	public MotionPropertyDialogBase obtainDialog() {
 		MotionPropertyDialogChangePose d = new MotionPropertyDialogChangePose() {
@@ -59,7 +60,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 
 			@Override
 			public void setObject(SkillMotionCommandBase object) {
-				SkillMotionCommandIf o = (SkillMotionCommandIf)object;
+				SkillMotionCommandIf o = (SkillMotionCommandIf) object;
 				this.textField.setText(o.expression);
 				this.result = o.expression;
 			}
@@ -78,14 +79,14 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 
 	@Override
 	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogChangePose d = (MotionPropertyDialogChangePose)dialog;
+		MotionPropertyDialogChangePose d = (MotionPropertyDialogChangePose) dialog;
 		if (d.result != null) {
 			expression = d.result;
 		} else {
 			expression = "";
 		}
 	}
-	
+
 	@Override
 	public boolean isDirty() {
 		if (super.isDirty()) {
@@ -98,7 +99,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public void clearDirty() {
 		super.clearDirty();
@@ -116,7 +117,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	public String typeName() {
 		return type;
 	}
-	
+
 	@Override
 	public void removeList(ArrayList<SkillMotionCommandBase> list) {
 		list.remove(this);
@@ -124,16 +125,16 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 			i.removeList(list);
 		}
 	}
-	
+
 	@Override
 	@JSONHint(ignore = true)
 	public void setDepth(int depth) {
 		super.setDepth(depth);
 		for (SkillMotionCommandBase i : this.list) {
-			i.setDepth(depth+1);
+			i.setDepth(depth + 1);
 		}
 	}
-	
+
 	@Override
 	public void addChild(SkillMotionCommandBase child) {
 		if (child.parent == this) {
@@ -146,7 +147,25 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		child.setParent(this);
 		child.setDepth(this.depth + 1);
 	}
-	
+
+	@Override
+	public void addChild(int index, SkillMotionCommandBase child) {
+		if (child.parent == this) {
+			return;
+		}
+		if (child.parent != null) {
+			child.parent.removeChild(child);
+		}
+		this.list.add(index, child);
+		child.setParent(this);
+		child.setDepth(this.depth + 1);
+	}
+
+	@Override
+	public int getChildIndex(SkillMotionCommandBase child) {
+		return this.list.indexOf(child);
+	}
+
 	@Override
 	public void removeChild(SkillMotionCommandBase child) {
 		if (child.typeName() == "endif") {
@@ -154,7 +173,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		}
 		this.list.remove(child);
 	}
-	
+
 	@Override
 	public Color commandColor() {
 		return Color.BLUE;
