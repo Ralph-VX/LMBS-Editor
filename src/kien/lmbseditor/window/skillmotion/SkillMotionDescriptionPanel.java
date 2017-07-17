@@ -172,17 +172,19 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				if (d.isDirty()) {
 					obj.updateProperty(d);
 					obj.setDirty();
-					obj.setDepth(selected.getDepth());
-					if (selected.getParent() != null) {
-						selected.getParent().addChild(obj);
-					} else {
-						this.contents.list.add(index, obj);
-					}
-					this.initializeCommandList();
-					int i = listModelCommand.indexOf(obj);
-					listCommand.setSelectedIndex(index+1);
+				} else {
+					return;
 				}
 			}
+			obj.setDepth(selected.getDepth());
+			if (selected.getParent() != null) {
+				selected.getParent().addChild(selected.getParent().getChildIndex(selected), obj);
+			} else {
+				this.contents.list.add(this.contents.list.indexOf(selected), obj);
+			}
+			this.initializeCommandList();
+			int i = listModelCommand.indexOf(obj);
+			listCommand.setSelectedIndex(index+1);
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
@@ -207,10 +209,13 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 	}
 	
 	public void onDeleteCommand() {
-		int index = listCommand.getSelectedIndex();
-		if (index >= 0) {
-			SkillMotionCommandBase obj = commandsInListOrder.get(index);
-			if (obj.includeAvailable()) {
+		int[] indices = listCommand.getSelectedIndices();
+		if (indices.length > 0) {
+			ArrayList<SkillMotionCommandBase> list = new ArrayList<SkillMotionCommandBase>();
+			for (int i : indices) {
+				list.add(commandsInListOrder.get(i));
+			}
+			for (SkillMotionCommandBase obj : list) {
 				if (obj.getParent() != null) {
 					obj.getParent().removeChild(obj);
 				} else {
