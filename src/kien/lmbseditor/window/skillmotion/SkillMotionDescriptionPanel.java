@@ -137,17 +137,17 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				if (d.isDirty()) {
 					obj.updateProperty(d);
 					obj.setDirty();
+					obj.setDepth(selected.getDepth());
+					if (selected.getParent() != null) {
+						selected.getParent().addChild(obj);
+					} else {
+						this.contents.list.add(index, obj);
+					}
+					this.initializeCommandList();
+					int i = listModelCommand.indexOf(obj);
+					listCommand.setSelectedIndex(index+1);
 				}
 			}
-			obj.setDepth(selected.getDepth());
-			if (selected.getParent() != null) {
-				selected.getParent().addChild(obj);
-			} else {
-				this.contents.list.add(index, obj);
-			}
-			this.initializeCommandList();
-			int i = listModelCommand.indexOf(obj);
-			listCommand.setSelectedIndex(index+1);
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
