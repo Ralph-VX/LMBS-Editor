@@ -35,6 +35,7 @@ import kien.lmbseditor.window.EditorPanelBase;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import net.arnx.jsonic.JSON;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("unused")
 public class SkillMotionDescriptionPanel extends EditorPanelBase {
@@ -63,10 +64,14 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		
 		smth = new SkillMotionTransferHandler();
 		listModelCommand = new DefaultListModel<SkillMotionCommandBase>();
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "cell 0 0,grow");
 		listCommand = new JList<SkillMotionCommandBase>(listModelCommand);
+		scrollPane.setViewportView(listCommand);
 		listCommand.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		listCommand.setCellRenderer(new SkillMotionCommandCellRenderer());
 		listCommand.setTransferHandler(smth);
+		
 		ActionMap map = listCommand.getActionMap();
 		map.put(SkillMotionTransferHandler.getCutAction().getValue(Action.NAME),
 				SkillMotionTransferHandler.getCutAction());
@@ -82,8 +87,6 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				SkillMotionTransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(KeyStroke.getKeyStroke("ctrl V"), 
 				SkillMotionTransferHandler.getPasteAction().getValue(Action.NAME));
-		
-		add(listCommand, "cell 0 0,grow");
 		
 		JPanel panel = new JPanel();
 		add(panel, "cell 1 0,grow");
