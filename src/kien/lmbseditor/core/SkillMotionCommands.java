@@ -31,7 +31,12 @@ public class SkillMotionCommands {
 
 			@Override
 			public int compare(Class< ? extends SkillMotionCommandBase> o1, Class< ? extends SkillMotionCommandBase> o2) {
-				return o1.getName().compareTo(o2.getName());
+				try {
+					return o1.newInstance().commandListName().compareTo(o2.newInstance().commandListName());
+				} catch (InstantiationException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					return o1.getName().compareTo(o2.getName());
+				}
 			}
 			
 		});
