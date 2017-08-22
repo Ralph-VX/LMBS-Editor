@@ -137,7 +137,7 @@ public class MotionPropertyDialogStartDamage extends MotionPropertyDialogBase {
 		rh = ((Number)this.rectHTextField.getValue()).doubleValue();
 		rw = ((Number)this.rectWTextField.getValue()).doubleValue();
 		kx = ((Number)this.knockXTextField.getValue()).doubleValue();
-		ky = ((Number)this.knockXTextField.getValue()).doubleValue();
+		ky = ((Number)this.knockYTextField.getValue()).doubleValue();
 		dm = ((Number)this.damageTextField.getValue()).doubleValue();
 		ki = this.invertKnock.isSelected() ? 1 : 0;
 		this.setDirty();
