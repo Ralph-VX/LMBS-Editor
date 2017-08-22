@@ -65,6 +65,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		smth = new SkillMotionTransferHandler();
 		listModelCommand = new DefaultListModel<SkillMotionCommandBase>();
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setEnabled(false);
 		add(scrollPane, "cell 0 0,grow");
 		listCommand = new JList<SkillMotionCommandBase>(listModelCommand);
 		scrollPane.setViewportView(listCommand);
@@ -256,7 +257,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		public Transferable createTransferable(JComponent c) {
 			int[] indices = listCommand.getSelectedIndices();
 			JList<SkillMotionCommandBase> jlist = (JList<SkillMotionCommandBase>) c;
-			SkillMotionDescriptionPanel panel = (SkillMotionDescriptionPanel)c.getParent();
+			SkillMotionDescriptionPanel panel = SkillMotionDescriptionPanel.this;
 			ArrayList<SkillMotionCommandBase> list = new ArrayList<SkillMotionCommandBase>();
 			for (int i : indices) {
 				list.add(panel.commandsInListOrder.get(i));
@@ -274,7 +275,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		@Override
 		protected void exportDone(JComponent c, Transferable t, int action) {
 		    if (action == MOVE) {
-		    	SkillMotionDescriptionPanel p = (SkillMotionDescriptionPanel)(c.getParent());
+		    	SkillMotionDescriptionPanel p = SkillMotionDescriptionPanel.this;
 		    	p.onDeleteCommand();
 		    }
 		}
@@ -302,7 +303,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 			}
 			try {
 				JList<SkillMotionCommandBase> list = (JList<SkillMotionCommandBase>) support.getComponent();
-				SkillMotionDescriptionPanel p = (SkillMotionDescriptionPanel)(list.getParent());
+				SkillMotionDescriptionPanel p = SkillMotionDescriptionPanel.this;
 				String s = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
 				ArrayList<LinkedHashMap<String, Object>> json = JSON.decode(s);
 				int i = list.getSelectedIndex();
