@@ -12,6 +12,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.swing.Action;
 import javax.swing.ActionMap;
@@ -250,11 +251,19 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		@SuppressWarnings("unchecked")
 		@Override
 		public Transferable createTransferable(JComponent c) {
-			
-			JList<SkillMotionCommandBase> list = (JList<SkillMotionCommandBase>) c;
-			SkillMotionCommandBase b = list.getSelectedValue();
-			if (b != null && b.includeJSON()) {
-				return new StringSelection(JSON.encode(b));
+			int[] indices = listCommand.getSelectedIndices();
+			JList<SkillMotionCommandBase> jlist = (JList<SkillMotionCommandBase>) c;
+			SkillMotionDescriptionPanel panel = (SkillMotionDescriptionPanel)c.getParent();
+			ArrayList<SkillMotionCommandBase> list = new ArrayList<SkillMotionCommandBase>();
+			for (int i : indices) {
+				list.add(panel.commandsInListOrder.get(i));
+			}
+			if (list.size() > 0) {
+				try {
+					return new StringSelection(JSON.encode(list));
+				} catch (Exception e) {
+					return null;
+				}
 			}
 			return null;
 		}
@@ -271,8 +280,10 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		public boolean canImport(TransferHandler.TransferSupport support) {
 			try {
 				String s = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
-				LinkedHashMap<String, Object> h = JSON.decode(s);
-				SkillMotionCommands.motionTypeToClass.get((String)h.get("type")).newInstance().setProperty(h);;
+				ArrayList<LinkedHashMap<String, Object>> list = JSON.decode(s);
+				for (LinkedHashMap<String, Object> h : list) {
+					SkillMotionCommands.motionTypeToClass.get((String)h.get("type")).newInstance().setProperty(h);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 				return false;
@@ -287,25 +298,27 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				return false;
 			}
 			try {
-				String s = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
-				LinkedHashMap<String, Object> h = JSON.decode(s);
-				SkillMotionCommandBase obj = SkillMotionCommands.motionTypeToClass.get((String)h.get("type")).newInstance();
-				obj.setProperty(h);
 				JList<SkillMotionCommandBase> list = (JList<SkillMotionCommandBase>) support.getComponent();
 				SkillMotionDescriptionPanel p = (SkillMotionDescriptionPanel)(list.getParent());
+				String s = (String)support.getTransferable().getTransferData(DataFlavor.stringFlavor);
+				ArrayList<LinkedHashMap<String, Object>> json = JSON.decode(s);
 				int i = list.getSelectedIndex();
 				if (i == -1) {
 					i = list.getModel().getSize() - 1;
 				}
 				SkillMotionCommandBase selected = p.commandsInListOrder.get(i);
-				obj.setDepth(selected.getDepth());
-				if (selected.getParent() != null) {
-					selected.getParent().addChild(obj);
-				} else {
-					p.contents.list.add(i, obj);
+				for (LinkedHashMap<String,Object> h : json) {
+					SkillMotionCommandBase obj = SkillMotionCommands.motionTypeToClass.get((String)h.get("type")).newInstance();
+					obj.setProperty(h);
+					obj.setDepth(selected.getDepth());
+					if (selected.getParent() != null) {
+						selected.getParent().addChild(selected.getParent().getChildIndex(selected), obj);
+					} else {
+						p.contents.list.add(p.contents.list.indexOf(selected), obj);
+					}
 				}
 				p.initializeCommandList();
-				p.listCommand.setSelectedIndex(i+1);
+				p.listCommand.setSelectedIndex(p.commandsInListOrder.indexOf(selected));
 				return true;
 			}catch (Exception e){
 				e.printStackTrace();
@@ -313,34 +326,5 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 			}
 		}
 	}
-	public class TransferActionListener implements ActionListener, PropertyChangeListener {
-		private JComponent focusOwner = null;
-
-		public TransferActionListener() {
-			KeyboardFocusManager manager = KeyboardFocusManager.
-					getCurrentKeyboardFocusManager();
-			manager.addPropertyChangeListener("permanentFocusOwner", this);
-		}
-
-		public void propertyChange(PropertyChangeEvent e) {
-			Object o = e.getNewValue();
-			if (o instanceof JComponent) {
-				focusOwner = (JComponent)o;
-			} else {
-				focusOwner = null;
-			}
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			if (focusOwner == null)
-				return;
-			String action = (String)e.getActionCommand();
-			Action a = focusOwner.getActionMap().get(action);
-			if (a != null) {
-				a.actionPerformed(new ActionEvent(focusOwner,
-						ActionEvent.ACTION_PERFORMED,
-						null));
-			}
-		}
-	}
+	
 }
