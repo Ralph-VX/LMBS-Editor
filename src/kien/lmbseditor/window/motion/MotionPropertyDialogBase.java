@@ -48,7 +48,6 @@ public abstract class MotionPropertyDialogBase extends JDialog implements Action
 			}
 		}
 	}
-	
 
 	/**
 	 * Set the object that this panel is representing.

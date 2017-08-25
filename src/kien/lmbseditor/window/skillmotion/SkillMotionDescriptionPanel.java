@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.DefaultComboBoxModel;
@@ -32,6 +33,7 @@ import kien.lmbseditor.core.SkillMotionCommands;
 import kien.lmbseditor.core.SkillMotionItemType;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.window.EditorPanelBase;
+import kien.lmbseditor.window.MainWindow;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import net.arnx.jsonic.JSON;
 import net.miginfocom.swing.MigLayout;
@@ -80,6 +82,8 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				SkillMotionTransferHandler.getCopyAction());
 		map.put(SkillMotionTransferHandler.getPasteAction().getValue(Action.NAME),
 				SkillMotionTransferHandler.getPasteAction());
+		map.put("edit", new EditCommandAction());
+		map.put("delete", new DeleteCommandAction());
 		
 		InputMap imap = listCommand.getInputMap(JComponent.WHEN_FOCUSED);
 		imap.put(KeyStroke.getKeyStroke("ctrl X"), 
@@ -88,6 +92,8 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				SkillMotionTransferHandler.getCopyAction().getValue(Action.NAME));
 		imap.put(KeyStroke.getKeyStroke("ctrl V"), 
 				SkillMotionTransferHandler.getPasteAction().getValue(Action.NAME));
+		imap.put(KeyStroke.getKeyStroke("SPACE"), "edit");
+		imap.put(KeyStroke.getKeyStroke("DELETE"), "delete");
 		
 		JPanel panel = new JPanel();
 		add(panel, "cell 1 0,grow");
@@ -107,21 +113,11 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		panel.add(btnNewButton_1, "cell 0 1,growx");
 		
 		JButton btnNewButton_2 = new JButton("Edit Command");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SkillMotionDescriptionPanel.this.onEditCommand();
-			}
-		});
+		btnNewButton_2.addActionListener(new EditCommandAction());
 		panel.add(btnNewButton_2, "cell 0 2,growx");
 		
 		JButton btnNewButton = new JButton("Delete Command");
-		btnNewButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SkillMotionDescriptionPanel.this.onDeleteCommand();
-			}
-		});
+		btnNewButton.addActionListener(new DeleteCommandAction());
 		panel.add(btnNewButton, "cell 0 3,growx");
 		
 		refreshAvailableCommand();
@@ -173,6 +169,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 			if (d != null) {
 				d.setObject(obj);
 				d.clearDirty();
+				d.setLocationRelativeTo(MainWindow.applicationFrame);
 				d.setVisible(true);
 				if (d.isDirty()) {
 					obj.updateProperty(d);
@@ -203,6 +200,7 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 			if (d != null) {
 				d.setObject(obj);
 				d.clearDirty();
+				d.setLocationRelativeTo(MainWindow.applicationFrame);
 				d.setVisible(true);
 				if (d.isDirty()) {
 					obj.setDirty();
@@ -221,10 +219,12 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 				list.add(commandsInListOrder.get(i));
 			}
 			for (SkillMotionCommandBase obj : list) {
-				if (obj.getParent() != null) {
-					obj.getParent().removeChild(obj);
-				} else {
-					contents.list.remove(obj);
+				if (obj.includeAvailable()) {
+					if (obj.getParent() != null) {
+						obj.getParent().removeChild(obj);
+					} else {
+						contents.list.remove(obj);
+					}
 				}
 			}
 			this.initializeCommandList();
@@ -331,4 +331,25 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		}
 	}
 	
+	public class EditCommandAction extends AbstractAction {
+
+		private static final long serialVersionUID = 3397176417840638328L;
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			SkillMotionDescriptionPanel.this.onEditCommand();
+		}
+		
+	}
+	
+	public class DeleteCommandAction extends AbstractAction {
+
+		private static final long serialVersionUID = 3397176417840638328L;
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			SkillMotionDescriptionPanel.this.onDeleteCommand();
+		}
+		
+	}
 }

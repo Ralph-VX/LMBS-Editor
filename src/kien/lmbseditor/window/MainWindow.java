@@ -41,7 +41,9 @@ import java.awt.event.InputEvent;
 public class MainWindow {
 
 	private ArrayList<BaseItemType> items;
-
+	
+	public static JFrame applicationFrame;
+	
 	private JFrame frame;
 	private int fixedTab;
 	public JMenuBar menuBar;
@@ -119,6 +121,7 @@ public class MainWindow {
 	private void initialize() {
 		fixedTab = 0;
 		frame = new JFrame();
+		applicationFrame = frame;
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
