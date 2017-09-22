@@ -4,6 +4,16 @@ import java.util.LinkedHashMap;
 
 public class SkillMotionCommandEmpty extends SkillMotionCommandBase {
 	public final String type = "empty";
+
+	public SkillMotionCommandEmpty(SkillMotionCommandBase parent) {
+		super();
+		this.setParent(parent);
+	}
+	
+	public SkillMotionCommandEmpty() {
+		super();
+	}
+
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 		

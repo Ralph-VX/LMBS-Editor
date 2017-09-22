@@ -127,30 +127,28 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 			this.data = MotionPropertyDialog.this.data;
 			this.setFillsViewportHeight(true);
 			this.getTableHeader().setReorderingAllowed(false);
-			cm = (DefaultTableColumnModel) this.getColumnModel();
-			cm.addColumn(new TableColumn(0));
-			cm.addColumn(new TableColumn(1));
-			cm.getColumn(0).setHeaderValue("Name");
-			cm.getColumn(0).setMaxWidth(75);
-			cm.getColumn(0).setResizable(false);
-			cm.getColumn(1).setHeaderValue("Value");
-			cm.getColumn(1).setResizable(false);
 			tm = (DefaultTableModel) this.getModel();
+			tm.setColumnCount(2);
 			Set<String> propNameList = propertyList.keySet();
 			int row = 0;
 			for (String name : propNameList) {
 				Vector<Object> vec = tm.getDataVector();
 				Vector<Object> vec2 = new Vector<Object>();
 				vec2.add(name);
-				vec2.add(data.get(name));
-				vec.add(vec2);
+				vec2.add((Object)data.get(name));
+				tm.addRow(vec2);
 				if (getPropertyType(name).equals("text")) {
 					this.setRowHeight(row, 120);
 				}
 				row++;
 			}
+			cm = (DefaultTableColumnModel) this.getColumnModel();
+			cm.getColumn(0).setHeaderValue("Name");
+			cm.getColumn(0).setMaxWidth(75);
+			cm.getColumn(0).setResizable(false);
+			cm.getColumn(1).setHeaderValue("Value");
+			cm.getColumn(1).setResizable(false);
 			this.revalidate();
-			System.out.println(tm.getDataVector());
 		}
 
 		@SuppressWarnings("unchecked")
@@ -186,6 +184,7 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 			} else {
 				String name = (String) this.getValueAt(row, 0);
 				String type = getPropertyType(name);
+				System.out.println(type);
 				if (type == null) {
 					return super.getCellRenderer(row, column);
 				} else if (type.equals("text")) {

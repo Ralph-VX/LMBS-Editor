@@ -7,6 +7,16 @@ import net.arnx.jsonic.JSONHint;
 
 public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
 	public final String type = "endif";
+
+	public SkillMotionCommandEndIf() {
+		super();
+	}
+	
+	public SkillMotionCommandEndIf(SkillMotionCommandBase parent) {
+		super();
+		this.setParent(parent);
+	}
+	
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 		

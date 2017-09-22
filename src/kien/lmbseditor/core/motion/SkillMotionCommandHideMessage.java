@@ -31,7 +31,7 @@ public class SkillMotionCommandHideMessage extends SkillMotionCommandBase {
 	public LinkedHashMap<String, Object> obtainPropertyList() {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("channel", this.channel);
-		return null;
+		return map;
 	}
 
 	@Override

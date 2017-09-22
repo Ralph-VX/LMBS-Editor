@@ -16,9 +16,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	public SkillMotionCommandIf() {
 		expression = "";
 		list = new ArrayList<SkillMotionCommandBase>();
-		list.add(new SkillMotionCommandEmpty());
-		list.add(new SkillMotionCommandEndIf());
-		list.get(0).setParent(this);
+		list.add(new SkillMotionCommandEndIf(this));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -180,8 +178,8 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	@Override
 	public LinkedHashMap<String, Object> obtainPropertyList() {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("expression", this.expression);
 		map.put("else", this.hasElse());
+		map.put("expression", this.expression);
 		return map;
 	}
 
@@ -192,8 +190,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 		if (bool != this.hasElse()) {
 			if (bool) {
 				int endifindex = this.endIfIndex();
-				this.list.add(endifindex, new SkillMotionCommandElse());
-				this.list.add(endifindex+1, new SkillMotionCommandEmpty());
+				this.list.add(endifindex, new SkillMotionCommandElse(this));
 			} else {
 				int endifindex = this.endIfIndex();
 				int elseindex = this.elseIndex();

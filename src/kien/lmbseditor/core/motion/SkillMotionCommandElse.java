@@ -6,6 +6,16 @@ import java.util.LinkedHashMap;
 public class SkillMotionCommandElse extends SkillMotionCommandBase {
 	
 	public final String type = "else";
+
+	public SkillMotionCommandElse() {
+		super();
+	}
+	
+	
+	public SkillMotionCommandElse(SkillMotionCommandBase parent) {
+		super();
+		this.setParent(parent);
+	}
 	
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
