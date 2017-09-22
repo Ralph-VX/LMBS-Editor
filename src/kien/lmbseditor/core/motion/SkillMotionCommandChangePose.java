@@ -24,23 +24,8 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		return new MotionPropertyDialogChangePose();
-	}
-
-	@Override
 	public String obtainCommandRepresentation() {
 		return super.obtainCommandRepresentation() + ": " + name;
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogChangePose d = (MotionPropertyDialogChangePose)dialog;
-		if (d.result != null) {
-			name = d.result;
-		} else {
-			name = "";
-		}
 	}
 
 	@Override
@@ -51,5 +36,17 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.setProperty(data);
+	}
+
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("name", this.name);
+		return map;
 	}
 }
