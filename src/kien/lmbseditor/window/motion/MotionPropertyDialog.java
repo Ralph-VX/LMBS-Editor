@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -16,6 +18,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -41,12 +44,12 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 	private LinkedHashMap<String, Object> data;
 
 	static final private String testJSON = "{\r\n" + "    \"prop1\" : \"string\",\r\n"
-			+ "    \"prop2\" : \"boolean\",\r\n" + "    \"prop3\" : \"text\"\r\n" + "}";
+			+ "    \"prop2\" : \"integer\",\r\n" + "    \"prop3\" : \"text\"\r\n" + "}";
 
 	static public void main(String[] args) {
 		LinkedHashMap<String, Object> testData = new LinkedHashMap<String, Object>();
 		testData.put("prop1", "string");
-		testData.put("prop2", true);
+		testData.put("prop2", 10);
 		testData.put("prop3", "this is what we can do to edit some scripts/nwith plenty of areas to screw up.");
 		System.out.println(JSON.decode(testJSON).toString());
 		MotionPropertyDialog diag = new MotionPropertyDialog(JSON.decode(testJSON), testData);
@@ -62,14 +65,14 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 		propertyList = property;
 		this.data = data;
 		setModal(true);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 400);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
+		contentPanel.setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			JScrollPane scrollPane = new JScrollPane();
-			contentPanel.add(scrollPane);
+			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
 				table = new PropertyTable();
 				scrollPane.setViewportView(table);
@@ -114,6 +117,10 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 		this.dispose();
 	}
 
+	public LinkedHashMap<String, Object> getData() {
+		return data;
+	}
+	
 	public class PropertyTable extends JTable {
 
 		private static final long serialVersionUID = 1L;
@@ -150,6 +157,7 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 				}
 				row++;
 			}
+			this.revalidate();
 			System.out.println(tm.getDataVector());
 		}
 
@@ -193,6 +201,8 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 					return new TextAreaEditor();
 				} else if (type.equals("boolean")) {
 					return this.getDefaultEditor(Boolean.class);
+				} else if (type.equals("float") || type.equals("integer")) {
+					return new FormattedTextFieldEditor(type);
 				} else {
 					return super.getCellEditor(row, column);
 				}
@@ -244,9 +254,6 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 
 		// TextAreaEditor from: http://esus.com/embedding-a-jtextarea-in-a-jtable-cell/
 		class TextAreaEditor extends DefaultCellEditor {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			protected JScrollPane scrollpane;
 			protected JTextArea textarea;
@@ -270,6 +277,43 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 
 			public Object getCellEditorValue() {
 				return textarea.getText();
+			}
+		}
+		
+		class FormattedTextFieldEditor extends DefaultCellEditor {
+			
+			private static final long serialVersionUID = 1L;
+			protected JFormattedTextField jftf;
+			
+			public FormattedTextFieldEditor(String type) {
+				super(new JCheckBox());
+				if (type.equals("integer")) {
+					DecimalFormat format = new DecimalFormat("##0");
+					format.setMinimumFractionDigits(0);
+					jftf = new JFormattedTextField(format);
+					jftf.setColumns(10);
+				} else if (type.equals("float")) {
+					DecimalFormat format = new DecimalFormat("##0.###");
+					format.setMinimumFractionDigits(0);
+					jftf = new JFormattedTextField(format);
+					jftf.setColumns(10);
+				}
+			}
+			
+			public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+					int column) {
+				jftf.setValue(value);
+
+				return jftf;
+			}
+			
+			public Object getCellEditorValue() {
+				try {
+					jftf.commitEdit();
+				} catch (ParseException e) {
+					
+				}
+				return jftf.getValue();
 			}
 		}
 
