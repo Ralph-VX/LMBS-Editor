@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.core.SkillMotionCommands;
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogChangePose;
 import net.arnx.jsonic.JSONHint;
 
 public class SkillMotionCommandIf extends SkillMotionCommandBase {

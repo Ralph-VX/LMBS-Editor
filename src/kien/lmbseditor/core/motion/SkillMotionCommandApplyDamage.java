@@ -3,9 +3,6 @@ package kien.lmbseditor.core.motion;
 import java.awt.geom.Point2D;
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogApplyDamage;
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-
 public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 
 	public final String type = "applydamage";

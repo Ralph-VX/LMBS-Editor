@@ -1,15 +1,12 @@
 package kien.lmbseditor.core.motion;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialog;
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
+import kien.lmbseditor.window.skillmotion.MotionPropertyDialog;
 import net.arnx.jsonic.JSON;
-import net.arnx.jsonic.JSONException;
 import net.arnx.jsonic.JSONHint;
 
 public abstract class SkillMotionCommandBase {

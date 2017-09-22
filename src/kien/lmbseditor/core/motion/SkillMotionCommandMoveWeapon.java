@@ -2,9 +2,6 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogMove;
-
 public class SkillMotionCommandMoveWeapon extends SkillMotionCommandBase {
 
 	public final String type = "moveweapon";

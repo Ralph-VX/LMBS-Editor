@@ -2,8 +2,6 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-
 public class SkillMotionCommandStopAllAi extends SkillMotionCommandBase {
 	public final String type = "startallai";
 	@Override

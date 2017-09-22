@@ -3,7 +3,6 @@ package kien.lmbseditor.core.motion;
 import java.awt.Color;
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import net.arnx.jsonic.JSONHint;
 
 public class SkillMotionCommandEndIf extends SkillMotionCommandBase {

@@ -1,4 +1,4 @@
-package kien.lmbseditor.window.motion;
+package kien.lmbseditor.window.skillmotion;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -7,10 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
@@ -21,16 +18,11 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
-import net.arnx.jsonic.JSON;
-
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;

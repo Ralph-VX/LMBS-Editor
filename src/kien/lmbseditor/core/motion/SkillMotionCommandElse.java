@@ -3,8 +3,6 @@ package kien.lmbseditor.core.motion;
 import java.awt.Color;
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-
 public class SkillMotionCommandElse extends SkillMotionCommandBase {
 	
 	public final String type = "else";

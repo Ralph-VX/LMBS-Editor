@@ -34,8 +34,6 @@ import kien.lmbseditor.core.SkillMotionItemType;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.window.EditorPanelBase;
 import kien.lmbseditor.window.MainWindow;
-import kien.lmbseditor.window.motion.MotionPropertyDialog;
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import net.arnx.jsonic.JSON;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JScrollPane;

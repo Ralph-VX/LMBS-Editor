@@ -3,8 +3,6 @@ package kien.lmbseditor.core.motion;
 import java.awt.geom.Point2D;
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogStartDamage;
 import kien.util.Rectangle;
 
 public class SkillMotionCommandStartDamage extends SkillMotionCommandBase {

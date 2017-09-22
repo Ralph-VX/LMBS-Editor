@@ -2,8 +2,6 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-
 public class SkillMotionCommandEndInput extends SkillMotionCommandBase {
 	public final String type = "startinput";
 	@Override
