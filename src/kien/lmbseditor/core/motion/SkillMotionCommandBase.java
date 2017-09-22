@@ -1,10 +1,14 @@
 package kien.lmbseditor.core.motion;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import kien.lmbseditor.window.motion.MotionPropertyDialog;
 import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
+import net.arnx.jsonic.JSON;
+import net.arnx.jsonic.JSONException;
 import net.arnx.jsonic.JSONHint;
 
 public abstract class SkillMotionCommandBase {
@@ -22,12 +26,29 @@ public abstract class SkillMotionCommandBase {
 	 */
 	public abstract void setProperty(LinkedHashMap<String, Object> list) throws Exception;
 
+	
+	
 	/**
 	 * Get the panel to set the property of the motion.
 	 * @return
 	 */
-	public abstract MotionPropertyDialogBase obtainDialog();
-
+	public MotionPropertyDialog obtainDialog() {
+		return new MotionPropertyDialog(this.obtainPropertyTypeList(), this.obtainPropertyList());
+	};
+	
+	// Return the LinkedHashMap that stores pairs of Property Name and type of property.
+	public LinkedHashMap<String, String> obtainPropertyTypeList() {
+		try {
+			return JSON.decode(this.getClass().getClassLoader().getResourceAsStream("property/" + this.typeName() + "_prop.json"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new LinkedHashMap<String, String>();
+		}
+	};
+	
+	// Returns the LinkedHashMap that stores pairs of property Name and its value of command.
+	public abstract LinkedHashMap<String, Object> obtainPropertyList();
+	
 	/**
 	 * Get the string that will show up in the command list.
 	 * 
@@ -54,7 +75,16 @@ public abstract class SkillMotionCommandBase {
 	 *            dialog created from the class returned by
 	 *            {@link obtainPanelClass}
 	 */
-	public abstract void updateProperty(MotionPropertyDialogBase dialog);
+	public void updateProperty(MotionPropertyDialog dialog) {
+		try {
+			this.updatePropertyFromMap(dialog.getData());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	};
+
+	protected abstract void updatePropertyFromMap(LinkedHashMap<String, Object> data);
 
 	@JSONHint(ignore = true)
 	public boolean isDirty() {
