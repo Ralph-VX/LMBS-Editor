@@ -1,0 +1,17 @@
+{
+	"dx" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "X Movement"
+	},
+	"dy" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Y Movement"
+	},
+	"dur" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Duration"
+	}
+}

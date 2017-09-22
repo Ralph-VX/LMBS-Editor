@@ -34,7 +34,6 @@ import kien.lmbseditor.core.SkillMotionItemType;
 import kien.lmbseditor.core.motion.SkillMotionCommandBase;
 import kien.lmbseditor.window.EditorPanelBase;
 import kien.lmbseditor.window.MainWindow;
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
 import net.arnx.jsonic.JSON;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JScrollPane;
@@ -165,9 +164,8 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		try {
 			SkillMotionCommandBase selected = commandsInListOrder.get(index);
 			SkillMotionCommandBase obj = SkillMotionCommands.motionTypeToClass.get(SkillMotionCommands.motionNameToType.get(listMotionCommand.getItemAt(listMotionCommand.getSelectedIndex()))).newInstance();
-			MotionPropertyDialogBase d = obj.obtainDialog();
+			MotionPropertyDialog d = obj.obtainDialog();
 			if (d != null) {
-				d.setObject(obj);
 				d.clearDirty();
 				d.setLocationRelativeTo(MainWindow.applicationFrame);
 				d.setVisible(true);
@@ -196,15 +194,15 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		int index = listCommand.getSelectedIndex();
 		if (index >= 0) {
 			SkillMotionCommandBase obj = listModelCommand.getElementAt(index);
-			MotionPropertyDialogBase d = obj.obtainDialog();
+			MotionPropertyDialog d = obj.obtainDialog();
 			if (d != null) {
-				d.setObject(obj);
 				d.clearDirty();
 				d.setLocationRelativeTo(MainWindow.applicationFrame);
 				d.setVisible(true);
 				if (d.isDirty()) {
 					obj.setDirty();
 					obj.updateProperty(d);
+					this.initializeCommandList();
 					listCommand.repaint();
 				}
 			}

@@ -1,0 +1,7 @@
+{
+	"dur" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Duration"
+	}
+}

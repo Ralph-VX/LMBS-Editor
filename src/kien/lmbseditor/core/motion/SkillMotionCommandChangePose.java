@@ -2,9 +2,6 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogChangePose;
-
 public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 
 	public final String type = "pose";
@@ -15,7 +12,7 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	}
 	
 	@Override
-	public void setProperty(LinkedHashMap<String, Object> list) throws IllegalArgumentException {
+	public void setProperty(LinkedHashMap<String, Object> list) {
 		try {
 			this.name = (String) list.get("name");
 		} catch (Exception e) {
@@ -24,23 +21,8 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		return new MotionPropertyDialogChangePose();
-	}
-
-	@Override
 	public String obtainCommandRepresentation() {
 		return super.obtainCommandRepresentation() + ": " + name;
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogChangePose d = (MotionPropertyDialogChangePose)dialog;
-		if (d.result != null) {
-			name = d.result;
-		} else {
-			name = "";
-		}
 	}
 
 	@Override
@@ -51,5 +33,17 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.setProperty(data);
+	}
+
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("name", this.name);
+		return map;
 	}
 }

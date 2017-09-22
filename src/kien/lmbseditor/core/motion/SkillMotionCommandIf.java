@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import kien.lmbseditor.core.SkillMotionCommands;
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogChangePose;
 import net.arnx.jsonic.JSONHint;
 
 public class SkillMotionCommandIf extends SkillMotionCommandBase {
@@ -18,6 +16,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	public SkillMotionCommandIf() {
 		expression = "";
 		list = new ArrayList<SkillMotionCommandBase>();
+		list.add(new SkillMotionCommandEmpty());
 		list.add(new SkillMotionCommandEndIf());
 		list.get(0).setParent(this);
 	}
@@ -49,42 +48,10 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 			index++;
 		}
 	}
-
-	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		MotionPropertyDialogChangePose d = new MotionPropertyDialogChangePose() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setObject(SkillMotionCommandBase object) {
-				SkillMotionCommandIf o = (SkillMotionCommandIf) object;
-				this.textField.setText(o.expression);
-				this.result = o.expression;
-			}
-		};
-		d.setTitle("If");
-		d.labelTitle.setText("expression");
-		d.labelTitle.setToolTipText("The expression this if statement will execute");
-		d.textField.setToolTipText("The expression this if statement will execute");
-		return d;
-	}
-
+	
 	@Override
 	public String obtainCommandRepresentation() {
 		return super.obtainCommandRepresentation() + ":" + expression + ", then: ";
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogChangePose d = (MotionPropertyDialogChangePose) dialog;
-		if (d.result != null) {
-			expression = d.result;
-		} else {
-			expression = "";
-		}
 	}
 
 	@Override
@@ -177,5 +144,64 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	@Override
 	public Color commandColor() {
 		return Color.BLUE;
+	}
+	
+	private boolean hasElse() {
+		for (SkillMotionCommandBase child : this.list) {
+			if (child.typeName().equals("else")) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private int endIfIndex() {
+		int index = 0;
+		for (SkillMotionCommandBase child : this.list) {
+			if (child.typeName().equals("endif")) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
+	}
+
+	private int elseIndex() {
+		int index = 0;
+		for (SkillMotionCommandBase child : this.list) {
+			if (child.typeName().equals("else")) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
+	}
+	
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("expression", this.expression);
+		map.put("else", this.hasElse());
+		return map;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.expression = (String) data.get("expression");
+		boolean bool = (boolean)data.get("else");
+		if (bool != this.hasElse()) {
+			if (bool) {
+				int endifindex = this.endIfIndex();
+				this.list.add(endifindex, new SkillMotionCommandElse());
+				this.list.add(endifindex+1, new SkillMotionCommandEmpty());
+			} else {
+				int endifindex = this.endIfIndex();
+				int elseindex = this.elseIndex();
+				while (elseindex != endifindex) {
+					this.list.remove(elseindex);
+					endifindex = this.endIfIndex();
+				}
+			}
+		}
 	}
 }

@@ -2,41 +2,14 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogWait;
-
 public class SkillMotionCommandHideMessage extends SkillMotionCommandBase {
 	
 	public final String type = "hidemessage";
 	public int channel;
 	
 	@Override
-	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
+	public void setProperty(LinkedHashMap<String, Object> list){
 		channel = ((Number)list.get("channel")).intValue();
-	}
-
-	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		MotionPropertyDialogWait d = new MotionPropertyDialogWait() {
-			private static final long serialVersionUID = -5807640816648337033L;
-
-			@Override
-			public void setObject(SkillMotionCommandBase obj) {
-				SkillMotionCommandHideMessage o = (SkillMotionCommandHideMessage)obj;
-				dur = o.channel;
-			}
-		};
-		d.setTitle("Hide Message");
-		d.labelTitle.setText("channel");
-		d.labelTitle.setToolTipText("Channel index of the message that will be hided");
-		d.textField.setToolTipText("Channel index of the message that will be hided");
-		return d;
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogWait d = (MotionPropertyDialogWait)dialog;
-		channel = d.dur;
 	}
 
 	@Override
@@ -52,6 +25,18 @@ public class SkillMotionCommandHideMessage extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("channel", this.channel);
+		return null;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.setProperty(data);
 	}
 
 }

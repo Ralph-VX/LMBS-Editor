@@ -1,0 +1,12 @@
+{
+	"channel" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Channel" 
+	},
+	"string" : {
+		"type" : "string",
+		"description" : "",
+		"displayName" : "String"
+	}
+}

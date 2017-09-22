@@ -1,0 +1,22 @@
+{
+	"damage": {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Damage"
+	},
+	"knockbackx": {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Knockback X"
+	},
+	"knockbacky": {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Knockback Y"
+	},
+	"knockdir": {
+		"type" : "boolean",
+		"description" : "",
+		"displayName" : "Knockback Direction"
+	}
+}

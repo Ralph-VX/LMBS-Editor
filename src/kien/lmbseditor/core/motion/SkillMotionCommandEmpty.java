@@ -2,22 +2,10 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-
 public class SkillMotionCommandEmpty extends SkillMotionCommandBase {
 	public final String type = "empty";
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
-		
-	}
-
-	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		return null;
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
 		
 	}
 
@@ -39,5 +27,15 @@ public class SkillMotionCommandEmpty extends SkillMotionCommandBase {
 	@Override
 	public boolean includeJSON() {
 		return false;
+	}
+
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		return null;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		
 	}
 }

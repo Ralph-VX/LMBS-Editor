@@ -1,0 +1,22 @@
+{
+	"rotation" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Rotation"
+	},
+	"dir" : {
+		"type" : "boolean",
+		"description" : "",
+		"displayName" : "Invert Direction?"
+	},
+	"dur" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Duration"
+	},
+	"rounds" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Rounds"
+	}
+}

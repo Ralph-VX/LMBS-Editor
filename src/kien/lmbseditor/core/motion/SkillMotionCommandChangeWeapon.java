@@ -2,9 +2,6 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-import kien.lmbseditor.window.motion.MotionPropertyDialogChangePose;
-
 public class SkillMotionCommandChangeWeapon extends SkillMotionCommandBase {
 
 	public final String type = "changeweapon";
@@ -24,40 +21,8 @@ public class SkillMotionCommandChangeWeapon extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		MotionPropertyDialogChangePose d = new MotionPropertyDialogChangePose() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setObject(SkillMotionCommandBase object) {
-				SkillMotionCommandChangeWeapon o = (SkillMotionCommandChangeWeapon)object;
-				this.textField.setText(o.name);
-				this.result = o.name;
-			}
-		};
-		d.setTitle("Change Weapon");
-		d.labelTitle.setText("name");
-		d.labelTitle.setToolTipText("The name of weapon image to be changed");
-		d.textField.setToolTipText("The name of weapon image to be changed");
-		return d;
-	}
-
-	@Override
 	public String obtainCommandRepresentation() {
 		return super.obtainCommandRepresentation() + ": " + name;
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogChangePose d = (MotionPropertyDialogChangePose) dialog;
-		if (d.result != null) {
-			name = d.result;
-		} else {
-			name = "";
-		}
 	}
 
 	@Override
@@ -68,5 +33,17 @@ public class SkillMotionCommandChangeWeapon extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("name", this.name);
+		return map;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.setProperty(data);
 	}
 }

@@ -3,9 +3,6 @@ package kien.lmbseditor.core.motion;
 import java.awt.geom.Point2D;
 import java.util.LinkedHashMap;
 
-import kien.lmbseditor.window.motion.MotionPropertyDialogApplyDamage;
-import kien.lmbseditor.window.motion.MotionPropertyDialogBase;
-
 public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 
 	public final String type = "applydamage";
@@ -40,14 +37,6 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogApplyDamage d = (MotionPropertyDialogApplyDamage) dialog;
-		this.damage = d.damage;
-		this.knockback = d.knockback;
-		this.knockdir = d.knockdir;
-	}
-
-	@Override
 	public String commandListName() {
 		return "Apply Damage";
 	}
@@ -58,8 +47,22 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		return new MotionPropertyDialogApplyDamage();
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		// TODO Auto-generated method stub
+		LinkedHashMap<String, Object> prop = new LinkedHashMap<String, Object>();
+		prop.put("damage", this.damage);
+		prop.put("knockbackx", this.knockback.x);
+		prop.put("knockbacky", this.knockback.y);
+		prop.put("knockdir", this.knockdir > 0);
+		return prop;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.damage = (double) data.get("damage");
+		this.knockback.x = (double) data.get("knockbackx");
+		this.knockback.y = (double) data.get("knockbacky");
+		this.knockdir = ((boolean) data.get("knockdir") ? 1 : 0);
 	}
 	
 }

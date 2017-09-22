@@ -1,0 +1,12 @@
+{
+	"expression" : {
+		"type" : "text",
+		"description" : "",
+		"displayName" : "Condition"
+	},
+	"else" : {
+		"type" : "boolean",
+		"description" : "",
+		"displayName" : "False Branching?"
+	}
+}
