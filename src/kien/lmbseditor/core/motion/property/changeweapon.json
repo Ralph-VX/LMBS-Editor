@@ -2,6 +2,6 @@
 	"name" :  {
 		"type" : "string",
 		"description" : "",
-		"displayName" : "Pose Name"
+		"displayName" : "Weapon Name"
 	}
 }

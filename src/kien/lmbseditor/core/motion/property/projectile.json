@@ -1,0 +1,12 @@
+{
+	"classname" : {
+		"type" : "string",
+		"description" : "",
+		"displayName" : "Class Name"
+	},
+	"parameters" : {
+		"type" : "text",
+		"description" : "",
+		"displayName" : "Parameters"
+	}
+}

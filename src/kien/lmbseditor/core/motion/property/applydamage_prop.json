@@ -1,6 +1,0 @@
-{
-	"damage":"float",
-	"knockbackx":"float",
-	"knockbacky":"float",
-	"knockdir":"integer"
-}

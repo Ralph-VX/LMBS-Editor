@@ -56,7 +56,7 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 		prop.put("damage", this.damage);
 		prop.put("knockbackx", this.knockback.x);
 		prop.put("knockbacky", this.knockback.y);
-		prop.put("knockdir", this.knockdir);
+		prop.put("knockdir", this.knockdir > 0);
 		return prop;
 	}
 
@@ -65,7 +65,7 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 		this.damage = (double) data.get("damage");
 		this.knockback.x = (double) data.get("knockbackx");
 		this.knockback.y = (double) data.get("knockbacky");
-		this.knockdir = (int) data.get("knockdir");
+		this.knockdir = ((boolean) data.get("knockdir") ? 1 : 0);
 	}
 	
 }

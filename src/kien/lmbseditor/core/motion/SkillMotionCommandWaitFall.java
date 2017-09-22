@@ -13,16 +13,6 @@ public class SkillMotionCommandWaitFall extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		return null;
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		
-	}
-
-	@Override
 	public String commandListName() {
 		return "Wait Until Falling End";
 	}
@@ -30,6 +20,16 @@ public class SkillMotionCommandWaitFall extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		return null;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		
 	}
 
 }

@@ -15,16 +15,11 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 	public int rounds;
 	
 	@Override
-	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
+	public void setProperty(LinkedHashMap<String, Object> list) {
 		dur = ((Number)list.get("dur")).intValue();
 		dir = ((Number)list.get("dir")).intValue();
 		rotation = ((Number)list.get("rotation")).intValue();
 		rounds = Util.getJSONInt(list, "rounds", 0);
-	}
-
-	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		return new MotionPropertyDialogRotation();
 	}
 
 	@Override
@@ -36,15 +31,6 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogRotation d = (MotionPropertyDialogRotation)dialog;
-		dur = d.dur;
-		dir = d.dir;
-		rotation = d.rotation;
-		rounds = d.rounds;
-	}
-
-	@Override
 	public String commandListName() {
 		return "Rotation";
 	}
@@ -52,5 +38,20 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+	
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("rotation", this.rotation);
+		map.put("dir", this.dir);
+		map.put("dur", this.dur);
+		map.put("rounds", this.rounds);
+		return map;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.setProperty(data);
 	}
 }

@@ -14,16 +14,6 @@ public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
 	}
 
 	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		return null;
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		
-	}
-	
-	@Override
 	@JSONHint(ignore = true)
 	public int getDepth() {
 		return depth-1;
@@ -46,5 +36,15 @@ public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
 	@Override
 	public Color commandColor() {
 		return Color.BLUE;
+	}
+
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		return null;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		
 	}
 }

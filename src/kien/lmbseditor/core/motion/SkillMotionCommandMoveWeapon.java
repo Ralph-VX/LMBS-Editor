@@ -13,43 +13,15 @@ public class SkillMotionCommandMoveWeapon extends SkillMotionCommandBase {
 	public int dur;
 	
 	@Override
-	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
+	public void setProperty(LinkedHashMap<String, Object> list) {
 		dx = ((Number)list.get("dx")).intValue();
 		dy = ((Number)list.get("dy")).intValue();
 		dur = ((Number)list.get("dur")).intValue();
 	}
 
 	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		MotionPropertyDialogMove diag = new MotionPropertyDialogMove(){
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setObject(SkillMotionCommandBase object) {
-				SkillMotionCommandMoveWeapon src = (SkillMotionCommandMoveWeapon)object;
-				this.xField.setValue(src.dx);
-				this.yField.setValue(src.dy);
-				this.durationField.setValue(src.dur);
-			}
-		};
-		diag.setTitle("Move Weapon");
-		return diag;
-	}
-
-	@Override
 	public String obtainCommandRepresentation() {
 		return super.obtainCommandRepresentation() + ": x: " + dx + ", y: " + dy + ", in " + dur + " Frames";
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogMove diag = (MotionPropertyDialogMove) dialog;
-		this.dx = diag.dx;
-		this.dy = diag.dy;
-		this.dur = diag.dur;
 	}
 
 	@Override
@@ -60,6 +32,20 @@ public class SkillMotionCommandMoveWeapon extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+	
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("dx", this.dx);
+		map.put("dy", this.dy);
+		map.put("dur", this.dur);
+		return map;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.setProperty(data);
 	}
 
 }

@@ -11,38 +11,13 @@ public class SkillMotionCommandWaitCast extends SkillMotionCommandBase {
 	public int dur;
 	
 	@Override
-	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
+	public void setProperty(LinkedHashMap<String, Object> list) {
 		dur = ((Number)list.get("dur")).intValue();
-	}
-
-	@Override
-	public MotionPropertyDialogBase obtainDialog() {
-		MotionPropertyDialogWait d = new MotionPropertyDialogWait() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void setObject(SkillMotionCommandBase object) {
-				SkillMotionCommandWaitCast src = (SkillMotionCommandWaitCast)object;
-				this.dur = src.dur;
-				this.textField.setValue(dur);
-			}
-		};
-		d.setTitle("Wait Cast");
-		return d;
 	}
 
 	@Override
 	public String obtainCommandRepresentation() {
 		return super.obtainCommandRepresentation() + ": " + dur + " Frames";
-	}
-
-	@Override
-	public void updateProperty(MotionPropertyDialogBase dialog) {
-		MotionPropertyDialogWait d = (MotionPropertyDialogWait)dialog;
-		dur = d.dur;
 	}
 
 	@Override
@@ -53,5 +28,17 @@ public class SkillMotionCommandWaitCast extends SkillMotionCommandBase {
 	@Override
 	public String typeName() {
 		return type;
+	}
+	
+	@Override
+	public LinkedHashMap<String, Object> obtainPropertyList() {
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("dur", this.dur);
+		return map;
+	}
+
+	@Override
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
+		this.setProperty(data);
 	}
 }

@@ -15,7 +15,7 @@ public class SkillMotionCommandChangePose extends SkillMotionCommandBase {
 	}
 	
 	@Override
-	public void setProperty(LinkedHashMap<String, Object> list) throws IllegalArgumentException {
+	public void setProperty(LinkedHashMap<String, Object> list) {
 		try {
 			this.name = (String) list.get("name");
 		} catch (Exception e) {

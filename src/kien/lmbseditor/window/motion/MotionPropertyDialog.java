@@ -40,30 +40,17 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private PropertyTable table;
-	private LinkedHashMap<String, String> propertyList;
+	private LinkedHashMap<String, Object> propertyList;
 	private LinkedHashMap<String, Object> data;
-
-	static final private String testJSON = "{\r\n" + "    \"prop1\" : \"string\",\r\n"
-			+ "    \"prop2\" : \"integer\",\r\n" + "    \"prop3\" : \"text\"\r\n" + "}";
-
-	static public void main(String[] args) {
-		LinkedHashMap<String, Object> testData = new LinkedHashMap<String, Object>();
-		testData.put("prop1", "string");
-		testData.put("prop2", 10);
-		testData.put("prop3", "this is what we can do to edit some scripts/nwith plenty of areas to screw up.");
-		System.out.println(JSON.decode(testJSON).toString());
-		MotionPropertyDialog diag = new MotionPropertyDialog(JSON.decode(testJSON), testData);
-		diag.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		diag.setVisible(true);
-		System.out.println(diag.data);
-	}
+	private boolean dirty;
 
 	/**
 	 * Create the dialog.
 	 */
-	public MotionPropertyDialog(LinkedHashMap<String, String> property, LinkedHashMap<String, Object> data) {
+	public MotionPropertyDialog(LinkedHashMap<String, Object> property, LinkedHashMap<String, Object> data) {
 		propertyList = property;
 		this.data = data;
+		this.dirty = false;
 		setModal(true);
 		setBounds(100, 100, 500, 400);
 		getContentPane().setLayout(new BorderLayout());
@@ -110,6 +97,7 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 
 	public void onOk() {
 		this.data = this.table.getTableContents();
+		this.setDirty();
 		this.onCancel();
 	};
 
@@ -120,11 +108,23 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 	public LinkedHashMap<String, Object> getData() {
 		return data;
 	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+	
+	public void setDirty() {
+		this.dirty = true;
+	}
+	
+	public void clearDirty() {
+		this.dirty = false;
+	}
 	
 	public class PropertyTable extends JTable {
 
 		private static final long serialVersionUID = 1L;
-		private LinkedHashMap<String, String> propertyList;
+		private LinkedHashMap<String, Object> propertyList;
 		private LinkedHashMap<String, Object> data;
 		private DefaultTableColumnModel cm;
 		private DefaultTableModel tm;
@@ -152,13 +152,31 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 				vec2.add(name);
 				vec2.add(data.get(name));
 				vec.add(vec2);
-				if (propertyList.get(name).equals("text")) {
-					this.setRowHeight(row,120);
+				if (getPropertyType(name).equals("text")) {
+					this.setRowHeight(row, 120);
 				}
 				row++;
 			}
 			this.revalidate();
 			System.out.println(tm.getDataVector());
+		}
+
+		@SuppressWarnings("unchecked")
+		private String getPropertyType(String name) {
+			try {
+				Object obj = propertyList.get(name);
+				if (obj instanceof String) {
+					return ((String)obj).toLowerCase();
+				} else if (obj instanceof LinkedHashMap) {
+					LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>)obj;
+					if (map.get("type") != null) {
+						return ((String) map.get("type")).toLowerCase();
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return "";
 		}
 
 		@Override
@@ -175,7 +193,7 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 				return super.getCellRenderer(row, column);
 			} else {
 				String name = (String) this.getValueAt(row, 0);
-				String type = this.propertyList.get(name);
+				String type = getPropertyType(name);
 				if (type == null) {
 					return super.getCellRenderer(row, column);
 				} else if (type.equals("text")) {
@@ -194,7 +212,7 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 				return super.getCellEditor(row, column);
 			} else {
 				String name = (String) this.getValueAt(row, 0);
-				String type = this.propertyList.get(name);
+				String type = getPropertyType(name);
 				if (type == null) {
 					return super.getCellEditor(row, column);
 				} else if (type.equals("text")) {
@@ -208,7 +226,7 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 				}
 			}
 		}
-		
+
 		@SuppressWarnings("unchecked")
 		public LinkedHashMap<String, Object> getTableContents() {
 			LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
@@ -218,8 +236,9 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 			}
 			return map;
 		}
-		
-		// TextAreaRenderer from: http://esus.com/embedding-a-jtextarea-in-a-jtable-cell/
+
+		// TextAreaRenderer from:
+		// http://esus.com/embedding-a-jtextarea-in-a-jtable-cell/
 		class TextAreaRenderer extends JScrollPane implements TableCellRenderer {
 			private static final long serialVersionUID = 1L;
 			JTextArea textarea;
@@ -228,7 +247,7 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 				textarea = new JTextArea();
 				textarea.setLineWrap(true);
 				textarea.setWrapStyleWord(true);
-				//textarea.setBorder(new TitledBorder("This is a JTextArea"));
+				// textarea.setBorder(new TitledBorder("This is a JTextArea"));
 				getViewport().add(textarea);
 			}
 
@@ -279,12 +298,12 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 				return textarea.getText();
 			}
 		}
-		
+
 		class FormattedTextFieldEditor extends DefaultCellEditor {
-			
+
 			private static final long serialVersionUID = 1L;
 			protected JFormattedTextField jftf;
-			
+
 			public FormattedTextFieldEditor(String type) {
 				super(new JCheckBox());
 				if (type.equals("integer")) {
@@ -299,23 +318,25 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 					jftf.setColumns(10);
 				}
 			}
-			
+
 			public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 					int column) {
 				jftf.setValue(value);
 
 				return jftf;
 			}
-			
+
 			public Object getCellEditorValue() {
 				try {
 					jftf.commitEdit();
 				} catch (ParseException e) {
-					
+
 				}
 				return jftf.getValue();
 			}
 		}
 
 	}
+
+	
 }

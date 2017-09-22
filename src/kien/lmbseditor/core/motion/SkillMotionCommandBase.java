@@ -2,6 +2,7 @@ package kien.lmbseditor.core.motion;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -33,16 +34,21 @@ public abstract class SkillMotionCommandBase {
 	 * @return
 	 */
 	public MotionPropertyDialog obtainDialog() {
-		return new MotionPropertyDialog(this.obtainPropertyTypeList(), this.obtainPropertyList());
+		LinkedHashMap<String, Object> ptl = this.obtainPropertyTypeList();
+		LinkedHashMap<String, Object> pl = this.obtainPropertyList();
+		if (ptl != null && pl != null) {
+			return new MotionPropertyDialog(ptl, pl);
+		}
+		return null;
 	};
 	
 	// Return the LinkedHashMap that stores pairs of Property Name and type of property.
-	public LinkedHashMap<String, String> obtainPropertyTypeList() {
+	public LinkedHashMap<String, Object> obtainPropertyTypeList() {
 		try {
-			return JSON.decode(this.getClass().getClassLoader().getResourceAsStream("property/" + this.typeName() + "_prop.json"));
+			InputStream stream = this.getClass().getResourceAsStream("property/" + this.typeName() + ".json");
+			return JSON.decode(stream);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return new LinkedHashMap<String, String>();
+			return new LinkedHashMap<String, Object>();
 		}
 	};
 	
