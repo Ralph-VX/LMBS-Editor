@@ -16,7 +16,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	public SkillMotionCommandIf() {
 		expression = "";
 		list = new ArrayList<SkillMotionCommandBase>();
-		list.add(new SkillMotionCommandEndIf(this));
+		list.add(new SkillMotionCommandEnd(this));
 	}
 
 	@SuppressWarnings("unchecked")

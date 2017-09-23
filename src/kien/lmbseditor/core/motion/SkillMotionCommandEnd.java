@@ -5,14 +5,14 @@ import java.util.LinkedHashMap;
 
 import net.arnx.jsonic.JSONHint;
 
-public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
-	public final String type = "endif";
+public class SkillMotionCommandEnd extends SkillMotionCommandBase {
+	public final String type = "end";
 
-	public SkillMotionCommandEndIf() {
+	public SkillMotionCommandEnd() {
 		super();
 	}
 	
-	public SkillMotionCommandEndIf(SkillMotionCommandBase parent) {
+	public SkillMotionCommandEnd(SkillMotionCommandBase parent) {
 		super();
 		this.setParent(parent);
 	}
@@ -29,7 +29,7 @@ public class SkillMotionCommandEndIf extends SkillMotionCommandBase {
 	}
 	@Override
 	public String commandListName() {
-		return "End If";
+		return "End";
 	}
 
 	@Override
