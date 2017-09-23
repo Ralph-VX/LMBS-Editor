@@ -133,7 +133,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 
 	@Override
 	public void removeChild(SkillMotionCommandBase child) {
-		if (child.typeName() == "endif") {
+		if (child.typeName() == "end") {
 			return;
 		}
 		this.list.remove(child);
@@ -156,7 +156,7 @@ public class SkillMotionCommandIf extends SkillMotionCommandBase {
 	private int endIfIndex() {
 		int index = 0;
 		for (SkillMotionCommandBase child : this.list) {
-			if (child.typeName().equals("endif")) {
+			if (child.typeName().equals("end")) {
 				return index;
 			}
 			index++;
