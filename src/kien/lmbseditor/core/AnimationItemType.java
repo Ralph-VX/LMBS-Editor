@@ -35,7 +35,7 @@ public class AnimationItemType extends BaseItemType {
 	public void save() throws IOException {
 		if (src != null) {
 			FileWriter fw = new FileWriter(src);
-			JSON.encode(data, fw, true);
+			JSON.encode(data, fw, !EditorProperty.useMinifiedJson);
 		}
 	}
 	
@@ -111,7 +111,7 @@ public class AnimationItemType extends BaseItemType {
 	public void saveFile() {
 		KienLogger.logger.info(this.data.toString());
 		try {
-			JSON.encode(this.data, new FileWriter(src), true);
+			JSON.encode(this.data, new FileWriter(src), !EditorProperty.useMinifiedJson);
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}

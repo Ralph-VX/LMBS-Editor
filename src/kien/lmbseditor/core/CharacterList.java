@@ -48,7 +48,7 @@ public class CharacterList {
 			list.put(charName, poses);
 		}
 		try {
-			JSON.encode(list, new FileWriter(new File(EditorProperty.projectDirectory + "\\data\\characterList.json")), true);
+			JSON.encode(list, new FileWriter(new File(EditorProperty.projectDirectory + "\\data\\characterList.json")), !EditorProperty.useMinifiedJson);
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
 		}

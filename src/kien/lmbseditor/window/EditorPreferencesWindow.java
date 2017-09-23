@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 import kien.lmbseditor.core.EditorProperty;
 import kien.util.KienLogger;
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JCheckBox;
 
 public class EditorPreferencesWindow extends JDialog {
 
@@ -30,6 +31,7 @@ public class EditorPreferencesWindow extends JDialog {
 	private static final long serialVersionUID = 1765234494439106077L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField;
+	private JCheckBox useMinifiedJsonCheckBox;
 
 	/**
 	 * Create the dialog.
@@ -42,7 +44,8 @@ public class EditorPreferencesWindow extends JDialog {
 		setResizable(false);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new MigLayout("", "[70px][70px][30px][70px][30px][70px][75px]", "[1px][21px][1px][21px]"));
+		contentPanel
+				.setLayout(new MigLayout("", "[70px][70px][30px][70px][30px][70px][75px]", "[1px][21px][1px][21px]"));
 		{
 			JLabel lblNewLabel = new JLabel("Project Directory");
 			contentPanel.add(lblNewLabel, "cell 0 0,alignx left,aligny bottom");
@@ -65,12 +68,18 @@ public class EditorPreferencesWindow extends JDialog {
 			contentPanel.add(btnNewButton, "cell 6 1,growx,aligny top");
 		}
 		{
+			useMinifiedJsonCheckBox = new JCheckBox("Use Minified Json");
+			useMinifiedJsonCheckBox.setToolTipText("When checked, saved json files will be minified.");
+			useMinifiedJsonCheckBox.setSelected(EditorProperty.useMinifiedJson);
+			contentPanel.add(useMinifiedJsonCheckBox, "cell 0 3");
+		}
+		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				
+
 				okButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -94,7 +103,7 @@ public class EditorPreferencesWindow extends JDialog {
 			}
 		}
 	}
-	
+
 	private void onDirectorySetting() {
 		JFileChooser jfc = new JFileChooser();
 		jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -117,17 +126,18 @@ public class EditorPreferencesWindow extends JDialog {
 					JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	
+
 	private void onOk() {
 		if (!EditorPreferencesWindow.this.textField.getText().equals(EditorProperty.projectDirectory)) {
 			EditorProperty.setProjectDirectory(this.textField.getText());
 		}
+		EditorProperty.useMinifiedJson = this.useMinifiedJsonCheckBox.isSelected();
 		this.onCancel();
 	}
-	
+
 	private void onCancel() {
 		this.setVisible(false);
-		this.dispatchEvent(new WindowEvent(this,WindowEvent.WINDOW_CLOSING));
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
 
 }

@@ -49,7 +49,7 @@ public class CharacterPose {
 			propertyFile = new File(poseFile.getParent() + "\\" + poseName + ".json");
 		}
 		try {
-			JSON.encode(property, new FileWriter(propertyFile), true);
+			JSON.encode(property, new FileWriter(propertyFile), !EditorProperty.useMinifiedJson);
 			this.clearDirty();
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();

@@ -88,7 +88,7 @@ public class SkillMotionItemType extends BaseItemType {
 		}
 		
 		try {
-			JSON.encode(output, new FileWriter(src), true);
+			JSON.encode(output, new FileWriter(src), !EditorProperty.useMinifiedJson);
 			this.clearDirty();
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();

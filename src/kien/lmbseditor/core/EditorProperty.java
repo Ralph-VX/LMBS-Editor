@@ -38,6 +38,7 @@ public class EditorProperty {
 	static public WeaponList weaponList;
 	static public String currentWeaponName;
 	static public BufferedImage currentWeaponImage;
+	static public boolean useMinifiedJson;
 	
 	static {
 		init();
@@ -50,6 +51,7 @@ public class EditorProperty {
 		backgroundGreen = prefs.getInt("backgroundGreen", 0);
 		backgroundBlue = prefs.getInt("backgroundBlue", 255);
 		currentWeaponName = prefs.get("currentweapon", "");
+		useMinifiedJson = prefs.getBoolean("useMinifiedJson", false);
 		loadProject();
 	}
 	

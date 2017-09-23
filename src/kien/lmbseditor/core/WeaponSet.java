@@ -36,7 +36,7 @@ public class WeaponSet {
 
 	public void save() {
 		try {
-			JSON.encode(json, new FileWriter(jsonFile), true);
+			JSON.encode(json, new FileWriter(jsonFile), !EditorProperty.useMinifiedJson);
 			this.clearDirty();
 		} catch (JSONException | IOException e) {
 			e.printStackTrace();
