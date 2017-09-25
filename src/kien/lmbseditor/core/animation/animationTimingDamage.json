@@ -1,0 +1,47 @@
+{
+	"x" : {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Rect X"
+	},
+	"y" : {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Rect Y"
+	},
+	"width" : {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Rect Width"
+	},
+	"height" : {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Rect Height"
+	},
+	"knockbackx" : {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Knockback X"
+	},
+	"knockbacky" : {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Knockback Y"
+	},
+	"knockdir" : {
+		"type" : "boolean",
+		"description" : "",
+		"displayName" : "Rect X"
+	},
+	"damage" : {
+		"type" : "float",
+		"description" : "",
+		"displayName" : "Damage"
+	},
+	"interval" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Interval"
+	}
+}

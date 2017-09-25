@@ -54,7 +54,7 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		add(xValueTextField, "cell 0 3,growx");
 		xValueTextField.setColumns(10);
 		
-		xOriginList = new JComboBox();
+		xOriginList = new JComboBox<String>();
 		xOriginList.setModel(new DefaultComboBoxModel(new String[] {"user", "target", "screen", "field"}));
 		add(xOriginList, "cell 1 3,growx");
 		
@@ -83,10 +83,10 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		
 		JPanel panel = new JPanel();
 		add(panel, "cell 0 6 2 1,grow");
-		panel.setLayout(new MigLayout("", "[50%,grow][50%,grow]", "[30%,grow][60%,grow][10%,grow]"));
+		panel.setLayout(new MigLayout("", "[33%,grow][34%,grow][33%,grow]", "[30%,grow][60%,grow][10%,grow]"));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane, "cell 0 0 2 1,grow");
+		panel.add(scrollPane, "cell 0 0 3 1,grow");
 		
 		animationFrameList = new JList();
 		scrollPane.setViewportView(animationFrameList);
@@ -95,7 +95,7 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		scrollPane.setColumnHeaderView(lblNewLabel);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel.add(scrollPane_1, "cell 0 1 2 1,grow");
+		panel.add(scrollPane_1, "cell 0 1 3 1,grow");
 		
 		AnimationTimingList = new JList();
 		scrollPane_1.setViewportView(AnimationTimingList);
@@ -103,11 +103,14 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		JLabel lblTimings = new JLabel("Animation Timings:");
 		scrollPane_1.setColumnHeaderView(lblTimings);
 		
-		JButton btnCreateTiming = new JButton("Create Timing");
+		JButton btnCreateTiming = new JButton("Create");
 		panel.add(btnCreateTiming, "cell 0 2,growx");
 		
-		JButton btnDeleteTiming = new JButton("Delete Timing");
+		JButton btnDeleteTiming = new JButton("Edit");
 		panel.add(btnDeleteTiming, "cell 1 2,growx");
+		
+		JButton btnNewButton = new JButton("Delete");
+		panel.add(btnNewButton, "cell 2 2,growx");
 		
 		animationContent = new AnimationContent();
 		animationContent.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
