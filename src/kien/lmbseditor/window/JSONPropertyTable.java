@@ -1,4 +1,4 @@
-package kien.lmbseditor.window.skillmotion;
+package kien.lmbseditor.window;
 
 import java.awt.Component;
 import java.text.DecimalFormat;
