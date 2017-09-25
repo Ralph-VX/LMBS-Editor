@@ -24,8 +24,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import kien.lmbseditor.core.AnimationItemType;
-import kien.lmbseditor.core.AnimationObject;
 import kien.lmbseditor.core.EditorProperty;
+import kien.lmbseditor.core.animation.AnimationLMBSDamageTiming;
 import kien.lmbseditor.mv.Animation;
 import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
@@ -321,7 +321,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		if (this.animation != null) {
 			this.frameShowingLable.setText((curFrame+1) + "/" + maxFrame);
 			if (this.contents != null) {
-				ArrayList<AnimationObject> list = contents.data.get(curFrame);
+				ArrayList<AnimationLMBSDamageTiming> list = contents.data.get(curFrame);
 				if (list != null) {
 					for (int n = 0; n < list.size(); n++) {
 						this.timingListContent.addElement("Rect" + (n+1));
@@ -424,9 +424,9 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 	}
 	
 	private void onTimingListChange() {
-		ArrayList<AnimationObject> aos = contents.data.get(this.curFrame);
+		ArrayList<AnimationLMBSDamageTiming> aos = contents.data.get(this.curFrame);
 		if (aos != null && this.timingList.getSelectedIndex() >= 0) {
-			AnimationObject ao = aos.get(this.timingList.getSelectedIndex());
+			AnimationLMBSDamageTiming ao = aos.get(this.timingList.getSelectedIndex());
 			if (ao != null) {
 				this.timingDamage.setValue(ao.damagePer);
 				this.timingDuration.setValue(ao.dur);
