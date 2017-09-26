@@ -1,44 +1,54 @@
 package kien.lmbseditor.window.animation;
 
+import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSProperty;
+import kien.lmbseditor.mv.Animation;
 import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
-import java.awt.Component;
-import javax.swing.Box;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JSeparator;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.JPanel;
 import javax.swing.JList;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
-import java.awt.Button;
 import javax.swing.JButton;
 
 public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private JTextField xValueTextField;
 	private JTextField yValueTextField;
-	private JComboBox animationList;
-	private JComboBox xOriginList;
-	private JComboBox yOriginList;
+	private JComboBox<String> animationList;
+	private JComboBox<String> xOriginList;
+	private JComboBox<String> yOriginList;
 	private AnimationContent animationContent;
-	private JList animationFrameList;
-	private JList AnimationTimingList;
+	private JList<String> animationFrameList;
+	private DefaultListModel<String> animationFrameListModel;
+	private JList<Object> animationTimingList;
+	private DefaultListModel<Object> animationTimingListModel;
 	
 	private AnimationLMBSProperty animation;
+	private JFormattedTextField delayTextField;
+	private JCheckBox mirrorCheck;
+	private JCheckBox followCheck;
 	public AnimationLMBSDescriptionPanel() {
 		setLayout(new MigLayout("", "[10%,grow][40%,grow][10%,grow][40%,grow]", "[][][][][][][grow]"));
 		
 		JLabel lblAnimation = new JLabel("Animation");
 		add(lblAnimation, "cell 0 0,growx");
 		
-		animationList = new JComboBox();
+		animationList = new JComboBox<String>();
+		this.refreshAnimationList();
 		add(animationList, "cell 0 1 4 1,growx");
 		
 		JLabel lblX = new JLabel("X:");
@@ -58,28 +68,28 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		xValueTextField.setColumns(10);
 		
 		xOriginList = new JComboBox<String>();
-		xOriginList.setModel(new DefaultComboBoxModel(new String[] {"user", "target", "screen", "field"}));
+		xOriginList.setModel(new DefaultComboBoxModel<String>(new String[] {"user", "target", "screen", "field"}));
 		add(xOriginList, "cell 1 3,growx");
 		
 		yValueTextField = new JTextField();
 		add(yValueTextField, "cell 2 3,growx");
 		yValueTextField.setColumns(10);
 		
-		yOriginList = new JComboBox();
-		yOriginList.setModel(new DefaultComboBoxModel(new String[] {"user", "target", "screen", "field"}));
+		yOriginList = new JComboBox<String>();
+		yOriginList.setModel(new DefaultComboBoxModel<String>(new String[] {"user", "target", "screen", "field"}));
 		add(yOriginList, "cell 3 3,growx");
 		
 		JLabel lblDelay = new JLabel("Delay:");
 		add(lblDelay, "flowx,cell 0 4,alignx left");
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		add(formattedTextField, "cell 1 4,growx");
+		delayTextField = new JFormattedTextField();
+		add(delayTextField, "cell 1 4,growx");
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Mirror");
-		add(chckbxNewCheckBox, "cell 2 4");
+		mirrorCheck = new JCheckBox("Mirror");
+		add(mirrorCheck, "cell 2 4");
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("Follow Origin");
-		add(chckbxNewCheckBox_1, "cell 3 4");
+		followCheck = new JCheckBox("Follow Origin");
+		add(followCheck, "cell 3 4");
 		
 		JSeparator separator = new JSeparator();
 		add(separator, "cell 0 5 4 1");
@@ -90,8 +100,9 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane, "cell 0 0 3 1,grow");
-		
-		animationFrameList = new JList();
+
+		animationFrameListModel = new DefaultListModel<String>();
+		animationFrameList = new JList<String>(animationFrameListModel);
 		scrollPane.setViewportView(animationFrameList);
 		
 		JLabel lblNewLabel = new JLabel("Animation Frame:");
@@ -99,9 +110,10 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel.add(scrollPane_1, "cell 0 1 3 1,grow");
-		
-		AnimationTimingList = new JList();
-		scrollPane_1.setViewportView(AnimationTimingList);
+
+		animationTimingListModel = new DefaultListModel<Object>();
+		animationTimingList = new JList<Object>(animationTimingListModel);
+		scrollPane_1.setViewportView(animationTimingList);
 		
 		JLabel lblTimings = new JLabel("Animation Timings:");
 		scrollPane_1.setColumnHeaderView(lblTimings);
@@ -120,11 +132,44 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		add(animationContent, "cell 2 6 2 1,grow");
 	}
 	
-	public void refreshValues() {
-		if (this.animation != null) {
-			
+	public void refreshAnimationList() {
+		this.animationList.removeAllItems();
+		this.animation = null;
+		this.animationList.addItem("Select Animation");
+		ArrayList<Animation> list = EditorProperty.animations;
+		DecimalFormat format = new DecimalFormat("000");
+		for (int n = 0; n < list.size(); n++) {
+			Animation item = list.get(n);
+			if (item != null) {
+				this.animationList.addItem(format.format(n) + ":" + item.name);
+			}
 		}
 	}
+	
+	public void refreshValues() {
+		if (this.animation != null) {
+			this.animationList.setSelectedIndex(this.animation.animationId);
+			this.xOriginList.setSelectedItem(this.animation.x.origin);
+			this.xValueTextField.setText(this.animation.x.getValue().toString());
+			this.yOriginList.setSelectedItem(this.animation.y.origin);
+			this.yValueTextField.setText(this.animation.y.getValue().toString());
+			this.mirrorCheck.setSelected(this.animation.mirror);
+			this.followCheck.setSelected(this.animation.follow);
+		}
+	}
+	
+	public void refreshAnimationFrameList() {
+		this.animationFrameListModel.removeAllElements();
+		if (this.animation != null) {
+			Animation anim = EditorProperty.animations.get(this.animation.animationId);
+			if (anim != null) {
+				for (int i = 0; i < anim.frames.size(); i++) {
+					this.animationFrameListModel.addElement(Integer.toString(i+1));
+				}
+			}
+		}
+	}
+	
 
 	@Override
 	public void refresh() {
