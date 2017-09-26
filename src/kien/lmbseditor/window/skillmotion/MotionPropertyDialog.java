@@ -42,7 +42,8 @@ public class MotionPropertyDialog extends JDialog implements ActionListener {
 			JScrollPane scrollPane = new JScrollPane();
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
-				table = new JSONPropertyTable(this.propertyList,this.data);
+				table = new JSONPropertyTable();
+				table.setData(this.propertyList,this.data);
 				scrollPane.setViewportView(table);
 			}
 		}

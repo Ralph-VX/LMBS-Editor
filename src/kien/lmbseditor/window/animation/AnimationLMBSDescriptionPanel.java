@@ -1,5 +1,6 @@
 package kien.lmbseditor.window.animation;
 
+import kien.lmbseditor.core.animation.AnimationLMBSProperty;
 import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
@@ -29,6 +30,8 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 	private AnimationContent animationContent;
 	private JList animationFrameList;
 	private JList AnimationTimingList;
+	
+	private AnimationLMBSProperty animation;
 	public AnimationLMBSDescriptionPanel() {
 		setLayout(new MigLayout("", "[10%,grow][40%,grow][10%,grow][40%,grow]", "[][][][][][][grow]"));
 		
@@ -115,6 +118,12 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		animationContent = new AnimationContent();
 		animationContent.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		add(animationContent, "cell 2 6 2 1,grow");
+	}
+	
+	public void refreshValues() {
+		if (this.animation != null) {
+			
+		}
 	}
 
 	@Override

@@ -28,33 +28,44 @@ public class JSONPropertyTable extends JTable {
 	private DefaultTableModel tm;
 
 	@SuppressWarnings("unchecked")
-	public JSONPropertyTable(LinkedHashMap<String, Object> property, LinkedHashMap<String, Object> data) {
-		this.propertyList = property;
-		this.data = data;
+	public JSONPropertyTable() {
 		this.setFillsViewportHeight(true);
 		this.getTableHeader().setReorderingAllowed(false);
 		tm = (DefaultTableModel) this.getModel();
 		tm.setColumnCount(2);
-		Set<String> propNameList = propertyList.keySet();
-		int row = 0;
-		for (String name : propNameList) {
-			Vector<Object> vec = tm.getDataVector();
-			Vector<Object> vec2 = new Vector<Object>();
-			vec2.add(name);
-			vec2.add((Object)data.get(name));
-			tm.addRow(vec2);
-			if (getPropertyType(name).equals("text")) {
-				this.setRowHeight(row, 120);
-			}
-			row++;
-		}
+		
 		cm = (DefaultTableColumnModel) this.getColumnModel();
 		cm.getColumn(0).setHeaderValue("Name");
 		cm.getColumn(0).setMaxWidth(75);
 		cm.getColumn(0).setResizable(false);
 		cm.getColumn(1).setHeaderValue("Value");
 		cm.getColumn(1).setResizable(false);
-		this.revalidate();
+	}
+	
+	private boolean isDataAvailable() {
+		return this.propertyList != null && this.data != null;
+	}
+	
+	public void setData(LinkedHashMap<String, Object> property, LinkedHashMap<String, Object> data) {
+		this.propertyList = property;
+		this.data = data;
+		tm.setRowCount(0);
+		if (this.isDataAvailable()) {
+			Set<String> propNameList = propertyList.keySet();
+			int row = 0;
+			for (String name : propNameList) {
+				Vector<Object> vec = tm.getDataVector();
+				Vector<Object> vec2 = new Vector<Object>();
+				vec2.add(name);
+				vec2.add((Object)data.get(name));
+				tm.addRow(vec2);
+				if (getPropertyType(name).equals("text")) {
+					this.setRowHeight(row, 120);
+				}
+				row++;
+			}
+			this.revalidate();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -85,6 +96,9 @@ public class JSONPropertyTable extends JTable {
 
 	@Override
 	public TableCellRenderer getCellRenderer(int row, int column) {
+		if (!this.isDataAvailable()) {
+			return super.getCellRenderer(row, column);
+		}
 		if (column == 0) {
 			return super.getCellRenderer(row, column);
 		} else {
@@ -105,6 +119,9 @@ public class JSONPropertyTable extends JTable {
 
 	@Override
 	public TableCellEditor getCellEditor(int row, int column) {
+		if (!this.isDataAvailable()) {
+			return super.getCellEditor(row, column);
+		}
 		if (column == 0) {
 			return super.getCellEditor(row, column);
 		} else {
