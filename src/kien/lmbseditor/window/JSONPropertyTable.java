@@ -29,6 +29,7 @@ public class JSONPropertyTable extends JTable {
 
 	@SuppressWarnings("unchecked")
 	public JSONPropertyTable() {
+		this.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		this.setFillsViewportHeight(true);
 		this.getTableHeader().setReorderingAllowed(false);
 		tm = (DefaultTableModel) this.getModel();
@@ -143,6 +144,9 @@ public class JSONPropertyTable extends JTable {
 
 	@SuppressWarnings("unchecked")
 	public LinkedHashMap<String, Object> getTableContents() {
+		if (this.getCellEditor() != null) {
+			this.getCellEditor().stopCellEditing();
+		}
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		Vector<Vector<Object>> table = tm.getDataVector();
 		for (Vector<Object> row : table) {
