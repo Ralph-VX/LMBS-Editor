@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
@@ -177,7 +178,11 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 	public void refreshAnimationTimingList() {
 		this.animationTimingListModel.removeAllElements();
 		if (this.animation != null && this.frameNumber > 0) {
-			ArrayList<AnimationLMBSTimingBase> arr;
+			ArrayList<AnimationLMBSTimingBase> arr = this.animation.timing;
+			LinkedHashMap<String, Integer> counts = new LinkedHashMap<String, Integer>();
+			for (AnimationLMBSTimingBase timing : arr) {
+				
+			}
 		}
 	}
 	
