@@ -2,6 +2,7 @@ package kien.lmbseditor.window.animation;
 
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSProperty;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
 import kien.lmbseditor.mv.Animation;
 import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
@@ -36,12 +37,15 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 	private DefaultListModel<String> animationFrameListModel;
 	private JList<Object> animationTimingList;
 	private DefaultListModel<Object> animationTimingListModel;
+	private int frameNumber;
 	
 	private AnimationLMBSProperty animation;
 	private JFormattedTextField delayTextField;
 	private JCheckBox mirrorCheck;
 	private JCheckBox followCheck;
 	public AnimationLMBSDescriptionPanel() {
+		this.frameNumber = 0;
+		
 		setLayout(new MigLayout("", "[10%,grow][40%,grow][10%,grow][40%,grow]", "[][][][][][][grow]"));
 		
 		JLabel lblAnimation = new JLabel("Animation");
@@ -167,6 +171,13 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 					this.animationFrameListModel.addElement(Integer.toString(i+1));
 				}
 			}
+		}
+	}
+	
+	public void refreshAnimationTimingList() {
+		this.animationTimingListModel.removeAllElements();
+		if (this.animation != null && this.frameNumber > 0) {
+			ArrayList<AnimationLMBSTimingBase> arr;
 		}
 	}
 	

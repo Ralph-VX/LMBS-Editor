@@ -13,7 +13,7 @@ import net.arnx.jsonic.JSONException;
  * @author Kien-PC
  * 
  */
-public class AnimationLMBSDamageTiming {
+public class AnimationLMBSDamageTiming extends AnimationLMBSTimingBase {
 	public Rectangle rect;
 	public int dur;
 	public int interval;
@@ -30,6 +30,7 @@ public class AnimationLMBSDamageTiming {
 		this.interval = 1;
 	}
 	
+	@Override
 	public LinkedHashMap<String, Object> obtainPropertyList() {
 		try {
 			return JSON.decode(this.getClass().getResourceAsStream("animationTimingDamage.json"));
@@ -40,7 +41,8 @@ public class AnimationLMBSDamageTiming {
 		return new LinkedHashMap<String, Object>();
 	}
 	
-	public LinkedHashMap<String, Object> obtainDataList() {
+	@Override
+	public LinkedHashMap<String, Object> obtainData() {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("x", rect.x);
 		map.put("y", rect.y);
@@ -53,5 +55,19 @@ public class AnimationLMBSDamageTiming {
 		map.put("interval", interval);
 		return map;
 	}
+
+	@Override
+	public void updateData(LinkedHashMap<String, Object> data) {
+		this.rect.x = ((Number)data.get("x")).doubleValue();
+		this.rect.y = ((Number)data.get("y")).doubleValue();
+		this.rect.width = ((Number)data.get("width")).doubleValue();
+		this.rect.height = ((Number)data.get("height")).doubleValue();
+		this.knockback.x = ((Number)data.get("knockbackx")).doubleValue();
+		this.knockback.y = ((Number)data.get("knockbacky")).doubleValue();
+		this.knockdir = (boolean)data.get("knockdir") ? 1 : 0;
+		this.damagePer = ((Number)data.get("damage")).doubleValue();
+		this.interval = ((Number)data.get("interval")).intValue();
+	}
+
 	
 }
