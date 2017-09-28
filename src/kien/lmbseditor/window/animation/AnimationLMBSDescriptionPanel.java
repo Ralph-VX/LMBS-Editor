@@ -1,6 +1,7 @@
 package kien.lmbseditor.window.animation;
 
 import kien.lmbseditor.core.EditorProperty;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.lmbseditor.core.animation.AnimationLMBSProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
 import kien.lmbseditor.mv.Animation;
@@ -36,8 +37,8 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 	private AnimationContent animationContent;
 	private JList<String> animationFrameList;
 	private DefaultListModel<String> animationFrameListModel;
-	private JList<Object> animationTimingList;
-	private DefaultListModel<Object> animationTimingListModel;
+	private JList<AnimationLMBSTimingBase> animationTimingList;
+	private DefaultListModel<AnimationLMBSTimingBase> animationTimingListModel;
 	private int frameNumber;
 	
 	private AnimationLMBSProperty animation;
@@ -116,8 +117,8 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel.add(scrollPane_1, "cell 0 1 3 1,grow");
 
-		animationTimingListModel = new DefaultListModel<Object>();
-		animationTimingList = new JList<Object>(animationTimingListModel);
+		animationTimingListModel = new DefaultListModel<AnimationLMBSTimingBase>();
+		animationTimingList = new JList<AnimationLMBSTimingBase>(animationTimingListModel);
 		scrollPane_1.setViewportView(animationTimingList);
 		
 		JLabel lblTimings = new JLabel("Animation Timings:");
@@ -179,10 +180,16 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		this.animationTimingListModel.removeAllElements();
 		if (this.animation != null && this.frameNumber > 0) {
 			ArrayList<AnimationLMBSTimingBase> arr = this.animation.timing;
-			LinkedHashMap<String, Integer> counts = new LinkedHashMap<String, Integer>();
 			for (AnimationLMBSTimingBase timing : arr) {
-				
+				this.animationTimingListModel.addElement(timing);
 			}
+		}
+	}
+	
+	public void onCreateTiming() {
+		if (this.animation != null && this.frameNumber > 0) {
+			AnimationTimingDialog d = new AnimationTimingDialog();
+			AnimationLMBSTimingBase base = new AnimationLMBSTimingDamage();
 		}
 	}
 	

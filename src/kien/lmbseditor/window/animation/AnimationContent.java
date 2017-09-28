@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import kien.lmbseditor.core.EditorProperty;
-import kien.lmbseditor.core.animation.AnimationLMBSDamageTiming;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.lmbseditor.mv.Animation;
 import kien.util.KienLogger;
 
@@ -27,7 +27,7 @@ public class AnimationContent extends JPanel {
 	public int frameNumber;
 	public Animation animation;
 	ArrayList<ArrayList<Double>> frame;
-	ArrayList<AnimationLMBSDamageTiming> rects;
+	ArrayList<AnimationLMBSTimingDamage> rects;
 	
 	private BufferedImage image1;
 	private BufferedImage image2;
@@ -63,7 +63,7 @@ public class AnimationContent extends JPanel {
 		}
 	}
 	
-	public void setRects(ArrayList<AnimationLMBSDamageTiming> list) {
+	public void setRects(ArrayList<AnimationLMBSTimingDamage> list) {
 		this.rects = list;
 		this.repaint();
 	}

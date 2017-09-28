@@ -30,7 +30,7 @@ public class AnimationLMBSProperty {
 	
 	static {
 		timingTypeToClass = new LinkedHashMap<String, Class<? extends AnimationLMBSTimingBase>>();
-		timingTypeToClass.put("damage", AnimationLMBSDamageTiming.class);
+		timingTypeToClass.put("damage", AnimationLMBSTimingDamage.class);
 		timingTypeToClass.put("projectile", AnimationLMBSTimingProjectile.class);
 		classToTimingType = new LinkedHashMap<Class<? extends AnimationLMBSTimingBase>, String>();
 		for (Entry<String, Class<? extends AnimationLMBSTimingBase>> set : timingTypeToClass.entrySet()) {

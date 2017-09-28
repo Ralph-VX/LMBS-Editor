@@ -13,7 +13,7 @@ import net.arnx.jsonic.JSONException;
  * @author Kien-PC
  * 
  */
-public class AnimationLMBSDamageTiming extends AnimationLMBSTimingBase {
+public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 	public Rectangle rect;
 	public int dur;
 	public int interval;
@@ -21,7 +21,7 @@ public class AnimationLMBSDamageTiming extends AnimationLMBSTimingBase {
 	public Point2D.Double knockback;
 	public int knockdir;
 	
-	public AnimationLMBSDamageTiming() {
+	public AnimationLMBSTimingDamage() {
 		this.rect = new Rectangle();
 		this.dur = 0;
 		this.damagePer = 0;

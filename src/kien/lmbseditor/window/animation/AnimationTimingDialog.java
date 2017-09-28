@@ -11,6 +11,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingProjectile;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
 import kien.lmbseditor.window.JSONPropertyTable;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
@@ -75,6 +78,20 @@ public class AnimationTimingDialog extends JDialog {
 		this.datas.put(name, data);
 		this.checkButton(name);
 		this.refreshTableContent();
+	}
+	
+	public AnimationLMBSTimingBase getData() {
+		String typename = this.getSelectedButtonName();
+		if (typename == "damage") {
+			AnimationLMBSTimingDamage t = new AnimationLMBSTimingDamage();
+			t.updateData(this.datas.get("damage"));
+			return t; 
+		} else if (typename == "projectile") {
+			AnimationLMBSTimingProjectile t = new AnimationLMBSTimingProjectile();
+			t.updateData(this.datas.get("projectile"));
+			return t; 
+		}
+		return null;
 	}
 	
 	private void refreshTableContent() {
