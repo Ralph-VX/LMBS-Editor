@@ -2,6 +2,8 @@ package kien.lmbseditor.window.animation;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
@@ -22,18 +24,21 @@ import javax.swing.JRadioButton;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 
-public class AnimationTimingDialog extends JDialog {
+public class AnimationTimingDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private LinkedHashMap<String, LinkedHashMap<String, Object>> datas;
 	private final ButtonGroup buttonGroupTimingType = new ButtonGroup();
 	private JSONPropertyTable propertyTable;
+	private boolean dirty;
+	public String typeName;
 
 	/**
 	 * Create the dialog.
 	 */
 	public AnimationTimingDialog() {
+		dirty = false;
 		datas.put("damage", new LinkedHashMap<String, Object>());
 		datas.put("projectile", new LinkedHashMap<String, Object>());
 		setModal(true);
@@ -114,7 +119,7 @@ public class AnimationTimingDialog extends JDialog {
         }
 	}
 	
-	private String getSelectedButtonName() {
+	public String getSelectedButtonName() {
         for (Enumeration<AbstractButton> buttons = buttonGroupTimingType.getElements(); buttons.hasMoreElements();) {
             AbstractButton button = buttons.nextElement();
 
@@ -123,5 +128,30 @@ public class AnimationTimingDialog extends JDialog {
             }
         }
         return null;
+	}
+	
+	public boolean isDirty() {
+		return this.dirty;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+		if (command.equals("OK")) {
+			this.onOk();
+		} else {
+			this.onCancel();
+		}
+	}
+
+	public void onOk() {
+		this.datas.put(this.getSelectedButtonName(), this.propertyTable.getTableContents());
+		this.typeName = this.getSelectedButtonName();
+		this.dirty = true;
+		this.onCancel();
+	};
+
+	public void onCancel() {
+		this.dispose();
 	}
 }

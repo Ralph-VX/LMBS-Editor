@@ -189,10 +189,53 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 	public void onCreateTiming() {
 		if (this.animation != null && this.frameNumber > 0) {
 			AnimationTimingDialog d = new AnimationTimingDialog();
-			AnimationLMBSTimingBase base = new AnimationLMBSTimingDamage();
+			d.setVisible(true);
+			if (d.isDirty()) {
+				try {
+					AnimationLMBSTimingBase dret = AnimationLMBSProperty.timingTypeToClass.get(d.typeName).newInstance();
+					this.animation.addTiming(dret);
+					this.refreshAnimationTimingList();
+				} catch (InstantiationException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
+	public void onEditTiming() {
+		if (this.animation != null && this.frameNumber > 0) {
+			AnimationLMBSTimingBase timing = this.animationTimingList.getSelectedValue();
+			if (timing != null) {
+				AnimationTimingDialog d = new AnimationTimingDialog();
+				d.setData(AnimationLMBSProperty.classToTimingType.get(timing.getClass()), timing.obtainData());
+				d.setVisible(true);
+				if (d.isDirty()) {
+					try {
+						AnimationLMBSTimingBase dret = AnimationLMBSProperty.timingTypeToClass.get(d.typeName).newInstance();
+						if (dret.getClass().equals(timing.getClass())) {
+							this.animation.timing.set(this.animation.timing.indexOf(timing), dret);
+						} else {
+							this.animation.timing.remove(timing);
+							this.animation.addTiming(dret);
+						}
+						this.refreshAnimationTimingList();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	public void onDeleteTiming() {
+		if (this.animation != null && this.frameNumber > 0) {
+			AnimationLMBSTimingBase timing = this.animationTimingList.getSelectedValue();
+			if (timing != null) {
+				this.animation.timing.remove(timing);
+				this.refreshAnimationTimingList();
+			}
+		}
+	}
 
 	@Override
 	public void refresh() {

@@ -1,6 +1,8 @@
 package kien.lmbseditor.core.animation;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
@@ -27,6 +29,12 @@ public class AnimationLMBSProperty {
 		follow = false;
 	}
 	
+	public void addTiming(AnimationLMBSTimingBase timing) {
+		this.timing.add(timing);
+		Collections.sort(this.timing, new TimingComparator());
+	}
+	
+	
 	
 	static {
 		timingTypeToClass = new LinkedHashMap<String, Class<? extends AnimationLMBSTimingBase>>();
@@ -36,6 +44,19 @@ public class AnimationLMBSProperty {
 		for (Entry<String, Class<? extends AnimationLMBSTimingBase>> set : timingTypeToClass.entrySet()) {
 			classToTimingType.put(set.getValue(), set.getKey());
 		}
+	}
+	
+	public class TimingComparator implements Comparator<AnimationLMBSTimingBase> {
+
+		@Override
+		public int compare(AnimationLMBSTimingBase o1, AnimationLMBSTimingBase o2) {
+			try {
+				return classToTimingType.get(o1).compareTo(classToTimingType.get(o2));
+			} catch (Exception e) {
+				return 0;
+			}
+		}
+		
 	}
 	
 }
