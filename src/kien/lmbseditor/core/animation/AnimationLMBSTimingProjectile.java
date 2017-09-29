@@ -10,6 +10,7 @@ public class AnimationLMBSTimingProjectile extends AnimationLMBSTimingBase {
 	
 	public String classname;
 	public String parameters;
+	public String type = "projectile";
 	
 	public AnimationLMBSTimingProjectile() {
 		classname = "";

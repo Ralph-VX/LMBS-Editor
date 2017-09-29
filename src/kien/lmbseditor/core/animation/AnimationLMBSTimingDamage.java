@@ -20,6 +20,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 	public double damagePer;
 	public Point2D.Double knockback;
 	public int knockdir;
+	public String type = "damage";
 	
 	public AnimationLMBSTimingDamage() {
 		this.rect = new Rectangle();
