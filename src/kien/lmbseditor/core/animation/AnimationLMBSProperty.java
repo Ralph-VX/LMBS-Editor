@@ -3,8 +3,10 @@ package kien.lmbseditor.core.animation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.mv.Animation;
@@ -20,12 +22,12 @@ public class AnimationLMBSProperty {
 	public int delay;
 	public boolean mirror;
 	public boolean follow;
-	public ArrayList<ArrayList<AnimationLMBSTimingBase>> timing;
+	public LinkedHashMap<Integer, ArrayList<AnimationLMBSTimingBase>> timing;
 	
 	public AnimationLMBSProperty() {
 		x = new AnimationCoordinateObject();
 		y = new AnimationCoordinateObject();
-		timing = new ArrayList<ArrayList<AnimationLMBSTimingBase>>();
+		timing = new LinkedHashMap<Integer, ArrayList<AnimationLMBSTimingBase>>();
 		animationId = 0;
 		delay = 0;
 		mirror = false;
@@ -33,6 +35,9 @@ public class AnimationLMBSProperty {
 	}
 	
 	public void addTiming(int frameNumber, AnimationLMBSTimingBase timing) {
+		if (this.timing.get(frameNumber) == null) {
+			this.timing.put(frameNumber, new ArrayList<AnimationLMBSTimingBase>());
+		}
 		this.timing.get(frameNumber).add(timing);
 		Collections.sort(this.timing.get(frameNumber), new TimingComparator());
 	}
@@ -47,13 +52,11 @@ public class AnimationLMBSProperty {
 		if (anim == null) {
 			this.timing.clear();
 		} else {
-			if (this.timing.size() > anim.frames.size()) {
-				while (this.timing.size() > anim.frames.size()){
-					this.timing.remove(anim.frames.size());
-				}
-			} else {
-				while (this.timing.size() < anim.frames.size()) {
-					this.timing.add(new ArrayList<AnimationLMBSTimingBase>());
+			Set<Integer> frames = this.timing.keySet();
+			for (Iterator<Integer> iter = frames.iterator(); iter.hasNext();) {
+				int frameNumber = iter.next();
+				if (frameNumber >= anim.frames.size()) {
+					iter.remove();
 				}
 			}
 		}

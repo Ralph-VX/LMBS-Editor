@@ -111,7 +111,6 @@ public class AnimationTimingDialog extends JDialog implements ActionListener {
 	
 	private void refreshTableContent() {
 		String name = this.getSelectedButtonName();
-		System.out.println(name);
 		if (name != null) {
 			try {
 				this.propertyTable.setData(JSON.decode(AnimationLMBSTimingBase.class.getResourceAsStream("animationTiming" + name + ".json")), datas.get(name));

@@ -211,8 +211,10 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 		this.animationTimingListModel.removeAllElements();
 		if (this.animation != null && this.animation.animationId > 0 && this.frameNumber >= 0) {
 			ArrayList<AnimationLMBSTimingBase> arr = this.animation.timing.get(this.frameNumber);
-			for (AnimationLMBSTimingBase timing : arr) {
-				this.animationTimingListModel.addElement(timing);
+			if (arr != null) {
+				for (AnimationLMBSTimingBase timing : arr) {
+					this.animationTimingListModel.addElement(timing);
+				}
 			}
 		}
 	}
