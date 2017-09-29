@@ -27,7 +27,6 @@ public class JSONPropertyTable extends JTable {
 	private DefaultTableColumnModel cm;
 	private DefaultTableModel tm;
 
-	@SuppressWarnings("unchecked")
 	public JSONPropertyTable() {
 		this.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
 		this.setFillsViewportHeight(true);
@@ -55,7 +54,6 @@ public class JSONPropertyTable extends JTable {
 			Set<String> propNameList = propertyList.keySet();
 			int row = 0;
 			for (String name : propNameList) {
-				Vector<Object> vec = tm.getDataVector();
 				Vector<Object> vec2 = new Vector<Object>();
 				vec2.add(name);
 				vec2.add((Object)data.get(name));

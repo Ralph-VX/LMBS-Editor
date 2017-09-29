@@ -9,12 +9,10 @@ import java.util.LinkedHashMap;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.TableColumn;
 
 import kien.lmbseditor.window.JSONPropertyTable;
-
-import javax.swing.JScrollPane;
 
 public class MotionPropertyDialog extends JDialog implements ActionListener {
 

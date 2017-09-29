@@ -2,7 +2,6 @@ package kien.lmbseditor.window.animation;
 
 import kien.lmbseditor.core.AnimationItemType;
 import kien.lmbseditor.core.EditorProperty;
-import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.lmbseditor.core.animation.AnimationLMBSProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
 import kien.lmbseditor.mv.Animation;
@@ -14,12 +13,8 @@ import javax.swing.JComboBox;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
 import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
 import javax.swing.JCheckBox;
@@ -30,7 +25,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.text.NumberFormatter;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -58,6 +52,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 	private boolean isRefreshing;
 	private AnimationLMBSProperty animation;
 	private AnimationItemType itemType;
+	@SuppressWarnings("unused")
 	private int tabIndex;
 	
 	public AnimationDescriptionPanel(AnimationItemType ait) {
@@ -338,6 +333,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 	public class AnimationTimingCellRenderer extends DefaultListCellRenderer {
 		private static final long serialVersionUID = 1L;
 
+		@SuppressWarnings("rawtypes")
 		@Override
 		public Component getListCellRendererComponent(final JList list, final Object value, final int index, final boolean isSelected, final boolean hasFocus) {
 			JLabel renderer = (JLabel) super.getListCellRendererComponent(list, value, index,

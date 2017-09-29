@@ -1,7 +1,5 @@
 package kien.lmbseditor.core.animation;
 
-import java.math.BigDecimal;
-
 public class AnimationCoordinateObject {
 	private Double valued;
 	private String values;

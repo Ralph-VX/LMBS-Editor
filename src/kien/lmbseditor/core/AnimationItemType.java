@@ -4,12 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 
 import kien.lmbseditor.core.animation.AnimationLMBSProperty;
-import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.util.KienLogger;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
