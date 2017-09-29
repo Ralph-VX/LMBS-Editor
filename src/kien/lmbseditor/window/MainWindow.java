@@ -422,9 +422,6 @@ public class MainWindow {
 		} else {
 			BaseItemType bit = items.get(index - fixedTab);
 			JFileChooser jfc = new JFileChooser() {
-				/**
-				 * 
-				 */
 				private static final long serialVersionUID = 1L;
 
 				@Override
@@ -453,7 +450,7 @@ public class MainWindow {
 				jfc.setCurrentDirectory(bit.getFile().getParentFile());
 			}
 			jfc.setDialogTitle("Save Skill Motion Description File");
-			jfc.setCurrentDirectory(new File(EditorProperty.projectDirectory));
+			jfc.setCurrentDirectory(bit.defaultDirectory());
 			jfc.setFileFilter(new FileNameExtensionFilter("Javascript Object Notation File", "json"));
 			int ret = jfc.showSaveDialog(frame);
 			if (ret != 0) {
@@ -481,9 +478,6 @@ public class MainWindow {
 			BaseItemType bit = items.get(index - fixedTab);
 			if (!bit.haveFile()) {
 				JFileChooser jfc = new JFileChooser() {
-					/**
-					 * 
-					 */
 					private static final long serialVersionUID = 1L;
 
 					@Override
@@ -509,7 +503,7 @@ public class MainWindow {
 					}
 				};
 				jfc.setDialogTitle("Save Skill Motion Description File");
-				jfc.setCurrentDirectory(new File(EditorProperty.projectDirectory));
+				jfc.setCurrentDirectory(bit.defaultDirectory());
 				jfc.setFileFilter(new FileNameExtensionFilter("Javascript Object Notation File", "json"));
 				int ret = jfc.showSaveDialog(frame);
 				if (ret != 0) {

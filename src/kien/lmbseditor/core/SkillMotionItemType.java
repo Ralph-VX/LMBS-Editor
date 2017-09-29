@@ -96,4 +96,9 @@ public class SkillMotionItemType extends BaseItemType {
 		
 	}
 	
+	@Override
+	public File defaultDirectory() {
+		return new File(EditorProperty.projectDirectory + "\\data\\motions");
+	}
+	
 }

@@ -29,4 +29,6 @@ public abstract class BaseItemType {
 	}
 	
 	public abstract void saveFile();
+	
+	public abstract File defaultDirectory();
 }

@@ -61,6 +61,11 @@ public class AnimationItemType extends BaseItemType {
 	}
 	
 	@Override
+	public File defaultDirectory() {
+		return new File(EditorProperty.projectDirectory + "\\data\\animations");
+	}
+	
+	@Override
 	public File getFile() {
 		return src;
 	}
