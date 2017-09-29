@@ -9,6 +9,11 @@ import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -20,12 +25,13 @@ import javax.swing.JSeparator;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.NumberFormatter;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
-public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
+public class AnimationLMBSDescriptionPanel extends EditorPanelBase implements ActionListener, ItemListener {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -54,6 +60,7 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		add(lblAnimation, "cell 0 0,growx");
 		
 		animationList = new JComboBox<String>();
+		animationList.addItemListener(this);
 		this.refreshAnimationList();
 		add(animationList, "cell 0 1 4 1,growx");
 		
@@ -84,11 +91,13 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		yOriginList = new JComboBox<String>();
 		yOriginList.setModel(new DefaultComboBoxModel<String>(new String[] {"user", "target", "screen", "field"}));
 		add(yOriginList, "cell 3 3,growx");
-		
+
 		JLabel lblDelay = new JLabel("Delay:");
 		add(lblDelay, "flowx,cell 0 4,alignx left");
-		
-		delayTextField = new JFormattedTextField();
+
+		DecimalFormat format = new DecimalFormat("0.###");
+		format.setMinimumFractionDigits(0);
+		delayTextField = new JFormattedTextField(format);
 		add(delayTextField, "cell 1 4,growx");
 		
 		mirrorCheck = new JCheckBox("Mirror");
@@ -125,13 +134,19 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 		scrollPane_1.setColumnHeaderView(lblTimings);
 		
 		JButton btnCreateTiming = new JButton("Create");
+		btnCreateTiming.setActionCommand("create");
+		btnCreateTiming.addActionListener(this);
 		panel.add(btnCreateTiming, "cell 0 2,growx");
 		
-		JButton btnDeleteTiming = new JButton("Edit");
-		panel.add(btnDeleteTiming, "cell 1 2,growx");
+		JButton btnEditTiming = new JButton("Edit");
+		btnEditTiming.setActionCommand("edit");
+		btnEditTiming.addActionListener(this);
+		panel.add(btnEditTiming, "cell 1 2,growx");
 		
-		JButton btnNewButton = new JButton("Delete");
-		panel.add(btnNewButton, "cell 2 2,growx");
+		JButton btnDeleteTiming = new JButton("Delete");
+		btnDeleteTiming.setActionCommand("delete");
+		btnDeleteTiming.addActionListener(this);
+		panel.add(btnDeleteTiming, "cell 2 2,growx");
 		
 		animationContent = new AnimationContent();
 		animationContent.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -243,6 +258,37 @@ public class AnimationLMBSDescriptionPanel extends EditorPanelBase {
 
 	@Override
 	public void update() {
+	}
+	
+	@Override
+	public void updateEdit() {
+		this.animation.x.origin = (String) this.xOriginList.getSelectedItem();
+		this.animation.y.origin = (String) this.yOriginList.getSelectedItem();
+		this.animation.x.setValue(this.xValueTextField.getText());
+		this.animation.y.setValue(this.yValueTextField.getText());
+		this.animation.delay = ((Number)this.delayTextField.getValue()).intValue();
+		this.animation.follow = this.followCheck.isSelected();
+		this.animation.mirror = this.mirrorCheck.isSelected();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+		if (command.equals("create")) {
+			this.onCreateTiming();
+		} else if (command.equals("edit")) {
+			this.onEditTiming();
+		} else if (command.equals("delete")) {
+			this.onDeleteTiming();
+		}
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		if (this.animation != null) {
+			this.animation.animationId = this.animationList.getSelectedIndex();
+			
+		}
 	}
 
 }

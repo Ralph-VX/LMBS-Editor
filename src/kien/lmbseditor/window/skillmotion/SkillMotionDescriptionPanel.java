@@ -350,4 +350,8 @@ public class SkillMotionDescriptionPanel extends EditorPanelBase {
 		}
 		
 	}
+
+	@Override
+	public void updateEdit() {
+	}
 }

@@ -12,4 +12,6 @@ public abstract class EditorPanelBase extends JPanel {
 	
 	public abstract void update();
 	
+	public abstract void updateEdit();
+	
 }

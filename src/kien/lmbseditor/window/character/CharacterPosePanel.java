@@ -703,4 +703,9 @@ public class CharacterPosePanel extends EditorPanelBase {
 		this.updatePoseList();
 		this.updatePaintPanel();
 	}
+
+
+	@Override
+	public void updateEdit() {
+	}
 }

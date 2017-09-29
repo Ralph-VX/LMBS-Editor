@@ -17,8 +17,13 @@ public class AnimationCoordinateObject {
 			valued = ((Number)obj).doubleValue();
 			isString = false;
 		} else if (obj instanceof String) {
-			values = (String)obj;
-			isString = true;
+			try {
+				valued = Double.parseDouble(((String)obj));
+				isString = false;
+			} catch (Exception e) {
+				values = (String)obj;
+				isString = true;
+			}
 		}
 	}
 	

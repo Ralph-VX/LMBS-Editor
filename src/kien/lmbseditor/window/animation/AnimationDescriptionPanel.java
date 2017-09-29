@@ -591,5 +591,11 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 	public void update() {
 		this.refresh();
 	}
+
+	@Override
+	public void updateEdit() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
