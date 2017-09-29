@@ -33,12 +33,15 @@ public class AnimationTimingDialog extends JDialog implements ActionListener {
 	private JSONPropertyTable propertyTable;
 	private boolean dirty;
 	public String typeName;
+	private JRadioButton damageRadioButton;
+	private JRadioButton projectileRadioButton;
 
 	/**
 	 * Create the dialog.
 	 */
 	public AnimationTimingDialog() {
 		dirty = false;
+		datas = new LinkedHashMap<String, LinkedHashMap<String, Object>>();
 		datas.put("damage", new LinkedHashMap<String, Object>());
 		datas.put("projectile", new LinkedHashMap<String, Object>());
 		setModal(true);
@@ -48,18 +51,23 @@ public class AnimationTimingDialog extends JDialog implements ActionListener {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new MigLayout("", "[33%,grow][33%,grow][33%,grow]", "[][grow]"));
 		{
-			JRadioButton rdbtnNewRadioButton = new JRadioButton("Damage");
-			buttonGroupTimingType.add(rdbtnNewRadioButton);
-			contentPanel.add(rdbtnNewRadioButton, "cell 0 0");
-		}
-		{
-			JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Projectile");
-			buttonGroupTimingType.add(rdbtnNewRadioButton_1);
-			contentPanel.add(rdbtnNewRadioButton_1, "cell 1 0");
-		}
-		{
 			propertyTable = new JSONPropertyTable();
 			contentPanel.add(propertyTable, "cell 0 1 3 1,grow");
+		}
+		{
+			damageRadioButton = new JRadioButton("Damage");
+			buttonGroupTimingType.add(damageRadioButton);
+			damageRadioButton.setActionCommand("damage");
+			damageRadioButton.addActionListener(this);
+			damageRadioButton.doClick();;
+			contentPanel.add(damageRadioButton, "cell 0 0");
+		}
+		{
+			projectileRadioButton = new JRadioButton("Projectile");
+			buttonGroupTimingType.add(projectileRadioButton);
+			projectileRadioButton.setActionCommand("projectile");
+			projectileRadioButton.addActionListener(this);
+			contentPanel.add(projectileRadioButton, "cell 1 0");
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -67,13 +75,15 @@ public class AnimationTimingDialog extends JDialog implements ActionListener {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
+				okButton.setActionCommand("ok");
+				okButton.addActionListener(this);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
+				cancelButton.setActionCommand("cancel");
+				cancelButton.addActionListener(this);
 				buttonPane.add(cancelButton);
 			}
 		}
@@ -101,9 +111,10 @@ public class AnimationTimingDialog extends JDialog implements ActionListener {
 	
 	private void refreshTableContent() {
 		String name = this.getSelectedButtonName();
+		System.out.println(name);
 		if (name != null) {
 			try {
-				this.propertyTable.setData(JSON.decode(this.getClass().getResourceAsStream("animationTiming" + name + ".json")), datas.get(name));
+				this.propertyTable.setData(JSON.decode(AnimationLMBSTimingBase.class.getResourceAsStream("animationTiming" + name + ".json")), datas.get(name));
 			} catch (JSONException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -137,10 +148,12 @@ public class AnimationTimingDialog extends JDialog implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		if (command.equals("OK")) {
+		if (command.equals("ok")) {
 			this.onOk();
-		} else {
+		} else if (command.equals("cancel")) {
 			this.onCancel();
+		} else if (command.equals("damage") || command.equals("projectile")) {
+			this.refreshTableContent();
 		}
 	}
 

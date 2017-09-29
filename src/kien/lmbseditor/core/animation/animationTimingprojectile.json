@@ -1,47 +1,12 @@
 {
-	"x" : {
-		"type" : "float",
+	"classname" : {
+		"type" : "string",
 		"description" : "",
-		"displayName" : "Rect X"
+		"displayName" : "Projectile Class"
 	},
-	"y" : {
-		"type" : "float",
+	"parameters" : {
+		"type" : "string",
 		"description" : "",
-		"displayName" : "Rect Y"
-	},
-	"width" : {
-		"type" : "float",
-		"description" : "",
-		"displayName" : "Rect Width"
-	},
-	"height" : {
-		"type" : "float",
-		"description" : "",
-		"displayName" : "Rect Height"
-	},
-	"knockbackx" : {
-		"type" : "float",
-		"description" : "",
-		"displayName" : "Knockback X"
-	},
-	"knockbacky" : {
-		"type" : "float",
-		"description" : "",
-		"displayName" : "Knockback Y"
-	},
-	"knockdir" : {
-		"type" : "boolean",
-		"description" : "",
-		"displayName" : "Rect X"
-	},
-	"damage" : {
-		"type" : "float",
-		"description" : "",
-		"displayName" : "Damage"
-	},
-	"interval" : {
-		"type" : "integer",
-		"description" : "",
-		"displayName" : "Interval"
+		"displayName" : "Parameters"
 	}
 }

@@ -68,6 +68,9 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 		this.damagePer = ((Number)data.get("damage")).doubleValue();
 		this.interval = ((Number)data.get("interval")).intValue();
 	}
-
 	
+	@Override
+	public String obtainRepresentingString() {
+		return "Rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height;
+	}
 }

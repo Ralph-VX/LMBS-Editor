@@ -105,7 +105,6 @@ public class JSONPropertyTable extends JTable {
 		} else {
 			String name = (String) this.getValueAt(row, 0);
 			String type = getPropertyType(name);
-			System.out.println(type);
 			if (type == null) {
 				return super.getCellRenderer(row, column);
 			} else if (type.equals("text")) {

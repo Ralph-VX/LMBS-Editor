@@ -1,348 +1,179 @@
 package kien.lmbseditor.window.animation;
 
+import kien.lmbseditor.core.AnimationItemType;
+import kien.lmbseditor.core.EditorProperty;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
+import kien.lmbseditor.core.animation.AnimationLMBSProperty;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
+import kien.lmbseditor.mv.Animation;
+import kien.lmbseditor.window.EditorPanelBase;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JLabel;
+import javax.swing.JComboBox;
+
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
+import javax.swing.JTextField;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JPanel;
+import javax.swing.JCheckBox;
+import javax.swing.JSeparator;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
 import javax.swing.border.BevelBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.NumberFormatter;
+import javax.swing.JPanel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
 
-import kien.lmbseditor.core.AnimationItemType;
-import kien.lmbseditor.core.EditorProperty;
-import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
-import kien.lmbseditor.mv.Animation;
-import kien.lmbseditor.window.EditorPanelBase;
-import net.miginfocom.swing.MigLayout;
-
-@SuppressWarnings("unused")
-public class AnimationDescriptionPanel extends EditorPanelBase {
-
-	private AnimationItemType contents;
-	private int curFrame;
-	private int maxFrame;
-	private Animation animation;
-	private DefaultListModel<String> timingListContent;
-	private boolean inited;
+public class AnimationDescriptionPanel extends EditorPanelBase implements ActionListener, ListSelectionListener {
 	
+	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5249160481137789181L;
-
-	private JFormattedTextField timingRectX;
-
-	private JFormattedTextField timingRectY;
-
-	private JFormattedTextField timingRectWidth;
-
-	private JFormattedTextField timingRectHeight;
-
-	private JFormattedTextField timingDuration;
-
-	private JFormattedTextField timingDamage;
+	private JTextField xValueTextField;
+	private JTextField yValueTextField;
 	private JComboBox<String> animationList;
-	private JLabel frameShowingLable;
-	private JList<String> timingList;
-	private JFormattedTextField timingKnockbackX;
-	private JFormattedTextField timingKnockbackY;
-	private JCheckBox timingKnockbackInvert;
+	private JComboBox<String> xOriginList;
+	private JComboBox<String> yOriginList;
 	private AnimationContent animationContent;
-	private JButton buttonPrevFrame;
-	private JButton buttonNextFrame;
-	private JButton buttonNewTiming;
-	private JButton buttonDeleteTiming;
+	private JList<String> animationFrameList;
+	private DefaultListModel<String> animationFrameListModel;
+	private JList<AnimationLMBSTimingBase> animationTimingList;
+	private DefaultListModel<AnimationLMBSTimingBase> animationTimingListModel;
+	private JFormattedTextField delayTextField;
+	private JCheckBox mirrorCheck;
+	private JCheckBox followCheck;
+	
+	private int frameNumber;
+	private boolean isRefreshing;
+	private AnimationLMBSProperty animation;
+	private AnimationItemType itemType;
 	private int tabIndex;
-
-	/**
-	 * Create the panel.
-	 */
-	public AnimationDescriptionPanel(AnimationItemType item) {
-		this.contents = item;
-		this.inited = false;
-		this.animation = null;
-		this.curFrame = -1;
-		this.maxFrame = -1;
+	
+	public AnimationDescriptionPanel(AnimationItemType ait) {
+		super();
+		this.itemType = ait;
+		this.frameNumber = 0;
+		this.isRefreshing = false;
+		this.animation = this.itemType.data;
+		setLayout(new MigLayout("", "[10%,grow][40%,grow][10%,grow][40%,grow]", "[][][][][][][grow]"));
 		
-		setLayout(new MigLayout("", "[100px][30px][80px][grow]", "[19px][19px][19px][19px][19][19][19][19][19][19][19][19][19][19][grow][19]"));
-		
-		JLabel lblAnimation = new JLabel("Animation Target");
-		add(lblAnimation, "cell 0 0,aligny bottom");
+		JLabel lblAnimation = new JLabel("Animation");
+		add(lblAnimation, "cell 0 0,growx");
 		
 		animationList = new JComboBox<String>();
-		animationList.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				AnimationDescriptionPanel.this.onAnimationListChange();
-			}
-		});
-		add(animationList, "cell 0 1,growx,aligny top");
+		animationList.setActionCommand("animationList");
+		animationList.addActionListener(this);
 		this.refreshAnimationList();
+		add(animationList, "cell 0 1 4 1,growx");
+		
+		JLabel lblX = new JLabel("X:");
+		add(lblX, "cell 0 2");
+		
+		JLabel lblXOrigin = new JLabel("X Origin:");
+		add(lblXOrigin, "cell 1 2");
+		
+		JLabel lblY = new JLabel("Y:");
+		add(lblY, "cell 2 2");
+		
+		JLabel lblYOrigin = new JLabel("Y Origin:");
+		add(lblYOrigin, "cell 3 2");
+		
+		xValueTextField = new JTextField();
+		add(xValueTextField, "cell 0 3,growx");
+		xValueTextField.setColumns(10);
+		
+		xOriginList = new JComboBox<String>();
+		xOriginList.setModel(new DefaultComboBoxModel<String>(new String[] {"user", "target", "screen", "field"}));
+		add(xOriginList, "cell 1 3,growx");
+		
+		yValueTextField = new JTextField();
+		add(yValueTextField, "cell 2 3,growx");
+		yValueTextField.setColumns(10);
+		
+		yOriginList = new JComboBox<String>();
+		yOriginList.setModel(new DefaultComboBoxModel<String>(new String[] {"user", "target", "screen", "field"}));
+		add(yOriginList, "cell 3 3,growx");
+
+		JLabel lblDelay = new JLabel("Delay:");
+		add(lblDelay, "flowx,cell 0 4,alignx left");
+
+		DecimalFormat format = new DecimalFormat("0.###");
+		format.setMinimumFractionDigits(0);
+		delayTextField = new JFormattedTextField(format);
+		add(delayTextField, "cell 1 4,growx");
+		
+		mirrorCheck = new JCheckBox("Mirror");
+		add(mirrorCheck, "cell 2 4");
+		
+		followCheck = new JCheckBox("Follow Origin");
+		add(followCheck, "cell 3 4");
+		
+		JSeparator separator = new JSeparator();
+		add(separator, "cell 0 5 4 1");
+		
+		JPanel panel = new JPanel();
+		add(panel, "cell 0 6 2 1,grow");
+		panel.setLayout(new MigLayout("", "[33%,grow][34%,grow][33%,grow]", "[30%,grow][60%,grow][10%,grow]"));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, "cell 0 0 3 1,grow");
+
+		animationFrameListModel = new DefaultListModel<String>();
+		animationFrameList = new JList<String>(animationFrameListModel);
+		animationFrameList.addListSelectionListener(this);
+		scrollPane.setViewportView(animationFrameList);
+		
+		JLabel lblNewLabel = new JLabel("Animation Frame:");
+		scrollPane.setColumnHeaderView(lblNewLabel);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		panel.add(scrollPane_1, "cell 0 1 3 1,grow");
+
+		animationTimingListModel = new DefaultListModel<AnimationLMBSTimingBase>();
+		animationTimingList = new JList<AnimationLMBSTimingBase>(animationTimingListModel);
+		animationTimingList.setCellRenderer(new AnimationTimingCellRenderer());
+		scrollPane_1.setViewportView(animationTimingList);
+		
+		JLabel lblTimings = new JLabel("Animation Timings:");
+		scrollPane_1.setColumnHeaderView(lblTimings);
+		
+		JButton btnCreateTiming = new JButton("Create");
+		btnCreateTiming.setActionCommand("create");
+		btnCreateTiming.addActionListener(this);
+		panel.add(btnCreateTiming, "cell 0 2,growx");
+		
+		JButton btnEditTiming = new JButton("Edit");
+		btnEditTiming.setActionCommand("edit");
+		btnEditTiming.addActionListener(this);
+		panel.add(btnEditTiming, "cell 1 2,growx");
+		
+		JButton btnDeleteTiming = new JButton("Delete");
+		btnDeleteTiming.setActionCommand("delete");
+		btnDeleteTiming.addActionListener(this);
+		panel.add(btnDeleteTiming, "cell 2 2,growx");
 		
 		animationContent = new AnimationContent();
 		animationContent.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		add(animationContent, "cell 3 1 1 15,grow");
+		add(animationContent, "cell 2 6 2 1,grow");
+		this.refreshAnimationFrameList();
+		this.refreshAnimationTimingList();
 		
-		JLabel lblFrames = new JLabel("Frames");
-		add(lblFrames, "cell 0 2");
-		
-		frameShowingLable = new JLabel("Not Selected");
-		add(frameShowingLable, "cell 0 3");
-		
-		JPanel panel = new JPanel();
-		add(panel, "cell 1 3,alignx center,aligny center");
-		
-		buttonPrevFrame = new JButton("<");
-		buttonPrevFrame.setEnabled(false);
-		buttonPrevFrame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AnimationDescriptionPanel.this.onPreviousFrame();
-			}
-		});
-		panel.add(buttonPrevFrame);
-		
-		buttonNextFrame = new JButton(">");
-		buttonNextFrame.setEnabled(false);
-		buttonNextFrame.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AnimationDescriptionPanel.this.onNextFrame();
-			}
-		});
-		panel.add(buttonNextFrame);
-		
-		JLabel lblTimings = new JLabel("Timings");
-		add(lblTimings, "cell 0 4");
-		
-		JLabel lblNewLabel_1 = new JLabel("Properties");
-		add(lblNewLabel_1, "cell 1 4 2 1");
-		
-		timingListContent = new DefaultListModel<String>();
-		timingList = new JList<String>(timingListContent);
-		timingList.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				AnimationDescriptionPanel.this.onTimingListChange();
-			}
-		});
-		timingList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		add(timingList, "cell 0 5 1 10,grow");
-		
-		JLabel lblX = new JLabel("x");
-		add(lblX, "cell 1 5,alignx trailing");
-		
-		DecimalFormat format = new DecimalFormat("0.###");
-
-		timingRectX = new JFormattedTextField(format);
-		timingRectX.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingRectXChange();
-			}
-			
-		});
-		add(timingRectX, "cell 2 5,growx");
-		
-		JLabel lblY = new JLabel("y");
-		add(lblY, "cell 1 6,alignx trailing");
-		
-		timingRectY = new JFormattedTextField(format);
-		timingRectY.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingRectYChange();
-			}
-			
-		});
-		add(timingRectY, "cell 2 6,growx");
-		
-		JLabel lblWidth = new JLabel("width");
-		add(lblWidth, "cell 1 7,alignx trailing");
-		
-		timingRectWidth = new JFormattedTextField(format);
-		timingRectWidth.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingRectWidthChange();
-			}
-			
-		});
-		add(timingRectWidth, "cell 2 7,growx");
-		
-		JLabel lblHeight = new JLabel("height");
-		add(lblHeight, "cell 1 8,alignx trailing");
-		
-		timingRectHeight = new JFormattedTextField(format);
-		timingRectHeight.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingRectHeightChange();
-			}
-			
-		});
-		add(timingRectHeight, "cell 2 8,growx");
-		
-		JLabel lblNewLabel_2 = new JLabel("duration");
-		add(lblNewLabel_2, "cell 1 9,alignx trailing");
-		
-		timingDuration = new JFormattedTextField(format);
-		timingDuration.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingDurationChange();
-			}
-			
-		});
-		add(timingDuration, "cell 2 9,growx");
-		
-		JLabel lblDamagePercentage = new JLabel("Damage %");
-		add(lblDamagePercentage, "cell 1 10,alignx trailing");
-		
-		timingDamage = new JFormattedTextField(format);
-		timingDamage.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingDamageChange();
-			}
-			
-		});
-		add(timingDamage, "cell 2 10,growx");
-		
-		JLabel lblKnockbackX = new JLabel("Knockback x");
-		add(lblKnockbackX, "cell 1 11,alignx trailing");
-		
-		timingKnockbackX = new JFormattedTextField(format);
-		timingKnockbackX.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingKnockbackXChange();
-			}
-			
-		});
-		add(timingKnockbackX, "cell 2 11,growx");
-		
-		JLabel lblKnockbackY = new JLabel("Knockback y");
-		add(lblKnockbackY, "cell 1 12,alignx trailing");
-		
-		timingKnockbackY = new JFormattedTextField(format);
-		timingKnockbackY.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				AnimationDescriptionPanel.this.onTimingKnockbackYChange();
-			}
-			
-		});
-		add(timingKnockbackY, "cell 2 12,growx");
-		
-		JLabel lblKnockbackBack = new JLabel("Invert Direction");
-		add(lblKnockbackBack, "cell 1 13,alignx right");
-		
-		timingKnockbackInvert = new JCheckBox("Invert");
-		timingKnockbackInvert.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				AnimationDescriptionPanel.this.onTimingKnockbackInvertChange();
-			}
-		});
-		add(timingKnockbackInvert, "cell 2 13");
-		
-		JPanel panel_1 = new JPanel();
-		add(panel_1, "cell 0 15,grow");
-		
-		buttonNewTiming = new JButton("New");
-		buttonNewTiming.setEnabled(false);
-		buttonNewTiming.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AnimationDescriptionPanel.this.onTimingNew();
-			}
-		});
-		panel_1.add(buttonNewTiming);
-		
-		buttonDeleteTiming = new JButton("Delete");
-		buttonDeleteTiming.setEnabled(false);
-		buttonDeleteTiming.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				AnimationDescriptionPanel.this.onTimingDelete();
-			}
-		});
-		panel_1.add(buttonDeleteTiming);
-
-		this.inited = true;
-		this.refreshComponentContent();
 	}
 	
-	private void clearRectContents() {
-		this.timingDamage.setValue(null);
-		this.timingDuration.setValue(null);
-		this.timingRectX.setValue(null);
-		this.timingRectY.setValue(null);
-		this.timingRectWidth.setValue(null);
-		this.timingRectHeight.setValue(null);
-		this.timingKnockbackX.setValue(null);
-		this.timingKnockbackY.setValue(null);
-		this.timingKnockbackInvert.setSelected(false);
-		this.buttonDeleteTiming.setEnabled(false);
-	}
-	
-	/**
-	 * Load datas for initialization.
-	 */
-	
-	private void refreshComponentContent() {
-		this.timingListContent.removeAllElements();
-		this.clearRectContents();
-		if (this.animation != null) {
-			this.frameShowingLable.setText((curFrame+1) + "/" + maxFrame);
-			if (this.contents != null) {
-				ArrayList<AnimationLMBSTimingDamage> list = contents.data.get(curFrame);
-				if (list != null) {
-					for (int n = 0; n < list.size(); n++) {
-						this.timingListContent.addElement("Rect" + (n+1));
-					}
-				}
-			}
-		}
-	}
-
-	private void refreshAnimationPanel() {
-		this.animationContent.clear();
-		if (this.animation != null) {
-			this.animationContent.setAnimation(this.animation);
-			this.animationContent.setFrame(this.curFrame);
-			this.animationContent.setRects(contents.data.get(this.curFrame));
-		}
-	}
-	
-	private void refreshAnimationList() {
+	public void refreshAnimationList() {
+		this.isRefreshing = true;
 		this.animationList.removeAllItems();
-		this.animation = null;
 		this.animationList.addItem("Select Animation");
 		ArrayList<Animation> list = EditorProperty.animations;
 		DecimalFormat format = new DecimalFormat("000");
@@ -352,227 +183,151 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 				this.animationList.addItem(format.format(n) + ":" + item.name);
 			}
 		}
+		this.animationList.setSelectedIndex(this.animation.animationId);
+		this.isRefreshing = false;
 	}
 	
-	private void onAnimationListChange() {
-		int index = animationList.getSelectedIndex();
-		if (this.inited && index >= 0) {
-			if (this.timingList.getSelectedIndex() != -1) {
-				this.saveCurrentContents();
-			}
-			this.animation = EditorProperty.animations.get(index);
-			this.refreshAnimationPanel();
-			if (this.animation != null) {
-				this.animation = EditorProperty.animations.get(index);
-				this.curFrame = 0;
-				this.maxFrame = animation.frames.size();
-				this.buttonNextFrame.setEnabled(true);
-				this.buttonPrevFrame.setEnabled(false);
-				this.buttonNewTiming.setEnabled(true);
-				this.buttonDeleteTiming.setEnabled(false);
-			} else {
-				this.frameShowingLable.setText("Not Selected");
-				this.buttonNextFrame.setEnabled(false);
-				this.buttonPrevFrame.setEnabled(false);
-				this.curFrame = -1;
-				this.maxFrame = -1;
-				this.buttonNewTiming.setEnabled(false);
-				this.buttonDeleteTiming.setEnabled(false);
-			}
-			this.refreshComponentContent();
-		}
-	}
-	
-	private void onNextFrame() {
-		if (this.curFrame != -1 && this.maxFrame != -1) {
-			if (this.timingList.getSelectedIndex() != -1) {
-				this.saveCurrentContents();
-			}
-			this.curFrame++;
-			if (this.curFrame >= this.maxFrame) {
-				this.curFrame = this.maxFrame - 1;
-			} else {
-				this.refreshComponentContent();
-				this.buttonPrevFrame.setEnabled(true);
-				this.animationContent.setFrame(this.curFrame);
-				this.animationContent.setRects(this.contents.data.get(this.curFrame));
-				if (this.curFrame == this.maxFrame - 1) {
-					this.buttonNextFrame.setEnabled(false);
-				}
-			}
-		}
-	}
-	
-	private void onPreviousFrame() {
-		if (this.curFrame != -1 && this.maxFrame != -1) {
-			if (this.timingList.getSelectedIndex() != -1) {
-				this.saveCurrentContents();
-			}
-			this.curFrame--;
-			if (this.curFrame < 0) {
-				this.curFrame = 0;
-			} else {
-				this.refreshComponentContent();
-				this.buttonNextFrame.setEnabled(true);
-				this.animationContent.setFrame(this.curFrame);
-				this.animationContent.setRects(this.contents.data.get(this.curFrame));
-				if (this.curFrame == 0) {
-					this.buttonPrevFrame.setEnabled(false);
-				}
-			}
-		}
-	}
-	
-	private void onTimingListChange() {
-		ArrayList<AnimationLMBSTimingDamage> aos = contents.data.get(this.curFrame);
-		if (aos != null && this.timingList.getSelectedIndex() >= 0) {
-			AnimationLMBSTimingDamage ao = aos.get(this.timingList.getSelectedIndex());
-			if (ao != null) {
-				this.timingDamage.setValue(ao.damagePer);
-				this.timingDuration.setValue(ao.dur);
-				this.timingRectX.setValue(ao.rect.x);
-				this.timingRectY.setValue(ao.rect.y);
-				this.timingRectWidth.setValue(ao.rect.width);
-				this.timingRectHeight.setValue(ao.rect.height);
-				this.timingKnockbackX.setValue(ao.knockback.x);
-				this.timingKnockbackY.setValue(ao.knockback.y);
-				this.timingKnockbackInvert.setSelected(ao.knockdir > 0);
-				this.buttonDeleteTiming.setEnabled(true);
-				return;
-			}
-		}
-		this.clearRectContents();
-	}
-	
-	private void onTimingRectXChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingRectX.getValue() != null) {
-				double nv = (((Number)this.timingRectX.getValue()).doubleValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.x) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.x = nv;
-					this.animationContent.setRects(contents.data.get(this.curFrame));
-				}
-			}
-		}
-	}
-	private void onTimingRectYChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingRectY.getValue() != null) {
-				double nv = (((Number)this.timingRectY.getValue()).doubleValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.y) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.y = nv;
-					this.animationContent.setRects(contents.data.get(this.curFrame));
-				}
-			}
-		}
-	}
-	private void onTimingRectWidthChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingRectWidth.getValue() != null) {
-				double nv = (((Number)this.timingRectWidth.getValue()).doubleValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.width) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.width = nv;
-					this.animationContent.setRects(contents.data.get(this.curFrame));
-				}
-			}
-		}
-	}
-	private void onTimingRectHeightChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingRectHeight.getValue() != null) {
-				double nv = (((Number)this.timingRectHeight.getValue()).doubleValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.height) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).rect.height = nv;
-					this.animationContent.setRects(contents.data.get(this.curFrame));
-				}
-			}
-		}
-	}
-
-	private void onTimingDamageChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingDamage.getValue() != null) {
-				double nv = (((Number)this.timingDamage.getValue()).doubleValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).damagePer) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).damagePer = nv;
-				}
-			}
-		}
-	}
-
-	private void onTimingDurationChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingDuration.getValue() != null) {
-				int nv = (((Number)this.timingDuration.getValue()).intValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).dur) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).dur = nv;
-				}
-			}
-		}
-	}
-
-
-	private void onTimingKnockbackXChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingKnockbackX.getValue() != null) {
-				double nv = (((Number)this.timingKnockbackX.getValue()).doubleValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.x) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.x = nv;
-				}
-			}
-		}
-	}
-
-	private void onTimingKnockbackYChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			if (this.timingKnockbackY.getValue() != null) {
-				double nv = (((Number)this.timingKnockbackY.getValue()).doubleValue());
-				if (nv != contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.y) {
-					contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockback.y = nv;
-				}
-			}
-		}
-	}
-
-	private void onTimingKnockbackInvertChange() {
-		if (this.curFrame >= 0 && this.timingList.getSelectedIndex() != -1) {
-			int nv = this.timingKnockbackInvert.isSelected() ? 1 : 0;
-			if (contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockdir != nv) {
-				contents.data.get(this.curFrame).get(this.timingList.getSelectedIndex()).knockdir = nv;
-			}
-		}
-	}
-	
-	private void onTimingNew() {
+	public void refreshValues() {
 		if (this.animation != null) {
-			this.contents.newData(this.curFrame);
-			this.refreshComponentContent();
-			this.refreshAnimationPanel();
-			this.timingList.setSelectedIndex(this.contents.data.get(this.curFrame).size()-1);
+			this.animationList.setSelectedIndex(this.animation.animationId);
+			this.xOriginList.setSelectedItem(this.animation.x.origin);
+			this.xValueTextField.setText(this.animation.x.getValue().toString());
+			this.yOriginList.setSelectedItem(this.animation.y.origin);
+			this.yValueTextField.setText(this.animation.y.getValue().toString());
+			this.mirrorCheck.setSelected(this.animation.mirror);
+			this.followCheck.setSelected(this.animation.follow);
 		}
 	}
 	
-	private void onTimingDelete() {
-		if (this.animation != null && this.curFrame >= 0 && this.timingList.getSelectedIndex() >= 0) {
-			this.contents.deleteData(curFrame, this.timingList.getSelectedIndex());
-			this.timingList.clearSelection();
-			this.refreshComponentContent();
-			this.refreshAnimationPanel();
+	public void refreshAnimationFrameList() {
+		this.animationFrameListModel.removeAllElements();
+		if (this.animation != null) {
+			Animation anim = EditorProperty.animations.get(this.animation.animationId);
+			if (anim != null) {
+				for (int i = 0; i < anim.frames.size(); i++) {
+					this.animationFrameListModel.addElement(Integer.toString(i+1));
+				}
+				this.animationFrameList.setSelectedIndex(this.frameNumber);
+			}
 		}
 	}
 	
-	private void saveCurrentContents() {
-		try {
-			this.timingDamage.commitEdit();
-			this.timingDuration.commitEdit();
-			this.timingRectX.commitEdit();
-			this.timingRectY.commitEdit();
-			this.timingRectWidth.commitEdit();
-			this.timingRectHeight.commitEdit();
-			this.timingKnockbackX.commitEdit();
-			this.timingKnockbackY.commitEdit();
-		} catch (Exception e) {
-			e.printStackTrace();
+	public void refreshAnimationTimingList() {
+		this.animationTimingListModel.removeAllElements();
+		if (this.animation != null && this.animation.animationId > 0 && this.frameNumber >= 0) {
+			ArrayList<AnimationLMBSTimingBase> arr = this.animation.timing.get(this.frameNumber);
+			for (AnimationLMBSTimingBase timing : arr) {
+				this.animationTimingListModel.addElement(timing);
+			}
+		}
+	}
+	
+	public void refreshAnimationPanel() {
+		Animation anim = EditorProperty.animations.get(this.animation.animationId);
+		if (anim != null) {
+			this.animationContent.setAnimation(anim);
+		}
+		this.animationContent.setFrame(this.frameNumber);
+	}
+	
+	public void onCreateTiming() {
+		if (this.animation != null && this.animation.animationId > 0 && this.frameNumber >= 0) {
+			AnimationTimingDialog d = new AnimationTimingDialog();
+			d.setVisible(true);
+			if (d.isDirty()) {
+				try {
+					AnimationLMBSTimingBase dret = AnimationLMBSProperty.timingTypeToClass.get(d.typeName).newInstance();
+					this.animation.addTiming(this.frameNumber, dret);
+					this.refreshAnimationTimingList();
+				} catch (InstantiationException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public void onEditTiming() {
+		if (this.animation != null && this.animation.animationId > 0 && this.frameNumber >= 0) {
+			AnimationLMBSTimingBase timing = this.animationTimingList.getSelectedValue();
+			if (timing != null) {
+				AnimationTimingDialog d = new AnimationTimingDialog();
+				d.setData(AnimationLMBSProperty.classToTimingType.get(timing.getClass()), timing.obtainData());
+				d.setVisible(true);
+				if (d.isDirty()) {
+					try {
+						AnimationLMBSTimingBase dret = AnimationLMBSProperty.timingTypeToClass.get(d.typeName).newInstance();
+						if (dret.getClass().equals(timing.getClass())) {
+							ArrayList<AnimationLMBSTimingBase> frame = this.animation.timing.get(this.frameNumber);
+							frame.set(frame.indexOf(timing), dret);
+						} else {
+							this.animation.timing.get(this.frameNumber).remove(timing);
+							this.animation.addTiming(this.frameNumber, dret);
+						}
+						this.refreshAnimationTimingList();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	public void onDeleteTiming() {
+		if (this.animation != null && this.animation.animationId > 0 && this.frameNumber >= 0) {
+			AnimationLMBSTimingBase timing = this.animationTimingList.getSelectedValue();
+			if (timing != null) {
+				this.animation.timing.get(this.frameNumber).remove(timing);
+				this.refreshAnimationTimingList();
+			}
+		}
+	}
+
+	@Override
+	public void refresh() {
+		this.refreshAnimationList();
+		this.refreshAnimationPanel();
+	}
+
+	@Override
+	public void update() {
+	}
+	
+	@Override
+	public void updateEdit() {
+		this.animation.x.origin = (String) this.xOriginList.getSelectedItem();
+		this.animation.y.origin = (String) this.yOriginList.getSelectedItem();
+		this.animation.x.setValue(this.xValueTextField.getText());
+		this.animation.y.setValue(this.yValueTextField.getText());
+		this.animation.delay = ((Number)this.delayTextField.getValue()).intValue();
+		this.animation.follow = this.followCheck.isSelected();
+		this.animation.mirror = this.mirrorCheck.isSelected();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+		if (command.equals("create")) {
+			this.onCreateTiming();
+		} else if (command.equals("edit")) {
+			this.onEditTiming();
+		} else if (command.equals("delete")) {
+			this.onDeleteTiming();
+		} else if (command.equals("animationList")) {
+			if (this.animation != null && !this.isRefreshing) {
+				this.animation.updateAnimatinoId(this.animationList.getSelectedIndex());
+				this.frameNumber = 0;
+				this.refreshAnimationFrameList();
+				this.refreshAnimationPanel();
+			}
+		}
+	}
+	
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		if (!e.getValueIsAdjusting()) {
+			this.frameNumber = this.animationFrameList.getSelectedIndex();
+			this.refreshAnimationTimingList();
+			this.refreshAnimationPanel();
 		}
 	}
 
@@ -580,22 +335,17 @@ public class AnimationDescriptionPanel extends EditorPanelBase {
 		this.tabIndex = n;
 	}
 
-	@Override
-	public void refresh() {
-		this.refreshAnimationList();
-		this.refreshAnimationPanel();
-		this.refreshComponentContent();
-	}
-	
-	@Override
-	public void update() {
-		this.refresh();
+	public class AnimationTimingCellRenderer extends DefaultListCellRenderer {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public Component getListCellRendererComponent(final JList list, final Object value, final int index, final boolean isSelected, final boolean hasFocus) {
+			JLabel renderer = (JLabel) super.getListCellRendererComponent(list, value, index,
+			        isSelected, hasFocus);
+			AnimationLMBSTimingBase t = (AnimationLMBSTimingBase)value;
+			renderer.setText(t.obtainRepresentingString());
+			return renderer;
+		}
 	}
 
-	@Override
-	public void updateEdit() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

@@ -10,6 +10,11 @@ public class AnimationLMBSTimingProjectile extends AnimationLMBSTimingBase {
 	
 	public String classname;
 	public String parameters;
+	
+	public AnimationLMBSTimingProjectile() {
+		classname = "";
+		parameters = "";
+	}
 
 	@Override
 	public LinkedHashMap<String, Object> obtainData() {
@@ -32,6 +37,11 @@ public class AnimationLMBSTimingProjectile extends AnimationLMBSTimingBase {
 
 	@Override
 	public void updateData(LinkedHashMap<String, Object> data) {
+	}
+
+	@Override
+	public String obtainRepresentingString() {
+		return "Projectile: " + classname + ", " + parameters;
 	}
 
 }

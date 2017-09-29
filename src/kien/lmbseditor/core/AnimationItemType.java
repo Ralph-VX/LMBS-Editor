@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
+import kien.lmbseditor.core.animation.AnimationLMBSProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.util.KienLogger;
 import net.arnx.jsonic.JSON;
@@ -15,21 +16,20 @@ import net.arnx.jsonic.JSONException;
 import net.arnx.jsonic.TypeReference;
 
 public class AnimationItemType extends BaseItemType {
-	public LinkedHashMap<Integer, ArrayList<AnimationLMBSTimingDamage>> data;
+	public AnimationLMBSProperty data;
 	public File src;
 	public int maxFrame;
 	
 	public AnimationItemType(File f) throws JSONException, IOException {
 		src = f;
 		FileReader fr = new FileReader(src);;
-		data = JSON.decode(fr, new TypeReference<LinkedHashMap<Integer, ArrayList<AnimationLMBSTimingDamage>>>(){});
+		data = JSON.decode(fr, new TypeReference<AnimationLMBSProperty>(){});
 		fr.close();
-		this.refreshMax();
 	}
 	
 	public AnimationItemType() {
 		src = null;
-		data = new LinkedHashMap<Integer, ArrayList<AnimationLMBSTimingDamage>>();
+		data = new AnimationLMBSProperty();
 		this.setDirty();
 	}
 	
@@ -65,49 +65,6 @@ public class AnimationItemType extends BaseItemType {
 		return src;
 	}
 	
-	public void updateData(int frame, int index, double rectx, double recty, double rectwidth, double rectheight, int dur, double damage, double knockx, double knocky, boolean knockd) {
-		ArrayList<AnimationLMBSTimingDamage> list = data.get(frame);
-		if (list == null) {
-			list = new ArrayList<AnimationLMBSTimingDamage>();
-		}
-		AnimationLMBSTimingDamage obj= list.remove(index);
-		if (obj == null) {
-			obj = new AnimationLMBSTimingDamage();
-		}
-		obj.rect.updateRect(rectx,recty,rectwidth,rectheight);
-		obj.dur = dur;
-		obj.knockback.setLocation(knockx,knocky);
-		obj.knockdir = knockd ? 1 : 0;
-		list.add(index, obj);
-		data.put(frame, list);
-		this.setDirty();
-		this.refreshMax();
-	}
-	
-	public void newData(int frame) {
-		ArrayList<AnimationLMBSTimingDamage> list = data.get(frame);
-		if (list == null) {
-			list = new ArrayList<AnimationLMBSTimingDamage>();
-		}
-		AnimationLMBSTimingDamage obj = new AnimationLMBSTimingDamage();
-		list.add(obj);
-		data.put(frame, list);
-		this.setDirty();
-		this.refreshMax();
-	}
-	
-	public void deleteData(int frame, int index) {
-		ArrayList<AnimationLMBSTimingDamage> list = data.get(frame);
-		list.remove(index);
-		data.put(frame, list);
-		this.setDirty();
-		this.refreshMax();
-	}
-	
-	public void refreshMax() {
-		this.maxFrame = Collections.max(data.keySet());
-	}
-
 	@Override
 	public void saveFile() {
 		KienLogger.logger.info(this.data.toString());
