@@ -9,12 +9,14 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 	public double damage;
 	public Point2D.Double knockback;
 	public int knockdir;
+	public int knocklength;
 	
 	public SkillMotionCommandApplyDamage() {
 		super();
 		knockback = new Point2D.Double();
 		damage = 1;
 		knockdir = 0;
+		knocklength = 0;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -26,6 +28,7 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 		knockback.x = ((Number)((LinkedHashMap<String, Object>)list.get("knockback")).get("x")).doubleValue();
 		knockback.y = ((Number)((LinkedHashMap<String, Object>)list.get("knockback")).get("y")).doubleValue();
 		knockdir = ((Number)list.get("damage")).intValue();
+		knocklength = ((Number)list.get("knocklength")).intValue();
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Provided JSON Object is not available!");
 		}
@@ -54,15 +57,17 @@ public class SkillMotionCommandApplyDamage extends SkillMotionCommandBase {
 		prop.put("knockbackx", this.knockback.x);
 		prop.put("knockbacky", this.knockback.y);
 		prop.put("knockdir", this.knockdir > 0);
+		prop.put("knocklength", this.knocklength);
 		return prop;
 	}
 
 	@Override
-	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
-		this.damage = (double) data.get("damage");
-		this.knockback.x = (double) data.get("knockbackx");
-		this.knockback.y = (double) data.get("knockbacky");
-		this.knockdir = ((boolean) data.get("knockdir") ? 1 : 0);
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> list) {
+		this.damage = ((Number)list.get("damage")).doubleValue();
+		this.knockback.x = ((Number)list.get("knockbackx")).doubleValue();
+		this.knockback.y = ((Number)list.get("knockbacky")).doubleValue();
+		this.knockdir = ((boolean) list.get("knockdir") ? 1 : 0);
+		this.knocklength = ((Number)list.get("knocklength")).intValue();
 	}
 	
 }

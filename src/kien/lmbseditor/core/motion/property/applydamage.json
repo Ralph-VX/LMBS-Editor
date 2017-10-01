@@ -18,5 +18,10 @@
 		"type" : "boolean",
 		"description" : "",
 		"displayName" : "Knockback Direction"
+	},
+	"knocklength": {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Knockback Length"
 	}
 }

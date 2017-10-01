@@ -12,6 +12,7 @@ public class SkillMotionCommandStartDamage extends SkillMotionCommandBase {
 	public double damage;
 	public Point2D.Double knockback;
 	public int knockdir;
+	public int knocklength;
 	
 	public SkillMotionCommandStartDamage() {
 		knockback = new Point2D.Double();
@@ -61,19 +62,21 @@ public class SkillMotionCommandStartDamage extends SkillMotionCommandBase {
 		map.put("knockbacky", this.knockback.y);
 		map.put("knockdir", this.knockdir > 0);
 		map.put("damage", this.damage);
+		map.put("knocklength", this.knocklength);
 		return map;
 	}
 
 	@Override
-	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
-		this.rect.x = (double) data.get("x");
-		this.rect.y = (double) data.get("y");
-		this.rect.width = (double) data.get("width");
-		this.rect.height = (double) data.get("height");
-		this.knockback.x = (double) data.get("knockbackx");
-		this.knockback.y = (double) data.get("knockbacky");
-		this.knockdir = (boolean) data.get("knockdir") ? 1 : 0;
-		this.damage = (double) data.get("damage");
+	protected void updatePropertyFromMap(LinkedHashMap<String, Object> list) {
+		this.rect.x = ((Number)list.get("x")).doubleValue();
+		this.rect.y = ((Number)list.get("y")).doubleValue();
+		this.rect.width = ((Number)list.get("width")).doubleValue();
+		this.rect.height = ((Number)list.get("height")).doubleValue();
+		this.damage = ((Number)list.get("damage")).doubleValue();
+		this.knockback.x = ((Number)list.get("knockbackx")).doubleValue();
+		this.knockback.y = ((Number)list.get("knockbacky")).doubleValue();
+		this.knockdir = ((boolean) list.get("knockdir") ? 1 : 0);
+		this.knocklength = ((Number)list.get("knocklength")).intValue();
 	}
 
 }

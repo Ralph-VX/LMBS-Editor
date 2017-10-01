@@ -20,6 +20,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 	public double damagePer;
 	public Point2D.Double knockback;
 	public int knockdir;
+	public int knocklength;
 	public String type = "damage";
 	
 	public AnimationLMBSTimingDamage() {
@@ -28,6 +29,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 		this.damagePer = 0;
 		this.knockback = new Point2D.Double();
 		this.knockdir = 0;
+		this.knocklength = 0;
 		this.interval = 1;
 	}
 	
@@ -54,6 +56,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 		map.put("knockdir", this.knockdir > 0);
 		map.put("damage", damagePer);
 		map.put("interval", interval);
+		map.put("knocklength", knocklength);
 		return map;
 	}
 
@@ -68,6 +71,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 		this.knockdir = (boolean)data.get("knockdir") ? 1 : 0;
 		this.damagePer = ((Number)data.get("damage")).doubleValue();
 		this.interval = ((Number)data.get("interval")).intValue();
+		this.knocklength = ((Number)data.get("knocklength")).intValue();
 	}
 	
 	@Override

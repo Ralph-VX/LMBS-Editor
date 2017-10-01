@@ -34,6 +34,11 @@
 		"description" : "",
 		"displayName" : "Rect X"
 	},
+	"knocklength" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Knockback Length"
+	},
 	"damage" : {
 		"type" : "float",
 		"description" : "",
