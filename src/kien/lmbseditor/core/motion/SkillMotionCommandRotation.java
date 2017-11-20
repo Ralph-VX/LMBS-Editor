@@ -42,7 +42,7 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 	public LinkedHashMap<String, Object> obtainPropertyList() {
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("rotation", this.rotation);
-		map.put("dir", this.dir);
+		map.put("dir", this.dir == 1);
 		map.put("dur", this.dur);
 		map.put("rounds", this.rounds);
 		return map;
@@ -50,6 +50,9 @@ public class SkillMotionCommandRotation extends SkillMotionCommandBase {
 
 	@Override
 	protected void updatePropertyFromMap(LinkedHashMap<String, Object> data) {
-		this.setProperty(data);
+		dur = ((Number)data.get("dur")).intValue();
+		dir = ((Boolean)data.get("dir")) ? 1 : 0;
+		rotation = ((Number)data.get("rotation")).intValue();
+		rounds = Util.getJSONInt(data, "rounds", 0);
 	}
 }
