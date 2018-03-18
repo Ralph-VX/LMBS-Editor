@@ -3,7 +3,7 @@ package kien.lmbseditor.core.motion;
 import java.util.LinkedHashMap;
 
 public class SkillMotionCommandStartAllAi extends SkillMotionCommandBase {
-	public final String type = "stopallai";
+	public final String type = "startallai";
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 		
@@ -11,7 +11,7 @@ public class SkillMotionCommandStartAllAi extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		return "Stop All Ai";
+		return "Start All Ai";
 	}
 
 	@Override
