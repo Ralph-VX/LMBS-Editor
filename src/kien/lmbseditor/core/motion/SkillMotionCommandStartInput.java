@@ -3,14 +3,14 @@ package kien.lmbseditor.core.motion;
 import java.util.LinkedHashMap;
 
 public class SkillMotionCommandStartInput extends SkillMotionCommandBase {
-	public final String type = "endinput";
+	public final String type = "startinput";
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 	}
 
 	@Override
 	public String commandListName() {
-		return "End Input";
+		return "Start Input";
 	}
 
 	@Override

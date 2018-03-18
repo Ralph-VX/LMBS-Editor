@@ -3,7 +3,7 @@ package kien.lmbseditor.core.motion;
 import java.util.LinkedHashMap;
 
 public class SkillMotionCommandEndInput extends SkillMotionCommandBase {
-	public final String type = "startinput";
+	public final String type = "endinput";
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 		
@@ -11,7 +11,7 @@ public class SkillMotionCommandEndInput extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		return "Start Input";
+		return "End Input";
 	}
 
 	@Override
