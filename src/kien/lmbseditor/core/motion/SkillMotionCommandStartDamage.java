@@ -33,6 +33,7 @@ public class SkillMotionCommandStartDamage extends SkillMotionCommandBase {
 		knockback.x = ((Number)jpoint.get("x")).doubleValue();
 		knockback.y = ((Number)jpoint.get("y")).doubleValue();
 		knockdir = ((Number)list.get("knockdir")).intValue();
+		knocklength = ((Number)list.get("knocklength")).intValue();
 		damage = ((Number)list.get("damage")).doubleValue();
 	}
 
