@@ -1,0 +1,22 @@
+{
+	"name" : {
+		"type" : "String",
+		"description" : "",
+		"displayName" : "SE Name"
+	},
+	"volume" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Volume"
+	},
+	"pitch" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Pitch"
+	},
+	"pan" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Pan"
+	}
+}

@@ -1,0 +1,7 @@
+{
+	"dir" : {
+		"type" : "boolean",
+		"description" : "",
+		"displayName" : "Face to Right?"
+	}
+}

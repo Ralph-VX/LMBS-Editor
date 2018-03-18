@@ -2,8 +2,8 @@ package kien.lmbseditor.core.motion;
 
 import java.util.LinkedHashMap;
 
-public class SkillMotionCommandFrameForward extends SkillMotionCommandBase {
-	public final String type = "invertdirection";
+public class SkillMotionCommandInvertDirection extends SkillMotionCommandBase {
+	public final String type = "startinput";
 	@Override
 	public void setProperty(LinkedHashMap<String, Object> list) throws Exception {
 		
@@ -11,7 +11,7 @@ public class SkillMotionCommandFrameForward extends SkillMotionCommandBase {
 
 	@Override
 	public String commandListName() {
-		return "Invert Direction";
+		return "Start Input";
 	}
 
 	@Override
