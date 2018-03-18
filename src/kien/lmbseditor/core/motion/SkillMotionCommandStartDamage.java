@@ -39,7 +39,7 @@ public class SkillMotionCommandStartDamage extends SkillMotionCommandBase {
 
 	@Override
 	public String obtainCommandRepresentation() {
-		return super.obtainCommandRepresentation() + ": " + damage + "%, rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height + " knockback: " + knockback.x + ", " + knockback.y + " inverted: " + (knockdir > 0 ? "true" : "false") ;
+		return super.obtainCommandRepresentation() + ": " + damage + "%, rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height + " knockback: " + knockback.x + ", " + knockback.y + ", " + this.knocklength + "F, inverted: " + (knockdir > 0 ? "true" : "false") ;
 	}
 
 	@Override
