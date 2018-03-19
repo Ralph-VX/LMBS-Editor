@@ -64,6 +64,10 @@ public class JSONPropertyTable extends JTable {
 				row++;
 			}
 			this.revalidate();
+			if (row >= 1) {
+				this.editCellAt(0, 1);
+				this.changeSelection(0, 1, false, false);
+			}
 		}
 	}
 
