@@ -4,6 +4,7 @@ import kien.lmbseditor.core.AnimationItemType;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.lmbseditor.mv.Animation;
 import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
@@ -225,20 +226,31 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 			this.animationContent.setAnimation(anim);
 		}
 		this.animationContent.setFrame(this.frameNumber);
+		this.refreshTimingDisplay();
 	}
 	
+	private void refreshTimingDisplay() {
+		ArrayList<AnimationLMBSTimingBase> arr = this.animation.timing.get(this.frameNumber);
+		ArrayList<AnimationLMBSTimingDamage> set = new ArrayList<AnimationLMBSTimingDamage>();
+		if (arr != null) {
+			for (AnimationLMBSTimingBase timing : arr) {
+				if (timing instanceof AnimationLMBSTimingDamage) {
+					set.add((AnimationLMBSTimingDamage) timing);
+				}
+			}
+			this.animationContent.setRects(set);
+		}
+	}
+
 	public void onCreateTiming() {
 		if (this.animation != null && this.animation.animationId > 0 && this.frameNumber >= 0) {
 			AnimationTimingDialog d = new AnimationTimingDialog();
 			d.setVisible(true);
 			if (d.isDirty()) {
-				try {
-					AnimationLMBSTimingBase dret = AnimationLMBSProperty.timingTypeToClass.get(d.typeName).newInstance();
-					this.animation.addTiming(this.frameNumber, dret);
-					this.refreshAnimationTimingList();
-				} catch (InstantiationException | IllegalAccessException e) {
-					e.printStackTrace();
-				}
+				AnimationLMBSTimingBase dret = d.getData();
+				this.animation.addTiming(this.frameNumber, dret);
+				this.refreshAnimationTimingList();
+				this.refreshTimingDisplay();
 			}
 		}
 	}
@@ -252,7 +264,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 				d.setVisible(true);
 				if (d.isDirty()) {
 					try {
-						AnimationLMBSTimingBase dret = AnimationLMBSProperty.timingTypeToClass.get(d.typeName).newInstance();
+						AnimationLMBSTimingBase dret = d.getData();
 						if (dret.getClass().equals(timing.getClass())) {
 							ArrayList<AnimationLMBSTimingBase> frame = this.animation.timing.get(this.frameNumber);
 							frame.set(frame.indexOf(timing), dret);
@@ -261,6 +273,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 							this.animation.addTiming(this.frameNumber, dret);
 						}
 						this.refreshAnimationTimingList();
+						this.refreshTimingDisplay();
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

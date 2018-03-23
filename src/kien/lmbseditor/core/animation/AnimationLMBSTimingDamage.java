@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 
 import kien.util.Rectangle;
+import kien.util.Util;
 import net.arnx.jsonic.JSON;
 import net.arnx.jsonic.JSONException;
 
@@ -62,16 +63,16 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 
 	@Override
 	public void updateData(LinkedHashMap<String, Object> data) {
-		this.rect.x = ((Number)data.get("x")).doubleValue();
-		this.rect.y = ((Number)data.get("y")).doubleValue();
-		this.rect.width = ((Number)data.get("width")).doubleValue();
-		this.rect.height = ((Number)data.get("height")).doubleValue();
-		this.knockback.x = ((Number)data.get("knockbackx")).doubleValue();
-		this.knockback.y = ((Number)data.get("knockbacky")).doubleValue();
-		this.knockdir = (boolean)data.get("knockdir") ? 1 : 0;
-		this.damagePer = ((Number)data.get("damage")).doubleValue();
-		this.interval = ((Number)data.get("interval")).intValue();
-		this.knocklength = ((Number)data.get("knocklength")).intValue();
+		this.rect.x = Util.getJSONDouble(data, "x", 0);
+		this.rect.y = Util.getJSONDouble(data, "y", 0);
+		this.rect.width = Util.getJSONDouble(data, "width", 0);
+		this.rect.height = Util.getJSONDouble(data, "height", 0);
+		this.knockback.x = Util.getJSONDouble(data, "knockbackx", 0);
+		this.knockback.y = Util.getJSONDouble(data, "knockbacky", 0);
+		this.knockdir = Util.getJSONBoolean(data, "knockdir", false) ? 1 : 0;
+		this.damagePer = Util.getJSONDouble(data, "damage", 0);
+		this.interval = Util.getJSONInt(data, "interval", 0);
+		this.knocklength = Util.getJSONInt(data, "knocklength", 0);
 	}
 	
 	@Override

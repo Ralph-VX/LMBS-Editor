@@ -97,11 +97,11 @@ public class AnimationTimingDialog extends JDialog implements ActionListener {
 	
 	public AnimationLMBSTimingBase getData() {
 		String typename = this.getSelectedButtonName();
-		if (typename == "damage") {
+		if (typename.equals("damage")) {
 			AnimationLMBSTimingDamage t = new AnimationLMBSTimingDamage();
 			t.updateData(this.datas.get("damage"));
 			return t; 
-		} else if (typename == "projectile") {
+		} else if (typename.equals("projectile")) {
 			AnimationLMBSTimingProjectile t = new AnimationLMBSTimingProjectile();
 			t.updateData(this.datas.get("projectile"));
 			return t; 

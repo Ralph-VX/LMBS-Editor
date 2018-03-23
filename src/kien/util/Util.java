@@ -230,6 +230,15 @@ public class Util {
 		}
 	}
 	
+	public static boolean getJSONBoolean(LinkedHashMap<String, Object> list, String name, boolean defVal) {
+		Object obj = list.get(name);
+		if (obj == null) {
+			return defVal;
+		} else {
+			return (Boolean)obj;
+		}
+	}
+	
 	public static Color getInvertedColor(Color input) {
 		return new Color(255 - input.getRed(), 255 - input.getGreen(), 255 - input.getBlue());
 	}
