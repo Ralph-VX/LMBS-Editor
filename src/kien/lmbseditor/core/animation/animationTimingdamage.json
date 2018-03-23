@@ -48,5 +48,10 @@
 		"type" : "integer",
 		"description" : "",
 		"displayName" : "Interval"
+	},
+	"dur" : {
+		"type" : "integer",
+		"description" : "",
+		"displayName" : "Duration"
 	}
 }

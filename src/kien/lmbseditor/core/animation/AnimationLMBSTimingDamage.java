@@ -58,6 +58,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 		map.put("damage", damagePer);
 		map.put("interval", interval);
 		map.put("knocklength", knocklength);
+		map.put("dur", this.dur);
 		return map;
 	}
 
@@ -73,6 +74,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 		this.damagePer = Util.getJSONDouble(data, "damage", 0);
 		this.interval = Util.getJSONInt(data, "interval", 0);
 		this.knocklength = Util.getJSONInt(data, "knocklength", 0);
+		this.dur = Util.getJSONInt(data, "dur", 1);
 	}
 	
 	@Override
