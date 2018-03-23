@@ -230,16 +230,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 	}
 	
 	private void refreshTimingDisplay() {
-		ArrayList<AnimationLMBSTimingBase> arr = this.animation.timing.get(this.frameNumber);
-		ArrayList<AnimationLMBSTimingDamage> set = new ArrayList<AnimationLMBSTimingDamage>();
-		if (arr != null) {
-			for (AnimationLMBSTimingBase timing : arr) {
-				if (timing instanceof AnimationLMBSTimingDamage) {
-					set.add((AnimationLMBSTimingDamage) timing);
-				}
-			}
-			this.animationContent.setRects(set);
-		}
+		this.animationContent.setTimings(this.animation.timing);
 	}
 
 	public void onCreateTiming() {

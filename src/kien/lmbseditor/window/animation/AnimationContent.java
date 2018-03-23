@@ -9,12 +9,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import kien.lmbseditor.core.EditorProperty;
+import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
 import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.lmbseditor.mv.Animation;
 import kien.util.KienLogger;
@@ -27,7 +29,7 @@ public class AnimationContent extends JPanel {
 	public int frameNumber;
 	public Animation animation;
 	ArrayList<ArrayList<Double>> frame;
-	ArrayList<AnimationLMBSTimingDamage> rects;
+	LinkedHashMap<Integer, ArrayList<AnimationLMBSTimingBase>> timings;
 	
 	private BufferedImage image1;
 	private BufferedImage image2;
@@ -39,7 +41,7 @@ public class AnimationContent extends JPanel {
 		this.frame = new ArrayList<ArrayList<Double>>();
 		this.image1 = null;
 		this.image2 = null;
-		this.rects = null;
+		this.timings = null;
 		this.setLayout(null);
 		this.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 	}
@@ -63,8 +65,8 @@ public class AnimationContent extends JPanel {
 		}
 	}
 	
-	public void setRects(ArrayList<AnimationLMBSTimingDamage> list) {
-		this.rects = list;
+	public void setTimings(LinkedHashMap<Integer, ArrayList<AnimationLMBSTimingBase>> timing) {
+		this.timings = timing;
 		this.repaint();
 	}
 	
@@ -142,13 +144,24 @@ public class AnimationContent extends JPanel {
 				
 			}
 		}
-		if (this.rects != null) {
-			for (int n = 0; n < rects.size(); n++) {
-				Rectangle2D.Double rect = rects.get(n).rect.toRectangle2D();
-				g2.setColor(new Color(255,255,255,192));
-				g2.fillRect((int)Math.round(rect.x), (int)Math.round(rect.y), (int)Math.round(rect.width), (int)Math.round(rect.height));
-				g2.setColor(new Color(0,0,0,255));
-				g2.drawString(Integer.toString(n+1), (int)rect.x, (int)rect.y+g2.getFont().getSize());
+		if (this.timings != null) {
+			for (int tf = 0; tf <= this.frameNumber; tf++) {
+				ArrayList<AnimationLMBSTimingBase> rects = this.timings.get(tf);
+				if (rects != null) {
+					for (int n = 0; n < rects.size(); n++) {
+						AnimationLMBSTimingBase t = rects.get(n);
+						if (t instanceof AnimationLMBSTimingDamage) {
+							AnimationLMBSTimingDamage td = (AnimationLMBSTimingDamage)t;
+							if (this.frameNumber < tf + td.dur) {
+								Rectangle2D.Double rect = td.rect.toRectangle2D();
+								g2.setColor(new Color(255,255,255,192));
+								g2.fillRect((int)Math.round(rect.x), (int)Math.round(rect.y), (int)Math.round(rect.width), (int)Math.round(rect.height));
+								g2.setColor(new Color(0,0,0,255));
+								g2.drawString(Integer.toString(tf) + ":" + Integer.toString(n+1), (int)rect.x, (int)rect.y+g2.getFont().getSize());
+							}
+						}
+					}
+				}
 			}
 		}
 	}
