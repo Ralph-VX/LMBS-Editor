@@ -85,4 +85,19 @@ public class AnimationLMBSProperty {
 		
 	}
 	
+	public static AnimationLMBSTimingBase loadJSON(LinkedHashMap<String, Object> json) {
+		if (json.containsKey("type")) {
+			AnimationLMBSTimingBase b;
+			try {
+				b = AnimationLMBSProperty.timingTypeToClass.get(json.get("type")).newInstance();
+				b.loadJSON(json);
+			} catch (Exception e) {
+				return null;
+			}
+			return b;
+		} else {
+			return null;
+		}
+	}
+	
 }

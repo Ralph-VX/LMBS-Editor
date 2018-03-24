@@ -81,4 +81,32 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 	public String obtainRepresentingString() {
 		return "Rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height;
 	}
+
+	@Override
+	public void loadJSON(LinkedHashMap<String, Object> data) {
+		try {
+			this.damagePer = Util.getJSONDouble(data, "damagePer", 0);
+			this.dur = Util.getJSONInt(data, "dur", 1);
+			this.interval = Util.getJSONInt(data, "interval", -1);
+			this.knockdir = Util.getJSONInt(data, "knockdir", 0);
+			this.knocklength = Util.getJSONInt(data, "knocklength", 0);
+			LinkedHashMap<String, Object> r = (LinkedHashMap<String, Object>) data.get("rect");
+			this.rect.x = Util.getJSONDouble(r, "x", 0);
+			this.rect.y = Util.getJSONDouble(r, "y", 0);
+			this.rect.width = Util.getJSONDouble(r, "width", 0);
+			this.rect.height = Util.getJSONDouble(r, "height", 0);
+			LinkedHashMap<String, Object> k = (LinkedHashMap<String, Object>) data.get("knockback");
+			this.knockback.x = Util.getJSONDouble(k, "x", 0);
+			this.knockback.y = Util.getJSONDouble(k, "y", 0);
+		} catch (Exception e) {
+			this.rect = new Rectangle();
+			this.dur = 0;
+			this.damagePer = 0;
+			this.knockback = new Point2D.Double();
+			this.knockdir = 0;
+			this.knocklength = 0;
+			this.interval = 1;
+		}
+
+	}
 }

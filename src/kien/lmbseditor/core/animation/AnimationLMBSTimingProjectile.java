@@ -38,11 +38,18 @@ public class AnimationLMBSTimingProjectile extends AnimationLMBSTimingBase {
 
 	@Override
 	public void updateData(LinkedHashMap<String, Object> data) {
+		this.classname = (String) data.get("classname");
+		this.parameters = (String) data.get("parameters");
 	}
 
 	@Override
 	public String obtainRepresentingString() {
 		return "Projectile: " + classname + ", " + parameters;
+	}
+
+	@Override
+	public void loadJSON(LinkedHashMap<String, Object> data) {
+		this.updateData(data);
 	}
 
 }
