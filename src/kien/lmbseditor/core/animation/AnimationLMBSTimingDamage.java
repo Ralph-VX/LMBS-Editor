@@ -82,6 +82,7 @@ public class AnimationLMBSTimingDamage extends AnimationLMBSTimingBase {
 		return "Rect: " + rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void loadJSON(LinkedHashMap<String, Object> data) {
 		try {

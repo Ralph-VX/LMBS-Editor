@@ -4,7 +4,6 @@ import kien.lmbseditor.core.AnimationItemType;
 import kien.lmbseditor.core.EditorProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
-import kien.lmbseditor.core.animation.AnimationLMBSTimingDamage;
 import kien.lmbseditor.mv.Animation;
 import kien.lmbseditor.window.EditorPanelBase;
 import net.miginfocom.swing.MigLayout;
