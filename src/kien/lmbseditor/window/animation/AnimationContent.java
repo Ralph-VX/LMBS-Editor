@@ -1,5 +1,6 @@
 package kien.lmbseditor.window.animation;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -133,11 +134,13 @@ public class AnimationContent extends JPanel {
 					double scale = cell.get(3) / 100;
 					double tx = cell.get(1) - 192/2 * scale;
 					double ty = cell.get(2) - 192/2 * scale;
-					int opacity = (int) Math.round(cell.get(6));
-					at.rotate(Math.toRadians(rotation));
+					int opacity = (int) Math.round(cell.get(6)); // 0-255
+					at.rotate(Math.toRadians(rotation), 192/2 * scale, 192/2 * scale);
 					at.scale(mirror ? -scale : scale, scale);
 					g2.translate(tx, ty);
-					
+					AlphaComposite ac = AlphaComposite.getInstance(
+							AlphaComposite.SRC_OVER,((float) opacity) / 255);
+					g2.setComposite(ac);
 					g2.drawImage(img.getSubimage(sx, sy, 192, 192), at, this);
 					g2.setTransform(original);
 				}
