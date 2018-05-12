@@ -6,6 +6,7 @@ import kien.lmbseditor.core.animation.AnimationLMBSProperty;
 import kien.lmbseditor.core.animation.AnimationLMBSTimingBase;
 import kien.lmbseditor.mv.Animation;
 import kien.lmbseditor.window.EditorPanelBase;
+import kien.lmbseditor.window.character.CharacterPosePanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -13,6 +14,9 @@ import javax.swing.JComboBox;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.swing.JTextField;
@@ -163,6 +167,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 		add(animationContent, "cell 2 6 2 1,grow");
 		this.refreshAnimationFrameList();
 		this.refreshAnimationTimingList();
+		this.refreshValues();
 		
 	}
 	
@@ -191,6 +196,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 			this.yValueTextField.setText(this.animation.y.getValue().toString());
 			this.mirrorCheck.setSelected(this.animation.mirror);
 			this.followCheck.setSelected(this.animation.follow);
+			this.delayTextField.setValue(this.animation.delay);
 		}
 	}
 	
@@ -298,6 +304,7 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 		this.animation.y.origin = (String) this.yOriginList.getSelectedItem();
 		this.animation.x.setValue(this.xValueTextField.getText());
 		this.animation.y.setValue(this.yValueTextField.getText());
+		Object o = this.delayTextField.getValue();
 		this.animation.delay = ((Number)this.delayTextField.getValue()).intValue();
 		this.animation.follow = this.followCheck.isSelected();
 		this.animation.mirror = this.mirrorCheck.isSelected();

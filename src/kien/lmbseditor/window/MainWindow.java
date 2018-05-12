@@ -421,6 +421,7 @@ public class MainWindow {
 			return this.onForceSaveWeapon();
 		} else {
 			BaseItemType bit = items.get(index - fixedTab);
+			EditorPanelBase epb = (EditorPanelBase) tabbedPane.getSelectedComponent();
 			JFileChooser jfc = new JFileChooser() {
 				private static final long serialVersionUID = 1L;
 
@@ -463,6 +464,7 @@ public class MainWindow {
 				bit.setFile(new File(fullpath));
 				tabbedPane.setTitleAt(index, bit.getListname());
 			}
+			epb.updateEdit();
 			bit.saveFile();
 		}
 		return true;
@@ -476,6 +478,7 @@ public class MainWindow {
 			return this.onSaveWeapon();
 		} else {
 			BaseItemType bit = items.get(index - fixedTab);
+			EditorPanelBase epb = (EditorPanelBase) tabbedPane.getSelectedComponent();
 			if (!bit.haveFile()) {
 				JFileChooser jfc = new JFileChooser() {
 					private static final long serialVersionUID = 1L;
@@ -517,6 +520,7 @@ public class MainWindow {
 					tabbedPane.setTitleAt(index, bit.getListname());
 				}
 			}
+			epb.updateEdit();
 			bit.saveFile();
 		}
 		return true;
