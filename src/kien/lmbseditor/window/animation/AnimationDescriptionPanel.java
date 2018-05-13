@@ -185,7 +185,6 @@ public class AnimationDescriptionPanel extends EditorPanelBase implements Action
 	
 	public void refreshValues() {
 		if (this.animation != null) {
-			this.animationList.setSelectedIndex(this.animation.animationId);
 			this.xOriginList.setSelectedItem(this.animation.x.origin);
 			this.xValueTextField.setText(this.animation.x.getValue().toString());
 			this.yOriginList.setSelectedItem(this.animation.y.origin);
