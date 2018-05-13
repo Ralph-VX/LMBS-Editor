@@ -41,6 +41,11 @@ public class SkillMotionCommandPlaySe extends SkillMotionCommandBase {
 	}
 
 	@Override
+	public String obtainCommandRepresentation() {
+		return super.obtainCommandRepresentation() + ": " + name + ", " + volume + ", " + pitch + ", " + pan;
+	}
+
+	@Override
 	public String typeName() {
 		// TODO Auto-generated method stub
 		return type;
